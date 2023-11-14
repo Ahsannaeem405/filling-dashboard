@@ -1,0 +1,129 @@
+.image-preview {
+    display: inline-block;
+    margin: 10px;
+}
+#Notes textarea{
+    outline:none;
+    padding:10px 15px;
+}
+#Notes .save-btn{
+    outline: none;
+    border-radius: 30px;
+    border: none;
+    padding: 13px 30px;
+    background-color: #c5c2c287;
+    color: #282828;
+    font-weight: 600;
+    width: 12rem;
+}
+#Notes .save-btn img{
+    width: 18px;
+    margin-right: 5px;
+    vertical-align: sub;
+}
+.profile-content p{
+    margin-bottom:0;
+}
+.refresh-btn-wraper{
+    margin-bottom:30px;
+}
+.refresh-btn-wraper svg,
+.update-btn-wraper svg {
+    margin-right: 5px;
+}
+.update-btn-wraper button, .refresh-btn-wraper button {
+    outline: none;
+    border-radius: 30px;
+    border: none;
+    padding: 13px 30px;
+    background-color: #c5c2c287;
+    color: #282828;
+    font-weight: 600;
+    width: 12rem;
+}
+/*  */
+.table-wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-wrapper th, td {
+    padding: 8px;
+    text-align: left;
+}
+.table-wrapper th:first-child,
+.table-wrapper td:first-child,
+.table-wrapper th:last-child,
+.table-wrapper td:last-child {
+    width: 30%;
+}
+.table-wrapper tr{
+    border-bottom: 1px solid gray;
+}
+.table-wrapper th {
+    background-color: #f2f2f2;
+}
+.table-wrapper .action-icons a {
+    margin: 0 5px;
+    text-decoration: none;
+    background-color:#7367F0;
+    color:black;
+    border-radius:5px;
+    padding: 6px 7px;
+
+}
+.table-wrapper .action-icons a img{
+    width: 18px;
+    vertical-align: sub;
+}
+input#fileInput {
+    position: absolute;
+    top: 400%;
+}
+
+
+.file-label{
+    outline: none;
+    border-radius: 30px;
+    border: none;
+    padding: 13px 30px;
+    background-color: #c5c2c287;
+    color: #282828;
+    font-weight: 600;
+    width: 12rem;
+    cursor: pointer;
+    text-align:center;
+}
+#previewContainer .image-preview{
+    display: inline-block;
+    margin: 10px;
+    position: relative;
+    width: 200px;
+    height: 150px;
+}
+#previewContainer .image-preview img{
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    border-radius: 8px;
+}
+#previewContainer .image-preview button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 7px;
+}
+
+
+/* Chat */
+.chat-application .sidebar-content{
+    position: relative;
+}
+.chat-application .sidebar-content .chat-fixed-search{
+    position: absolute !important;
+    top: 0;
+}
