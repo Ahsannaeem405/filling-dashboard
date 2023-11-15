@@ -13,7 +13,7 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" nav-item"><a href="#"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
             <li class=" nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
+            <li class=" nav-item"><a href="{{ url('chat') }}"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
             <li class=" nav-item"><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
             <li class=" nav-item"><a href="{{ url('userlist') }}"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
             <li class=" nav-item"><a href="{{url('payment')}}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
