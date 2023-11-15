@@ -5,12 +5,13 @@
 @section('content')
 <style>
 
-    .datatable-wraper {
-    background: #0c0d15bd;
+.datatable-wraper {
+    background: #10163a;
     padding: 20px;
     border-radius: 10px;
     margin-top: 30px;
     color: white;
+    border: 1px solid #10163a;
 }
 table.dataTable thead tr {
     background-color: transparent;
@@ -103,7 +104,7 @@ table.dataTable {
 }
     /*  */
     .card-main-content{
-      background: #0c0d15bd;
+      background: #10163a;
       padding:20px;
       display:flex;
       justify-content:space-between;
@@ -157,7 +158,7 @@ background:#ea545566;
     color: white;
 }
 select.status-selection {
-    background: #0c0d15bd;
+    /* background: #0c0d15bd; */
     color: white;
     padding: 10px 5px;
     width: 300px;
