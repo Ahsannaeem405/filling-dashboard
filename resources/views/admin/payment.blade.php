@@ -11,6 +11,7 @@
     border-radius: 10px;
     margin-top: 30px;
     color: white;
+    position: relative;
 }
 table.dataTable thead tr {
     background-color: transparent;
@@ -156,9 +157,10 @@ table.dataTable {
 select.status-selection {
     background: #0c0d15bd;
     color: white;
-    padding: 10px 5px;
-    width: 300px;
-    margin-bottom: 50px;
+    padding: 7px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    width: 170px;
 }
 option{
   background-color:#0c0d15bd !important;
@@ -186,6 +188,10 @@ table.dataTable th, table.dataTable td {
 }
 div#example_length {
     margin-bottom: 17px;
+    width: 45%;
+}
+div#example_filter {
+    margin-bottom: 17px;
 }
 a.paginate_button.current {
     background: #7367f0 !important;
@@ -211,6 +217,21 @@ span.table-icon {
 }
 .icon-tr2 .fa-ticket:before {
     color: #37cbc6;
+}
+/*  */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.dt-buttons {
+    visibility: hidden;
+}
+.status-select {
+    position: absolute;
+    right: 19px;
+    top: 34px;
+    z-index: 9;
 }
 </style>
     <div class="content-header row"></div>
@@ -255,8 +276,7 @@ span.table-icon {
         </div>
       </div>
 <div class="datatable-wraper">
-  <div>
-    <h3>Suchfilter</h3>
+  <div class='status-select'>
     <select class='status-selection'>
   <option selected>Select Status</option>
   <option value="1">Active</option>
@@ -372,11 +392,22 @@ span.table-icon {
     <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
     <script>
         new DataTable('#example', {
+          dom: '<"top"lfB>rt<"bottom"ip><"clear">',
+          buttons: [
+          {
+            extend: 'collection',
+            text: 'Export',
+            buttons: [
+              'copy',
+              'excel',
+              'csv',
+              'pdf',
+            ]
+          }
+        ],
           language: {
             searchPlaceholder: 'search...'
         },
-
-
         });
     </script>
 </div>

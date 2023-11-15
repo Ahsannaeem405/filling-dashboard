@@ -188,7 +188,11 @@ table.dataTable th, table.dataTable td {
     border-bottom: 1px solid rgba(34, 41, 47, 1) !important;
 }
 div#example_length {
-    margin-bottom: 17px;
+    margin-bottom: 15px;
+    width: 50%;
+}
+div#example_filter {
+    margin-bottom: 15px;
 }
 a.paginate_button.current {
     background: #7367f0 !important;
@@ -196,6 +200,20 @@ a.paginate_button.current {
 a.paginate_button {
     background: #3535359c !important;
     border-radius:5px;
+}
+/*  */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+body.dark-layout .dataTables_wrapper .dt-buttons .buttons-copy,
+body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
+    background-color: transparent !important;
+}
+.table-plus-btn{
+  background: #7367f0 !important;
+  font-weight:600;
 }
 </style>
     <div class="content-header row"></div>
@@ -681,11 +699,31 @@ a.paginate_button {
     <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
     <script>
         new DataTable('#example', {
+          dom: '<"top"lfB>rt<"bottom"ip><"clear">',
+          buttons: [
+          {
+            extend: 'collection',
+            text: 'Export',
+            buttons: [
+              'copy',
+              'excel',
+              'csv',
+              'pdf',
+              'print'
+            ]
+          },
+          {
+            text: '+ Fuge User hinzu',
+            className: 'table-plus-btn',
+            action: function (e, dt, button, config) {
+              alert('Custom button clicked!');
+            }
+          },
+
+        ],
           language: {
             searchPlaceholder: 'search...'
         },
-
-
         });
     </script>
 </div>
