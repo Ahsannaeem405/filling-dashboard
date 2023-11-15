@@ -15,7 +15,7 @@
             <li class=" nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
             <li class=" nav-item"><a href="#"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
             <li class=" nav-item"><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
+            <li class=" nav-item"><a href="{{ url('userlist') }}"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
             <li class=" nav-item"><a href="{{url('payment')}}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                 <ul class="menu-content">
