@@ -5,44 +5,48 @@
 @section('content')
 <style>
 
-.table {
-  border-spacing: 0 0.85rem !important;
+    .datatable-wraper {
+    background: #0c0d15bd;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    color: white;
+}
+table.dataTable thead tr {
+    background-color: transparent;
+}
+label {
+    color: white;
+}
+table.dataTable {
+    border: none;
+}
+.dataTables_length select {
+    border: 1px solid white;
+    padding: 4px 3px !important;
+    color: white;
+}
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    color: inherit;
+    margin-left: 3px;
+    outline: none;
+}
+    .badge-success-alt {
+  background-color: #d7f2c2;
+  color: #7bd235;
 }
 
-.table .dropdown {
-  display: inline-block;
+.table a {
+  color: #212529;
 }
 
-.table td,
-.table th {
-  vertical-align: middle;
-  margin-bottom: 10px;
-  border: none;
+    .btn-icon {
+  padding: 0;
 }
-
-.table thead tr,
-.table thead th {
-  border: none;
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background: transparent;
-}
-
-.table td {
-  background: #fff;
-}
-
-.table td:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-.table td:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
 .avatar {
   width: 2.75rem;
   height: 2.75rem;
@@ -56,6 +60,7 @@
   font-weight: 700;
   vertical-align: bottom;
   font-size: 1rem;
+  margin-right: 10px !important;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -75,109 +80,7 @@
   -o-object-fit: cover;
   object-fit: cover;
 }
-
-.avatar-blue {
-  background-color: #c8d9f1;
-  color: #467fcf;
-}
-
-table.dataTable.dtr-inline.collapsed
-  > tbody
-  > tr[role="row"]
-  > td:first-child:before,
-table.dataTable.dtr-inline.collapsed
-  > tbody
-  > tr[role="row"]
-  > th:first-child:before {
-  top: 28px;
-  left: 14px;
-  border: none;
-  box-shadow: none;
-}
-
-table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child,
-table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
-  padding-left: 48px;
-}
-
-table.dataTable > tbody > tr.child ul.dtr-details {
-  width: 100%;
-}
-
-table.dataTable > tbody > tr.child span.dtr-title {
-  min-width: 50%;
-}
-
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.child,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th.child,
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {
-  padding: 0.75rem 1rem 0.125rem;
-}
-
-div.dataTables_wrapper div.dataTables_length label,
-div.dataTables_wrapper div.dataTables_filter label {
-  margin-bottom: 0;
-}
-
-@media (max-width: 767px) {
-  div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-    -ms-flex-pack: center !important;
-    justify-content: center !important;
-    margin-top: 1rem;
-  }
-}
-
-.btn-icon {
-  background: #fff;
-}
-.btn-icon .bx {
-  font-size: 20px;
-}
-
-.btn .bx {
-  vertical-align: middle;
-  font-size: 20px;
-}
-
-.dropdown-menu {
-  padding: 0.25rem 0;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-}
-
-.badge {
-  padding: 0.5em 0.75em;
-}
-
-.badge-success-alt {
-  background-color: #d7f2c2;
-  color: #7bd235;
-}
-
-.table a {
-  color: #212529;
-}
-
-.table a:hover,
-.table a:focus {
-  text-decoration: none;
-}
-
-table.dataTable {
-  margin-top: 12px !important;
-}
-
-.icon > .bx {
-  display: block;
-  min-width: 1.5em;
-  min-height: 1.5em;
-  text-align: center;
-  font-size: 1.0625rem;
-}
-
-.btn {
+    .btn {
   font-size: 0.9375rem;
   font-weight: 500;
   padding: 0.5rem 0.75rem;
@@ -192,19 +95,128 @@ table.dataTable {
       background-color: #fcd3e1;
       color: #f66d9b;
     }
+
+    /*  */
+    .card-main-content{
+      background: #0c0d15bd;
+      padding:20px;
+      display:flex;
+      justify-content:space-between;
+      border-radius:10px;
+
+    }
+    .card-main-content p{
+      color:white;
+      margin-bottom:10px;
+    }
+    .card-main-content h2{
+      color:white;
+      margin:0px;
+    }
+    .icon-side span {
+      padding: 15px 10px 5px;
+    background: #9a91fb;
+    border-radius: 5px;
+}
+.icon-side span .bxs-user:before,
+.icon-side span .bxs-user-plus:before,
+.icon-side span .bx-user-check:before {
+    font-size: 25px;
+    color:#7f73ffd6;
+}
+.bx-dots-vertical:before {
+    content: "\ea0f";
+    color: white;
+}
+select.status-selection {
+    background: #0c0d15bd;
+    color: white;
+    padding: 10px 5px;
+    width: 300px;
+}
+option{
+  background-color:#0c0d15bd !important;
+}
+table.dataTable thead .sorting:after{
+  content:'\e842' !important;
+  right: 0 !important;
+  left:unset !important;
+}
+table.dataTable thead .sorting:before{
+  content:'\e845' !important;
+  right: 0 !important;
+    top: 10px !important;
+    left:unset !important;
+    padding-right: 0 !important;
+}
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
+      <div class="user-card-wraper">
+        <div class="row">
+          <div class="col-md-6 col-lg-3">
+            <div class="card-main-content">
+              <div class="content-side">
+                <p>Register User</p>
+                <h2>21449</h2>
+              </div>
+              <div class="icon-side">
+              <span><i class="bx bxs-user"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-main-content">
+              <div class="content-side">
+                <p>Register User</p>
+                <h2>21449</h2>
+              </div>
+              <div class="icon-side">
+              <span><i class="bx bxs-user-plus"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-main-content">
+              <div class="content-side">
+                <p>Register User</p>
+                <h2>21449</h2>
+              </div>
+              <div class="icon-side">
+              <span><i class="bx bx-user-check"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-main-content">
+              <div class="content-side">
+                <p>Register User</p>
+                <h2>21449</h2>
+              </div>
+              <div class="icon-side">
+              <span><i class="bx bxs-user"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 <div class="datatable-wraper">
+  <div>
+    <label for="">Suchfilter</label> <br>
+    <select class='status-selection'>
+  <option selected>Select Status</option>
+  <option value="1">Active</option>
+  <option value="2">pending</option>
+</select>
+  </div>
 <table id="example" class="display nowrap" style="width:100%">
 <thead>
           <tr>
-            <th>Client Name</th>
-            <th>Phone Number</th>
-            <th>Profession</th>
-            <th>Date of Birth</th>
-            <th>App Access</th>
-            <th>Actions</th>
+            <th>USER</th>
+            <th>RANG</th>
+            <th>PRICE</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
@@ -221,21 +233,22 @@ table.dataTable {
                 </div>
               </a>
             </td>
-            <td>(784) 667 8768</td>
-            <td>Designer</td>
-            <td>09/04/1996</td>
+            <td>RPO</td>
+            <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">Enabled</div>
+              <div class="badge badge-success badge-success-alt">active</div>
             </td>
             <td>
-              <div class="dropdown">
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="bx bx-dots-horizontal-rounded" data-toggle="tooltip" data-placement="top"
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
                         title="Actions"></i>
                     </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <a class="dropdown-item" href="#"><i class="bx bxs-pencil mr-2"></i> Edit Profile</a>
-                  <a class="dropdown-item text-danger" href="#"><i class="bx bxs-trash mr-2"></i> Remove</a>
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
                 </div>
               </div>
             </td>
@@ -254,21 +267,357 @@ table.dataTable {
                 </div>
               </a>
             </td>
-            <td> (937) 874 6878</td>
-            <td>Investment Banker</td>
-            <td>13/01/1989</td>
+            <td>VIP</td>
+            <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">Enabled</div>
+              <div class="badge badge-success badge-success-alt">active</div>
             </td>
             <td>
-              <div class="dropdown">
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="bx bx-dots-horizontal-rounded" data-toggle="tooltip" data-placement="top"
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
                         title="Actions"></i>
                     </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <a class="dropdown-item" href="#"><i class="bx bxs-pencil mr-2"></i> Edit Profile</a>
-                  <a class="dropdown-item text-danger" href="#"><i class="bx bxs-trash mr-2"></i> Remove</a>
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>RPO</td>
+            <td>3.541$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-pink mr-3">JR</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Julie Richards</p>
+                    <p class="text-muted mb-0">julie_89@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>VIP</td>
+            <td>2.054$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>RPO</td>
+            <td>3.541$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-pink mr-3">JR</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Julie Richards</p>
+                    <p class="text-muted mb-0">julie_89@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>VIP</td>
+            <td>2.054$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>RPO</td>
+            <td>3.541$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-pink mr-3">JR</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Julie Richards</p>
+                    <p class="text-muted mb-0">julie_89@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>VIP</td>
+            <td>2.054$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>RPO</td>
+            <td>3.541$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-pink mr-3">JR</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Julie Richards</p>
+                    <p class="text-muted mb-0">julie_89@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>VIP</td>
+            <td>2.054$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>RPO</td>
+            <td>3.541$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-pink mr-3">JR</div>
+
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Julie Richards</p>
+                    <p class="text-muted mb-0">julie_89@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>VIP</td>
+            <td>2.054$</td>
+            <td>
+              <div class="badge badge-success badge-success-alt">active</div>
+            </td>
+            <td>
+            <i class="bx bxs-edit mr-2"></i>
+            <i class="bx bxs-trash mr-2"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
                 </div>
               </div>
             </td>
@@ -279,10 +628,16 @@ table.dataTable {
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
     <script>
         new DataTable('#example', {
-            fixedHeader: true,
-            responsive: true
+          language: {
+            searchPlaceholder: 'search...'
+        },
+
+
         });
     </script>
 </div>

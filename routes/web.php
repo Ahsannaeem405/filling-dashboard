@@ -26,3 +26,4 @@ Route::get('/', [App\Http\Controllers\Dashboard\HomeController::class, 'index'])
 Route::get('user/create', [App\Http\Controllers\Dashboard\UserController::class, 'create']);
 Route::get('user/account-detail', [App\Http\Controllers\Dashboard\UserController::class, 'index']);
 Route::get('userlist', [App\Http\Controllers\UserlistController::class, 'index']);
+Route::get('payment', [App\Http\Controllers\PaymentsController::class, 'index']);

@@ -21,6 +21,7 @@
             <li class=" nav-item"><a href="{{url('user/create')}}"><i class="fa fa-user-plus"></i><span class="menu-title" data-i18n="Calender">New User</span></a></li>
             <li class=" nav-item"><input type="search" name="search" id="" placeholder="mail@example.com" class="form-control"></li>
             <li class=" nav-item"><a href="{{url('userlist')}}"><i class="fa fa-user-plus"></i><span class="menu-title" data-i18n="Calender">User List</span></a></li>
+            <li class=" nav-item"><a href="{{url('payment')}}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                 <ul class="menu-content">
                     <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
