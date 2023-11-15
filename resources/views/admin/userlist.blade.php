@@ -95,7 +95,12 @@ table.dataTable {
       background-color: #fcd3e1;
       color: #f66d9b;
     }
-
+    table.dataTable td {
+    font-size: 12px !important;
+}
+.badge.badge-success.badge-success-alt {
+    font-size: 12px;
+}
     /*  */
     .card-main-content{
       background: #0c0d15bd;
@@ -114,15 +119,38 @@ table.dataTable {
       margin:0px;
     }
     .icon-side span {
-      padding: 15px 10px 5px;
-    background: #9a91fb;
+      padding: 10px 10px 5px;
     border-radius: 5px;
+    display:inline-block;
 }
-.icon-side span .bxs-user:before,
-.icon-side span .bxs-user-plus:before,
-.icon-side span .bx-user-check:before {
+.icon-side .span1 {
+    background-color: #7367f052;
+    color: #7367f0;
+}
+.icon-side .span2 {
+    background-color: #84684dcc;
+}
+.icon-side .span3 {
+    background-color: #1d5541;
+}
+.icon-side .span4 {
+background:#ea545566;
+}
+.icon-side span .bxs-user:before{
     font-size: 25px;
     color:#7f73ffd6;
+}
+.icon-side .span4 .bxs-user:before{
+    font-size: 25px;
+    color:#ea5455;
+}
+.icon-side span .bxs-user-plus:before{
+    font-size: 25px;
+    color:#FF9F43;
+}
+.icon-side span .bx-user-check:before {
+    font-size: 25px;
+    color:#00ab00;
 }
 .bx-dots-vertical:before {
     content: "\ea0f";
@@ -133,6 +161,7 @@ select.status-selection {
     color: white;
     padding: 10px 5px;
     width: 300px;
+    margin-bottom: 50px;
 }
 option{
   background-color:#0c0d15bd !important;
@@ -149,6 +178,25 @@ table.dataTable thead .sorting:before{
     left:unset !important;
     padding-right: 0 !important;
 }
+div.dataTables_wrapper {
+    border-top: 1px solid rgba(34, 41, 47, 1);
+}
+table#example {
+    border-top: 1px solid rgba(34, 41, 47, 1);
+}
+table.dataTable th, table.dataTable td {
+    border-bottom: 1px solid rgba(34, 41, 47, 1) !important;
+}
+div#example_length {
+    margin-bottom: 17px;
+}
+a.paginate_button.current {
+    background: #7367f0 !important;
+}
+a.paginate_button {
+    background: #3535359c !important;
+    border-radius:5px;
+}
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -161,7 +209,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bxs-user"></i></span>
+              <span class='span1'><i class="bx bxs-user"></i></span>
               </div>
             </div>
           </div>
@@ -172,7 +220,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bxs-user-plus"></i></span>
+              <span class='span2'><i class="bx bxs-user-plus"></i></span>
               </div>
             </div>
           </div>
@@ -183,7 +231,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bx-user-check"></i></span>
+              <span class='span3'><i class="bx bx-user-check"></i></span>
               </div>
             </div>
           </div>
@@ -194,7 +242,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bxs-user"></i></span>
+              <span class='span4'><i class="bx bxs-user"></i></span>
               </div>
             </div>
           </div>
@@ -202,7 +250,7 @@ table.dataTable thead .sorting:before{
       </div>
 <div class="datatable-wraper">
   <div>
-    <label for="">Suchfilter</label> <br>
+    <h3>Suchfilter</h3>
     <select class='status-selection'>
   <option selected>Select Status</option>
   <option value="1">Active</option>
@@ -214,7 +262,7 @@ table.dataTable thead .sorting:before{
           <tr>
             <th>USER</th>
             <th>RANG</th>
-            <th>PRICE</th>
+            <th>EINKOMMEN</th>
             <th>STATUS</th>
             <th>ACTIONS</th>
           </tr>
@@ -236,11 +284,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -270,11 +318,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -303,11 +351,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #84684dcc; color: #FF9F43;'>Warte auf Freigabe</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -337,11 +385,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #84684dcc; color: #FF9F43;'>Warte auf Freigabe</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -370,11 +418,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -404,11 +452,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -437,11 +485,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -471,11 +519,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #ea545566; color: #ea5455;'>Gebannt</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -504,11 +552,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -538,11 +586,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -571,11 +619,11 @@ table.dataTable thead .sorting:before{
             <td>RPO</td>
             <td>3.541$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
@@ -605,11 +653,11 @@ table.dataTable thead .sorting:before{
             <td>VIP</td>
             <td>2.054$</td>
             <td>
-              <div class="badge badge-success badge-success-alt">active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
             </td>
             <td>
-            <i class="bx bxs-edit mr-2"></i>
-            <i class="bx bxs-trash mr-2"></i>
+            <i class="bx bxs-edit mr-1"></i>
+            <i class="bx bxs-trash"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"

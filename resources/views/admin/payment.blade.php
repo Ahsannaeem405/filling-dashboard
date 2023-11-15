@@ -95,7 +95,12 @@ table.dataTable {
       background-color: #fcd3e1;
       color: #f66d9b;
     }
-
+    table.dataTable td {
+    font-size: 12px !important;
+}
+.badge.badge-success.badge-success-alt {
+    font-size: 12px;
+}
     /*  */
     .user-card-wraper{
         background: #0c0d15bd;
@@ -115,16 +120,35 @@ table.dataTable {
       color:white;
       margin:0px;
     }
-    .icon-side span {
-      padding: 15px 10px 5px;
-    background: #9a91fb;
-    border-radius: 5px;
-    display:block;
-}
 .line-div{
     border-right:1px solid;
 }
-
+.icon-side span {
+      padding: 10px 10px 5px;
+    border-radius: 5px;
+    display:inline-block;
+}
+.icon-side .span1 {
+     background-color: #ffffff30;
+}
+.icon-side .span2 {
+    background-color: #ffffff30;
+}
+.icon-side .span3 {
+    background-color: #ffffff30;
+}
+.icon-side span .bxs-user:before{
+    font-size: 25px;
+    color:#bdbdbdd6;
+}
+.icon-side span .bxs-user-plus:before{
+    font-size: 25px;
+    color:#bdbdbdd6;
+}
+.icon-side span .bx-user-check:before {
+    font-size: 25px;
+    color:#bdbdbdd6;
+}
 .bx-dots-vertical:before {
     content: "\ea0f";
     color: white;
@@ -134,6 +158,7 @@ select.status-selection {
     color: white;
     padding: 10px 5px;
     width: 300px;
+    margin-bottom: 50px;
 }
 option{
   background-color:#0c0d15bd !important;
@@ -150,6 +175,43 @@ table.dataTable thead .sorting:before{
     left:unset !important;
     padding-right: 0 !important;
 }
+div.dataTables_wrapper {
+    border-top: 1px solid rgba(34, 41, 47, 1);
+}
+table#example {
+    border-top: 1px solid rgba(34, 41, 47, 1);
+}
+table.dataTable th, table.dataTable td {
+    border-bottom: 1px solid rgba(34, 41, 47, 1) !important;
+}
+div#example_length {
+    margin-bottom: 17px;
+}
+a.paginate_button.current {
+    background: #7367f0 !important;
+}
+a.paginate_button {
+    background: #3535359c !important;
+    border-radius:5px;
+}
+span.table-icon {
+    display: inline-block;
+    width: 25px;
+    border-radius: 100px;
+    display: flex;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+}
+.icon-tr1{
+    background-color: #d3d3d37d;
+}
+.icon-tr2{
+   background-color: #37cbbd59;
+}
+.icon-tr2 .fa-ticket:before {
+    color: #37cbc6;
+}
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -162,7 +224,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bxs-user"></i></span>
+              <span class='span1'><i class="bx bxs-user"></i></span>
               </div>
               <div class="line-div"></div>
             </div>
@@ -174,7 +236,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bxs-user-plus"></i></span>
+              <span class='span2'><i class="bx bxs-user-plus"></i></span>
               </div>
               <div class="line-div"></div>
             </div>
@@ -186,7 +248,7 @@ table.dataTable thead .sorting:before{
                 <h2>21449</h2>
               </div>
               <div class="icon-side">
-              <span><i class="bx bx-user-check"></i></span>
+              <span class='span3'><i class="bx bx-user-check"></i></span>
               </div>
             </div>
           </div>
@@ -194,7 +256,7 @@ table.dataTable thead .sorting:before{
       </div>
 <div class="datatable-wraper">
   <div>
-    <label for="">Suchfilter</label> <br>
+    <h3>Suchfilter</h3>
     <select class='status-selection'>
   <option selected>Select Status</option>
   <option value="1">Active</option>
@@ -205,7 +267,7 @@ table.dataTable thead .sorting:before{
 <thead>
           <tr>
           <th>#ID</th>
-          <th><i class="fa fas-arrow-trend-up"></i></th>
+          <th><i class="fa fa-ticket"></i></th>
             <th>CLIENT</th>
             <th>TOTAL</th>
             <th>ISSUED DATE</th>
@@ -219,7 +281,9 @@ table.dataTable thead .sorting:before{
                 #5059
             </td>
             <td>
-                icon
+                <span class='table-icon icon-tr1'>
+                <i class="fa fa-ticket"></i>
+                </span>
             </td>
             <td>
               <a href="#">
@@ -236,11 +300,11 @@ table.dataTable thead .sorting:before{
             <td>3077$</td>
             <td>09 May 2020</td>
             <td>
-              <div class="badge badge-success badge-success-alt">Paid</div>
+            <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Paid</div>
             </td>
             <td>
-            <i class="bx bxs-envelope mr-2"></i>
-            <!-- <i class="bx bxs-eye mr-2"></i> -->
+            <i class="bx bxs-envelope mr-1"></i>
+            <!-- <i class="bx bxs-eye"></i> -->
             <i class="fa fa-eye"></i>
               <div class="dropdown" style='display:inline-block'>
                 <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -254,7 +318,48 @@ table.dataTable thead .sorting:before{
               </div>
             </td>
           </tr>
+          <tr>
+            <td>
+                #5059
+            </td>
+            <td>
+                <span class='table-icon icon-tr2'>
+                <i class="fa fa-ticket"></i>
+                </span>
+            </td>
+            <td>
+              <a href="#">
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-blue mr-3">EB</div>
 
+                  <div class="">
+                    <p class="font-weight-bold mb-0">Ethan Black</p>
+                    <p class="text-muted mb-0">ethan-black@example.com</p>
+                  </div>
+                </div>
+              </a>
+            </td>
+            <td>3077$</td>
+            <td>09 May 2020</td>
+            <td>
+            <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Paid</div>
+            </td>
+            <td>
+            <i class="bx bxs-envelope mr-1"></i>
+            <!-- <i class="bx bxs-eye"></i> -->
+            <i class="fa fa-eye"></i>
+              <div class="dropdown" style='display:inline-block'>
+                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                        title="Actions"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item" href="#"> Edit Profile</a>
+                  <a class="dropdown-item text-danger" href="#"> Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
 
         </tbody>
       </table>
