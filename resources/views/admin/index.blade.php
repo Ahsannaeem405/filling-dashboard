@@ -4,23 +4,44 @@
 @endsection
 @section('content')
 <style>
+    body.dark-layout .card{
+        height: 100%;
+    }
     .ChatsCard .headingMain h4{
         font-size: 28px;
         font-weight: 600;
     }
     .UncompletedChats,
-    .CompletedChats{
+    .CompletedChats,
+    .EarningBox,
+    .ProfitBox,
+    .GebBox{
         margin-bottom: 20px;
         display: flex;
         align-items: center;
     }
-    .UncompletedChats i {
+    .UncompletedChats i,
+    .EarningBox i {
         background-color: #7367f052;
         color: #7367f0 !important;
         font-size: 20px;
     }
+    .CompletedChats i,
+    .ProfitBox i {
+        background-color: #37cbbd59;
+        color: #37cbc6;
+        font-size: 20px;
+    }
+    .GebBox i {
+        background-color: #ea545566;
+        color: #ea5455;
+        font-size: 20px;
+    }
     .UncompletedChats i,
-    .CompletedChats i {
+    .CompletedChats i,
+    .ProfitBox i,
+    .EarningBox i,
+    .GebBox i {
         padding: 6px 8px;
         border-radius: 4px;
         margin-right: 10px;
@@ -37,11 +58,6 @@
         color: #cccccc73;
         padding-top: 4px;
         font-weight: normal;
-    }
-    .CompletedChats i {
-        background-color: #37cb4d59;
-        color: #37cb4d;
-        font-size: 20px;
     }
 
     .LoginText_Wrap{
@@ -166,13 +182,16 @@
         margin: 0;
         line-height: 17px;
     }
+    .progress-bar-warning .progress-bar{
+        background-color: #43ffff;
+    }
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
         <!-- Dashboard Analytics Start -->
         <section id="dashboard-analytics">
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12 mb-2">
                     <div class="card LoginText_Wrap">
                         <div class="card-header">
                             <h4 class="">92.6k</h4>
@@ -183,7 +202,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-6 col-12">
+                <div class="col-lg-9 col-md-6 col-12 mb-2">
                     <div class="card StepsCount_WrapCard">
                         <div class="card-header d-flex flex-column align-items-start pb-0">
                             <div class="TopHeading">
@@ -281,21 +300,37 @@
                                 <hr />
                                 <div class="row avg-sessions pt-50">
                                     <div class="col-4">
-                                        <div class="">
-                                            <p class="mb-0">Earning</p>
+                                        <div class="EarningBox">
+                                            <i class="fa fa-ticket"></i>
+                                            <h6 class="text-bold-700 mb-0">Earning</h6>
+                                        </div>
+                                        <div class="TotalAmount">
+                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
                                         </div>
                                         <div class="progress progress-bar-primary mt-25">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <p class="mb-0">Profit: 100K</p>
+                                        <div class="ProfitBox">
+                                            <i class="fa fa-ticket"></i>
+                                            <h6 class="text-bold-700 mb-0">Profit</h6>
+                                        </div>
+                                        <div class="TotalAmount">
+                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
+                                        </div>
                                         <div class="progress progress-bar-warning mt-25">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <p class="mb-0">Gebuhren: 90%</p>
+                                        <div class="GebBox">
+                                            <i class="fa fa-ticket"></i>
+                                            <h6 class="text-bold-700 mb-0">Gebuhren</h6>
+                                        </div>
+                                        <div class="TotalAmount">
+                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
+                                        </div>
                                         <div class="progress progress-bar-danger mt-25">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
                                         </div>

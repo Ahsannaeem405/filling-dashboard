@@ -11,16 +11,11 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" navigation-header"><span>FILLING. TO</span></li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Home</span></a></li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Buy Plan</span></a></li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Tutorial</span></a></li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">FAQ</span></a></li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Changelog</span></a></li>
-            <li class=" navigation-header"><span>ACCOUNTS</span></li>
-            <li class=" nav-item"><a href="{{url('user/create')}}"><i class="fa fa-user-plus"></i><span class="menu-title" data-i18n="Calender">New User</span></a></li>
-            <li class=" nav-item"><input type="search" name="search" id="" placeholder="mail@example.com" class="form-control"></li>
-            <li class=" nav-item"><a href="{{url('userlist')}}"><i class="fa fa-user-plus"></i><span class="menu-title" data-i18n="Calender">User List</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                 <ul class="menu-content">
                     <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
