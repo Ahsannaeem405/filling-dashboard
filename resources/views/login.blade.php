@@ -10,10 +10,42 @@
     <title>Login Page</title>
     {{-- <link rel="apple-touch-icon" href="{{asset('assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/ico/favicon.ico"> --}}
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <!-- BEGIN: Vendor CSS-->
     <!-- END: Vendor CSS-->
     <!-- END: Custom CSS-->
 <style>
+    @font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../fonts/poppins/Poppins-Bold.ttf');
+}
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('../fonts/poppins/Poppins-SemiBold.ttf');
+}
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../fonts/poppins/Poppins-Medium.ttf');
+}
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/poppins/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('../fonts/poppins/Poppins-Light.ttf');
+}
+
+h1, h2, h3, h4{
+    font-family: 'Poppins-Bold';
+}
+h5, h6 ,button,label{
+    font-family: 'Poppins-Regular';
+}
+p, span, a{
+    font-family: 'Poppins-Light';
+}
     body{
         background: #26293c;
     }
@@ -37,6 +69,10 @@
 }
 .login-para{
     color:white;
+    margin-top:0px;
+}
+.form-label-group{
+    position: relative;
 }
 .form-card .form-label-group label{
     color:white;
@@ -55,9 +91,12 @@
     width: 88%;
     border-radius:10px;
 }
+.form-label-group a{
+    text-decoration:none;
+    color: #7867ed;
+}
 .chckbox-cont {
     color: #8E8E8E;
-    font-family: "Raleway-regular";
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
@@ -77,12 +116,10 @@
     gap: 10px;
     color: white;
     text-align: center;
-    font-family: "Raleway-regular";
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    text-transform: uppercase;
     border-radius: 10px;
     background: #7867ed;
     border: none;
@@ -92,6 +129,7 @@
     color:white;
     text-align:center;
     margin-top:20px;
+    font-family: 'Poppins-Regular';
 }
 .create-acnt a{
     color:#7867ed;
@@ -134,6 +172,12 @@
     background:#2d2e4a;
     border-radius:5px;
 }
+.form-control-position.pass-icon {
+    position: absolute;
+    right: 10px;
+    top: 36px;
+    color: white;
+}
 </style>
 </head>
 <!-- END: Head-->
@@ -159,16 +203,17 @@
                                     <div class="card form-card">
                                         <div class="card-header">
                                             <div class="card-title">
-                                                <h4 class="login-tittle"><img src="{{asset('app-assets/images/logo/logo-success.png')}}" alt="">Sign in</h4>
+                                                <h4 class="login-tittle"><img src="{{asset('app-assets/images/logo/logo-main.png')}}" alt="">NullzFilling</h4>
                                             </div>
                                         </div>
-                                        <p class="login-para">Welcome back <br>
-                                         Please login to your account.</p>
+                                        <h3 style='margin:0;color:white;'> Willkommen! </h3>
+                                        <p class="login-para">
+                                         Bitte logge dich ein fur die Millionen</p>
                                         <div class="">
                                             <div class="">
                                                 <form action="">
                                                     <div class="form-label-group">
-                                                    <label for="user-name">Username</label>
+                                                    <label for="user-name">Benutzername</label>
                                                         <input type="text" class="form-control" id="user-name" required>
                                                         <div class="form-control-position">
                                                         </div>
@@ -176,21 +221,24 @@
                                                     </div>
 
                                                     <div class="form-label-group">
-                                                    <label for="user-password">Password</label>
+                                                    <div style='display:flex;justify-content:space-between;align-items:center;'>
+                                                    <label for="user-password">Passwort</label>
+                                                    <span><a href="#">Passwort vergessen?</a></span>
+                                                    </div>
                                                         <input type="password" class="form-control" id="user-password" required>
-                                                        <div class="form-control-position">
-                                                            <i class="feather icon-lock"></i>
+                                                        <div class="form-control-position pass-icon">
+                                                            <i class="fa fa-eye-slash"></i>
                                                         </div>
 
                                                     </div>
                                                     <div class="chckbox-cont">
-                                                <input type="checkbox">I want to protect my data by
+                                                <input type="checkbox">Angemeldet bleiben
                                             </div>
 
-                                                    <button type="submit" class="submit-form">Login</button>
+                                                    <button type="submit" class="submit-form">Anmelden</button>
                                                     <div class='create-acnt'>
-                                                        Create account
-                                                    <a href="{{url('register')}}" class="btn btn-outline-primary float-left btn-inline">Register</a>
+                                                        Neuer Filler ?
+                                                    <a href="{{url('register')}}" class="btn btn-outline-primary float-left btn-inline">Registriere dich</a>
                                                     </div>
                                                 </form>
                                             </div>

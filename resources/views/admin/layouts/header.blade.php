@@ -8,6 +8,9 @@
                     <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
                     </li>
+                    <li style='display: flex; align-items: center;'>
+                    <img class="round" src="{{asset('app-assets/images/logo/night-mode.png')}}" alt="avatar" height="30" width="30">
+                    </li>
                     <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
@@ -94,7 +97,7 @@
                                 <span class="user-status">Available</span>
                             </div>
                             <span>
-                                <img class="round" src="{{asset('assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40">
+                                <img class="round" src="{{asset('app-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40">
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">

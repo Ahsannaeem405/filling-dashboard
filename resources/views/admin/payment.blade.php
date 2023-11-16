@@ -6,7 +6,7 @@
 <style>
 
     .datatable-wraper {
-    background: #0c0d15bd;
+    background: #10163a;
     padding: 20px;
     border-radius: 10px;
     margin-top: 30px;
@@ -104,7 +104,7 @@ table.dataTable {
 }
     /*  */
     .user-card-wraper{
-        background: #0c0d15bd;
+        background: #10163a;
         border-radius:10px;
         padding:20px;
     }
@@ -125,7 +125,7 @@ table.dataTable {
     border-right:1px solid;
 }
 .icon-side span {
-      padding: 10px 10px 5px;
+      padding: 7px 10px 5px;
     border-radius: 5px;
     display:inline-block;
 }
@@ -138,13 +138,16 @@ table.dataTable {
 .icon-side .span3 {
     background-color: #ffffff30;
 }
-.icon-side span .bxs-user:before{
+.icon-side span .bxs-file:before{
     font-size: 25px;
     color:#bdbdbdd6;
 }
 .icon-side span .bxs-user-plus:before{
     font-size: 25px;
     color:#bdbdbdd6;
+}
+.icon-side span img{
+  width:27px;
 }
 .icon-side span .bx-user-check:before {
     font-size: 25px;
@@ -155,7 +158,7 @@ table.dataTable {
     color: white;
 }
 select.status-selection {
-    background: #0c0d15bd;
+    background: #10163a;
     color: white;
     padding: 7px 5px;
     border-radius: 4px;
@@ -163,7 +166,7 @@ select.status-selection {
     width: 170px;
 }
 option{
-  background-color:#0c0d15bd !important;
+  background-color:#10163a !important;
 }
 table.dataTable thead .sorting:after{
   content:'\e842' !important;
@@ -241,11 +244,12 @@ span.table-icon {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+              <h3>165</h3>
+                <p>Payments</p>
+
               </div>
               <div class="icon-side">
-              <span class='span1'><i class="bx bxs-user"></i></span>
+              <span class='span1'><i class="bx bxs-file"></i></span>
               </div>
               <div class="line-div"></div>
             </div>
@@ -253,11 +257,14 @@ span.table-icon {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+              <h3>2.785€</h3>
+                <p>Ausgezahlt</p>
+
               </div>
               <div class="icon-side">
-              <span class='span2'><i class="bx bxs-user-plus"></i></span>
+              <span class='span2'>
+              <img src="{{asset('app-assets/images/logo/double.png')}}" alt="">
+              </span>
               </div>
               <div class="line-div"></div>
             </div>
@@ -265,11 +272,14 @@ span.table-icon {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+              <h3>786€</h3>
+                <p>Ausstehend</p>
+
               </div>
               <div class="icon-side">
-              <span class='span3'><i class="bx bx-user-check"></i></span>
+              <span class='span3'>
+              <img src="{{asset('app-assets/images/logo/unavailable.png')}}" alt="">
+              </span>
               </div>
             </div>
           </div>
@@ -287,7 +297,7 @@ span.table-icon {
 <thead>
           <tr>
           <th>#ID</th>
-          <th><i class="fa fa-ticket"></i></th>
+          <th><img style='width: 22px;' src="{{asset('app-assets/images/logo/growth.png')}}" alt=""></th>
             <th>CLIENT</th>
             <th>TOTAL</th>
             <th>ISSUED DATE</th>
@@ -302,7 +312,7 @@ span.table-icon {
             </td>
             <td>
                 <span class='table-icon icon-tr1'>
-                <i class="fa fa-ticket"></i>
+                <img style='width: 19px;' src="{{asset('app-assets/images/logo/ta-tick.png')}}" alt="">
                 </span>
             </td>
             <td>
@@ -317,7 +327,7 @@ span.table-icon {
                 </div>
               </a>
             </td>
-            <td>3077$</td>
+            <td>3077€</td>
             <td>09 May 2020</td>
             <td>
             <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Paid</div>
@@ -344,7 +354,7 @@ span.table-icon {
             </td>
             <td>
                 <span class='table-icon icon-tr2'>
-                <i class="fa fa-ticket"></i>
+                <img style='width: 21px;' src="{{asset('app-assets/images/logo/ta-arrow-down.png')}}" alt="">
                 </span>
             </td>
             <td>
@@ -359,7 +369,7 @@ span.table-icon {
                 </div>
               </a>
             </td>
-            <td>3077$</td>
+            <td>3077€</td>
             <td>09 May 2020</td>
             <td>
             <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Paid</div>
@@ -406,7 +416,7 @@ span.table-icon {
           }
         ],
           language: {
-            searchPlaceholder: 'search...'
+            searchPlaceholder: 'Search Invoice'
         },
         });
     </script>

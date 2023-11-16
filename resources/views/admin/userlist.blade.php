@@ -136,6 +136,7 @@ table.dataTable {
 }
 .icon-side .span4 {
 background:#ea545566;
+padding: 6px;
 }
 .icon-side span .bxs-user:before{
     font-size: 25px;
@@ -158,25 +159,25 @@ background:#ea545566;
     color: white;
 }
 select.status-selection {
-    /* background: #0c0d15bd; */
+    background: #10163a;
     color: white;
     padding: 10px 5px;
     width: 300px;
     margin-bottom: 50px;
 }
 option{
-  background-color:#0c0d15bd !important;
+  background-color:#10163a !important;
 }
 table.dataTable thead .sorting:after{
   content:'\e842' !important;
-  right: 0 !important;
-  left:unset !important;
+  /* right: 0 !important;
+  left:unset !important; */
 }
 table.dataTable thead .sorting:before{
   content:'\e845' !important;
-  right: 0 !important;
+  /* right: 0 !important; */
     top: 10px !important;
-    left:unset !important;
+    /* left:unset !important; */
     padding-right: 0 !important;
 }
 div.dataTables_wrapper {
@@ -224,8 +225,8 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+                <p>Registrierte User</p>
+                <h2>21459</h2>
               </div>
               <div class="icon-side">
               <span class='span1'><i class="bx bxs-user"></i></span>
@@ -235,8 +236,8 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+                <p>Warten auf Freigabe</p>
+                <h2>4567</h2>
               </div>
               <div class="icon-side">
               <span class='span2'><i class="bx bxs-user-plus"></i></span>
@@ -246,8 +247,8 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+                <p>Aktive Filler</p>
+                <h2>19860</h2>
               </div>
               <div class="icon-side">
               <span class='span3'><i class="bx bx-user-check"></i></span>
@@ -257,11 +258,13 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
           <div class="col-md-6 col-lg-3">
             <div class="card-main-content">
               <div class="content-side">
-                <p>Register User</p>
-                <h2>21449</h2>
+                <p>Gebannte Filler</p>
+                <h2>237</h2>
               </div>
               <div class="icon-side">
-              <span class='span4'><i class="bx bxs-user"></i></span>
+              <span class='span4'>
+              <img style='width: 32px;' src="{{asset('app-assets/images/logo/user-slash.png')}}" alt="">
+              </span>
               </div>
             </div>
           </div>
@@ -301,9 +304,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -335,9 +338,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -368,7 +371,7 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
               <div class="badge badge-success badge-success-alt" style='background-color: #84684dcc; color: #FF9F43;'>Warte auf Freigabe</div>
             </td>
@@ -402,7 +405,7 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
               <div class="badge badge-success badge-success-alt" style='background-color: #84684dcc; color: #FF9F43;'>Warte auf Freigabe</div>
             </td>
@@ -435,9 +438,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -469,9 +472,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -502,9 +505,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -536,7 +539,7 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
               <div class="badge badge-success badge-success-alt" style='background-color: #ea545566; color: #ea5455;'>Gebannt</div>
             </td>
@@ -569,9 +572,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -603,9 +606,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -636,9 +639,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>RPO</td>
-            <td>3.541$</td>
+            <td>3.541€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>
@@ -670,9 +673,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .buttons-excel {
               </a>
             </td>
             <td>VIP</td>
-            <td>2.054$</td>
+            <td>2.054€</td>
             <td>
-              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>active</div>
+              <div class="badge badge-success badge-success-alt" style='background-color: #1d5541; color: #00ab00;'>Active</div>
             </td>
             <td>
             <i class="bx bxs-edit mr-1"></i>

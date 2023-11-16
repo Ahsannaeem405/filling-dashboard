@@ -8,15 +8,17 @@
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
         </ul>
     </div>
+
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a href="#"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
-            <li class=" nav-item"><a href="{{ url('chat') }}"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
-            <li class=" nav-item"><a href="{{ url('userlist') }}"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
-            <li class=" nav-item"><a href="{{url('payment')}}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
+            <li class=" nav-item"><a href="{{('/')}}"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="bx bxs-file"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            <li class=" nav-item"><a href="{{ url('chat') }}"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
+            <li class=" nav-item"><a href="#"><img style='width: 21px;margin-right: 10px;' src="{{asset('app-assets/images/logo/network.png')}}" alt=""><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
+            <li class=" nav-item"><a href="#"><i class="fa fa-gear"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
+            <li class=" nav-item"><a href="{{ url('userlist') }}"><i class="fa fa-user"></i><span class="menu-title" data-i18n="Calender">Benutzerliste</span></a></li>
+            <li class=" nav-item"><a href="{{url('payment')}}"><i class="bx bxs-file"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                 <ul class="menu-content">
                     <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>

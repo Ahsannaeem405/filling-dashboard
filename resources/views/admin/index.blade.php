@@ -51,7 +51,7 @@
         font-weight: 600;
         font-size: 16px;
     }
-    .UncompletedChats h6 span, 
+    .UncompletedChats h6 span,
     .CompletedChats h6 span {
         display: block;
         font-size: 12px;
@@ -65,7 +65,7 @@
         padding-bottom: 15px;
     }
     .LoginText_Wrap .card-header h4{
-        
+
     }
     .LoginText_Wrap .card-header p,
     .LoginText_Wrap .card-header p span{
@@ -80,7 +80,7 @@
 
     }
     .StepsCount_WrapCard .TopHeading h4{
-        
+
     }
     .StepsCount_WrapCard .TopHeading p {
         font-size: 12px;
@@ -105,10 +105,10 @@
         border-radius: 2px;
     }
     .StepsCount .col{
-        
+
     }
     .StepsCount .col p{
-        
+
     }
     .StepsCount .col p i{
         color: #7367f0;
@@ -161,7 +161,7 @@
 
     }
     .PriceTotal_WrapCard .PriceTotal{
-        
+
     }
     .PriceTotal_WrapCard .PriceTotal h3{
         font-size: 28px;
@@ -185,6 +185,14 @@
     .progress-bar-warning .progress-bar{
         background-color: #43ffff;
     }
+    .chart-info-flag img{
+        width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    }
+    i.bx.bx-dollar-sign {
+    padding: 4px 13px 8px;
+}
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -194,7 +202,7 @@
                 <div class="col-lg-3 col-md-6 col-12 mb-2">
                     <div class="card LoginText_Wrap">
                         <div class="card-header">
-                            <h4 class="">92.6k</h4>
+                            <h4 class="">Hallo, $username!</h4>
                             <div class="">
                                 <p class="m-0">Letzter : <span>$lastlogin</span></p>
                                 <p class="m-0">Register : <span>$registerdate</span></p>
@@ -214,29 +222,29 @@
                             <div class="col Beg_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Beginner</span></p>
                                 <div class="">
-                                    <span>0-3.499</span>
-                                    <span>40% Einnahem</span>
+                                    <span>0-3.499 €</span>
+                                    <span>40% Einnahmen</span>
                                 </div>
                             </div>
                             <div class="col Adv_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Advanced</span></p>
                                 <div class="">
-                                    <span>0-3.499</span>
-                                    <span>40% Einnahem</span>
+                                    <span>3.500-5.999 €</span>
+                                    <span>45% Gebuhren</span>
                                 </div>
                             </div>
                             <div class="col Pro_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Pro</span></p>
                                 <div class="">
-                                    <span>0-3.499</span>
-                                    <span>40% Einnahem</span>
+                                    <span>6.000-9.999 €</span>
+                                    <span>50% Gebuhren</span>
                                 </div>
                             </div>
                             <div class="col Leg_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Legend</span></p>
                                 <div class="">
-                                    <span>0-3.499</span>
-                                    <span>40% Einnahem</span>
+                                    <span>0-3.499 €</span>
+                                    <span>55% Gebuhren</span>
                                 </div>
                             </div>
                             <div class="col Vip_CS">
@@ -269,7 +277,9 @@
                                         <h6>Offene chats <span>$uncompletedchats</span></h6>
                                     </li>
                                     <li class="CompletedChats">
-                                        <i class="fa fa-ticket"></i>
+                                        <i class="fa fa-ticke">
+                                        <img style='width: 20px;' src="{{asset('app-assets/images/logo/dash-tick.png')}}" alt="">
+                                        </i>
                                         <h6>Bearbeitete chats <span>$completedchats</span></h6>
                                     </li>
                                 </ul>
@@ -301,7 +311,7 @@
                                 <div class="row avg-sessions pt-50">
                                     <div class="col-4">
                                         <div class="EarningBox">
-                                            <i class="fa fa-ticket"></i>
+                                        <i class="bx bx-dollar-sign">$</i>
                                             <h6 class="text-bold-700 mb-0">Earning</h6>
                                         </div>
                                         <div class="TotalAmount">
@@ -310,10 +320,12 @@
                                         <div class="progress progress-bar-primary mt-25">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                         </div>
-                                    </div>
+                                    </div>x
                                     <div class="col-4">
                                         <div class="ProfitBox">
-                                            <i class="fa fa-ticket"></i>
+                                            <i class="fa fa-ticke">
+                                            <img style='width: 20px;' src="{{asset('app-assets/images/logo/dash-tick.png')}}" alt="">
+                                            </i>
                                             <h6 class="text-bold-700 mb-0">Profit</h6>
                                         </div>
                                         <div class="TotalAmount">
@@ -348,49 +360,49 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body pt-2" style="position: relative;">
-                                <div class="chart-info d-flex justify-content-between mb-1">
+                                <div class="chart-info chart-info-flag d-flex justify-content-between mb-1">
                                     <div class="series-info d-flex align-items-center">
-                                        <i class="feather icon-monitor font-medium-2 text-primary"></i>
+                                    <img src="{{asset('app-assets/images/flags/de.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 1</span>
                                     </div>
                                     <div class="series-result">
-                                        <span>49,478$</span>
+                                        <span>49,478 €</span>
                                     </div>
                                 </div>
-                                <div class="chart-info d-flex justify-content-between mb-1">
+                                <div class="chart-info chart-info-flag d-flex justify-content-between mb-1">
                                     <div class="series-info d-flex align-items-center">
-                                        <i class="feather icon-tablet font-medium-2 text-warning"></i>
+                                    <img src="{{asset('app-assets/images/flags/en.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 2</span>
                                     </div>
                                     <div class="series-result">
-                                        <span>34.9%</span>
+                                        <span>34.9 €</span>
                                     </div>
                                 </div>
                                 <div class="chart-info d-flex justify-content-between mb-50">
-                                    <div class="series-info d-flex align-items-center">
-                                        <i class="feather icon-tablet font-medium-2 text-danger"></i>
+                                    <div class="series-info chart-info-flag d-flex align-items-center">
+                                    <img src="{{asset('app-assets/images/flags/fr.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 3</span>
                                     </div>
                                     <div class="series-result">
-                                        <span>26.05%</span>
+                                        <span>26.05 €</span>
                                     </div>
                                 </div>
                                 <div class="chart-info d-flex justify-content-between mb-1">
-                                    <div class="series-info d-flex align-items-center">
-                                        <i class="feather icon-tablet font-medium-2 text-warning"></i>
-                                        <span class="text-bold-600 mx-50">User 2</span>
+                                    <div class="series-info chart-info-flag d-flex align-items-center">
+                                    <img src="{{asset('app-assets/images/flags/pt.png')}}" alt="">
+                                        <span class="text-bold-600 mx-50">User 4</span>
                                     </div>
                                     <div class="series-result">
-                                        <span>34.9%</span>
+                                        <span>34.9 €</span>
                                     </div>
                                 </div>
                                 <div class="chart-info d-flex justify-content-between mb-50">
-                                    <div class="series-info d-flex align-items-center">
-                                        <i class="feather icon-tablet font-medium-2 text-danger"></i>
-                                        <span class="text-bold-600 mx-50">User 3</span>
+                                    <div class="series-info chart-info-flag d-flex align-items-center">
+                                    <img src="{{asset('app-assets/images/flags/de.png')}}" alt="">
+                                        <span class="text-bold-600 mx-50">User 5</span>
                                     </div>
                                     <div class="series-result">
-                                        <span>26.05%</span>
+                                        <span>26.05 €</span>
                                     </div>
                                 </div>
                             </div>
@@ -402,4 +414,5 @@
         </section>
         <!-- Dashboard Analytics end -->
     </div>
+
 @endsection
