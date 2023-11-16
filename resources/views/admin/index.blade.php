@@ -193,6 +193,16 @@
     i.bx.bx-dollar-sign {
     padding: 4px 13px 8px;
 }
+.weekday{
+    display:flex;
+    justify-content:space-between;
+}
+.weekday span{
+    display:inline-block;
+    width:14%;
+    font-size:12px;
+    text-align:center;
+}
 </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -305,6 +315,15 @@
                                     </div>
                                     <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
                                         <div id="avg-session-chart"></div>
+                                        <div class="weekday">
+                                            <span>Mo</span>
+                                            <span>Tu</span>
+                                            <span>We</span>
+                                            <span>Th</span>
+                                            <span>Fr</span>
+                                            <span>Sa</span>
+                                            <span>Su</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr />
@@ -320,7 +339,7 @@
                                         <div class="progress progress-bar-primary mt-25">
                                             <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                         </div>
-                                    </div>x
+                                    </div>
                                     <div class="col-4">
                                         <div class="ProfitBox">
                                             <i class="fa fa-ticke">
