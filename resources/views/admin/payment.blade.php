@@ -302,7 +302,7 @@ span.table-icon {
 <thead>
           <tr>
           <th>#ID</th>
-          <th><img style='width: 22px;' src="{{asset('app-assets/images/logo/growth.png')}}" alt=""></th>
+          <th><img style='width: 22px;' src="{{asset('app-assets/images/logo/growth.svg')}}" alt=""></th>
             <th>CLIENT</th>
             <th>TOTAL</th>
             <th>ISSUED DATE</th>

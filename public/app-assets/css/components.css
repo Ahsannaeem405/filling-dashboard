@@ -823,13 +823,13 @@ body.fixed-footer footer.footer-dark {
     align-items: center;
     margin-top: 1.35rem;
 }
-.main-menu .navbar-header .navbar-brand .brand-logo {
+/* .main-menu .navbar-header .navbar-brand .brand-logo {
     background: url("../../app-assets/images/logo/logo-main.png") no-repeat;
-    /* background-position: -65px -54px; */
+    background-position: -65px -54px;
     background-size: 100% 100%;
     height: 46px;
     width: 39px;
-}
+} */
 .main-menu .navbar-header .navbar-brand .brand-text {
     color: #7367f0;
     padding-left: 1rem;

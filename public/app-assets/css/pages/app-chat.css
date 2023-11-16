@@ -218,7 +218,7 @@
 
 .chat-application .chat-app-window .start-chat-area,
 .chat-application .chat-app-window .user-chats {
-    background-image: url("../../images/backgrounds/chat-bg.svg");
+    /* background-image: url("../../images/backgrounds/chat-bg.svg"); */
     background-color: #dfdbe5;
 }
 

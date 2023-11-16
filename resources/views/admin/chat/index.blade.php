@@ -94,6 +94,7 @@
     }
     .account-prof{
         padding:0px !important;
+        background-color:transparent !important;
     }
     .account-prof p{
         margin: 0;
@@ -106,16 +107,30 @@
 }
 .type-icon {
     position: absolute;
-    right: 108px;
+    right: 3%;
     top: 10px;
 }
 img.type-icon{
     width: 22px;
-    right: 135px;
+    right: 14%;
 }
 .chat-time-right p{
     text-align: right;
-    margin-right: 20px;
+    margin-right: 60px;
+    margin-bottom: 30px;
+}
+.chat-time-left p{
+    text-align: left;
+    margin-left: 60px;
+    margin-bottom: 30px;
+}
+.send{
+    display: flex;
+    width: 25%;
+    padding: 5px !important;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 </style>
 <div class="row">
@@ -252,8 +267,8 @@ img.type-icon{
                                     </div>
                                     <div class="user-chat-info">
                                         <div class="contact-info">
-                                            <h5 class="font-weight-bold mb-0">Elizabeth Elliott</h5>
-                                            <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing</p>
+                                            <h5 class="font-weight-bold mb-0">Susanne Ackermann</h5>
+                                            <p class="truncate">Ich wurde gerne via</p>
                                         </div>
                                         <div class="contact-meta">
                                             <span class="float-right mb-25">14.11.23,17:35</span>
@@ -442,9 +457,11 @@ img.type-icon{
 
                                             </span>
                                         </div>
-                                        <span class="favorite"><i class="feather icon-star font-medium-5"></i>
-                                        <!-- <span><i class="feather icon-trash font-medium-5"></span> -->
-                                    </span>
+                                       <div>
+                                        <span class="favorite"><i class="feather icon-home font-medium-5"></i></span>
+                                        <span class="favorite"><i class="feather icon-star font-medium-5"></i></span>
+                                        <span class="favorite"><i class="feather icon-trash font-medium-5"></i></span>
+                                       </div>
                                     </header>
                                 </div>
                                 <div class="user-chats">
@@ -459,13 +476,14 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>How can we help? We're here for you!</p>
                                                 </div>
-                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -476,8 +494,9 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>It should be Bootstrap 4 compatible.</p>
                                                 </div>
-                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
+
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="divider">
                                             <div class="divider-text">Yesterday</div>
@@ -495,8 +514,8 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>Vuexy admin is the responsive bootstrap 4 admin template.</p>
                                                 </div>
-                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
@@ -514,21 +533,22 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>How can I purchase it?</p>
                                                 </div>
-                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
                                                 <div class="chat-content">
                                                     <p>Thanks, from ThemeForest.</p>
                                                 </div>
-                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
@@ -543,8 +563,9 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>Thanks.</p>
                                                 </div>
-                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
+
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat">
                                             <div class="chat-avatar">
@@ -559,17 +580,20 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>https://pixinvent.ticksy.com/</p>
                                                 </div>
-                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="chat-app-form">
-                                    <form class="chat-app-input d-flex position-relative" onsubmit="enter_chat();" action="javascript:void(0);">
-                                        <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
+                                    <form class="chat-app-input d-flex justify-content-between position-relative" onsubmit="enter_chat();" action="javascript:void(0);">
+                                       <div class='position-relative'style='width: 70%;'>
+                                       <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
                                         <i class="type-icon fa fa-image"></i>
                                         <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}" alt="user_avatar">
-                                        <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o d-lg-none"></i> <span class="d-none d-lg-block">Send</span></button>
+                                       </div>
+                                        <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o"></i> <span class="">Senden</span></button>
                                     </form>
                                 </div>
                             </div>
