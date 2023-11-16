@@ -2,6 +2,9 @@
 @section('title')
     <title>Admin</title>
 @endsection
+@section('chat')
+active
+@endsection
 @section('content')
 <style>
     /* .chat-application .sidebar-content{
@@ -254,7 +257,7 @@ img.type-icon{
                             </div>
                         </div>
                         <div id="users-list" class="chat-user-list list-group position-relative">
-                            <div style='display:flex; justify-content:space-between;'>
+                            <div style='display:flex; justify-content:space-between; align-items:center;'>
                             <h3 class="primary p-1 mb-0">Chats</h3>
                             <button class='account-btn2 chat-btn'>Accounts aktualisieren</button>
                             </div>
