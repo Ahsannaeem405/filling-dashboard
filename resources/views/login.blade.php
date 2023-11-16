@@ -203,7 +203,7 @@ p, span, a{
                                     <div class="card form-card">
                                         <div class="card-header">
                                             <div class="card-title">
-                                                <h4 class="login-tittle"><img src="{{asset('app-assets/images/logo/logo-main.png')}}" alt="">NullzFilling</h4>
+                                                <h2 class="login-tittle"><img src="{{asset('app-assets/images/logo/Logo-main.png')}}" alt="">NullzFilling</h2>
                                             </div>
                                         </div>
                                         <h3 style='margin:0;color:white;'> Willkommen! </h3>

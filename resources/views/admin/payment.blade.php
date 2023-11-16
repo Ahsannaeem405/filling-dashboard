@@ -2,6 +2,9 @@
 @section('title')
     <title>Admin</title>
 @endsection
+@section('payment')
+active
+@endsection
 @section('content')
 <style>
 
@@ -170,14 +173,16 @@ option{
 }
 table.dataTable thead .sorting:after{
   content:'\e842' !important;
-  right: 0 !important;
-  left:unset !important;
+  /* right: 0 !important;
+  left:unset !important; */
+  left:-2px !important;
 }
 table.dataTable thead .sorting:before{
   content:'\e845' !important;
-  right: 0 !important;
+  /* right: 0 !important; */
     top: 10px !important;
-    left:unset !important;
+    /* left:unset !important; */
+    left:-2px !important;
     padding-right: 0 !important;
 }
 div.dataTables_wrapper {
@@ -200,7 +205,7 @@ a.paginate_button.current {
     background: #7367f0 !important;
 }
 a.paginate_button {
-    background: #3535359c !important;
+    background: #20295d !important;
     border-radius:5px;
 }
 span.table-icon {

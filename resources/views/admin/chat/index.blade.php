@@ -146,7 +146,7 @@ img.type-icon{
                             </span>
                             <div class="header-profile-sidebar">
                                 <div class="avatar">
-                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" height="70" width="70">
+                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="user_avatar" height="70" width="70">
                                     <span class="avatar-status-online avatar-status-lg"></span>
                                 </div>
                                 <h4 class="chat-user-name">John Doe</h4>
@@ -225,7 +225,7 @@ img.type-icon{
                             <div class="d-flex align-items-center">
                                 <div class="sidebar-profile-toggle position-relative d-inline-flex">
                                     <div class="avatar">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" height="40" width="40">
+                                        <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="user_avatar" height="40" width="40">
                                         <span class="avatar-status-online"></span>
                                     </div>
                                     <div class="bullet-success bullet-sm position-absolute"></div>
@@ -246,7 +246,7 @@ img.type-icon{
                             <ul class="chat-users-list-wrapper media-list">
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -263,7 +263,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -282,7 +282,7 @@ img.type-icon{
                             <ul class="chat-users-list-wrapper media-list">
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -298,7 +298,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -314,7 +314,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-5.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -330,7 +330,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-9.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-9.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -346,7 +346,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -362,7 +362,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-14.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -378,7 +378,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-3.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -394,7 +394,7 @@ img.type-icon{
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -432,7 +432,7 @@ img.type-icon{
                                         <div class="vs-con-items d-flex align-items-center">
                                             <div class="sidebar-toggle d-block d-lg-none mr-1"><i class="feather icon-menu font-large-1"></i></div>
                                             <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="" height="40" width="40" />
+                                                <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="" height="40" width="40" />
                                                 <span class="avatar-status-busy"></span>
                                             </div>
                                             <!-- <h6 class="mb-0">Felecia Rower</h6> -->
@@ -452,7 +452,7 @@ img.type-icon{
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -485,7 +485,7 @@ img.type-icon{
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -501,7 +501,7 @@ img.type-icon{
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -520,7 +520,7 @@ img.type-icon{
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -533,7 +533,7 @@ img.type-icon{
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -549,7 +549,7 @@ img.type-icon{
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -568,7 +568,7 @@ img.type-icon{
                                     <form class="chat-app-input d-flex position-relative" onsubmit="enter_chat();" action="javascript:void(0);">
                                         <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
                                         <i class="type-icon fa fa-image"></i>
-                                        <img class='type-icon' src="../../../app-assets/images/logo/face.png" alt="user_avatar">
+                                        <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}" alt="user_avatar">
                                         <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o d-lg-none"></i> <span class="d-none d-lg-block">Send</span></button>
                                     </form>
                                 </div>
@@ -582,7 +582,7 @@ img.type-icon{
                                 </span>
                                 <div class="header-profile-sidebar">
                                     <div class="avatar">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="user_avatar" height="70" width="70">
+                                        <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="user_avatar" height="70" width="70">
                                         <span class="avatar-status-busy avatar-status-lg"></span>
                                     </div>
                                     <h4 class="chat-user-name">Felecia Rower</h4>

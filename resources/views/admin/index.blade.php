@@ -2,6 +2,9 @@
 @section('title')
     <title>Admin</title>
 @endsection
+@section('/')
+active
+@endsection
 @section('content')
 <style>
     body.dark-layout .card{
@@ -225,7 +228,7 @@
                         <div class="card-header d-flex flex-column align-items-start pb-0">
                             <div class="TopHeading">
                                 <h4 class="m-0">Uberblink Rang</h4>
-                                <p class="m-0">Lorem ipsum dolor sit amet consectetur</p>
+                                <p class="m-0">aktueller Rang: $currentrang</p>
                             </div>
                         </div>
                         <div class="card-content StepsCount">
@@ -260,8 +263,8 @@
                             <div class="col Vip_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>VIP</span></p>
                                 <div class="">
-                                    <span>0-3.499</span>
-                                    <span>40% Einnahem</span>
+                                    <span>20.000 €</span>
+                                    <span>60% Gebuhren</span>
                                 </div>
                             </div>
                         </div>
@@ -375,11 +378,11 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Global Ranking</h4>
-                            <span>Rangliste</span>
                         </div>
+                        <div><span style='padding: 0 20px;'>Rangliste</span></div>
                         <div class="card-content">
                             <div class="card-body pt-2" style="position: relative;">
-                                <div class="chart-info chart-info-flag d-flex justify-content-between mb-1">
+                                <div class="chart-info chart-info-flag d-flex justify-content-between align-items-center mb-1">
                                     <div class="series-info d-flex align-items-center">
                                     <img src="{{asset('app-assets/images/flags/de.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 1</span>
@@ -388,7 +391,7 @@
                                         <span>49,478 €</span>
                                     </div>
                                 </div>
-                                <div class="chart-info chart-info-flag d-flex justify-content-between mb-1">
+                                <div class="chart-info chart-info-flag d-flex justify-content-between align-items-center mb-1">
                                     <div class="series-info d-flex align-items-center">
                                     <img src="{{asset('app-assets/images/flags/en.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 2</span>
@@ -397,7 +400,7 @@
                                         <span>34.9 €</span>
                                     </div>
                                 </div>
-                                <div class="chart-info d-flex justify-content-between mb-50">
+                                <div class="chart-info d-flex justify-content-between align-items-center mb-1">
                                     <div class="series-info chart-info-flag d-flex align-items-center">
                                     <img src="{{asset('app-assets/images/flags/fr.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 3</span>
@@ -406,7 +409,7 @@
                                         <span>26.05 €</span>
                                     </div>
                                 </div>
-                                <div class="chart-info d-flex justify-content-between mb-1">
+                                <div class="chart-info d-flex justify-content-between align-items-center mb-1">
                                     <div class="series-info chart-info-flag d-flex align-items-center">
                                     <img src="{{asset('app-assets/images/flags/pt.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 4</span>
@@ -415,7 +418,7 @@
                                         <span>34.9 €</span>
                                     </div>
                                 </div>
-                                <div class="chart-info d-flex justify-content-between mb-50">
+                                <div class="chart-info d-flex justify-content-between align-items-center mb-50">
                                     <div class="series-info chart-info-flag d-flex align-items-center">
                                     <img src="{{asset('app-assets/images/flags/de.png')}}" alt="">
                                         <span class="text-bold-600 mx-50">User 5</span>

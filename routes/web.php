@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\ChatsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +22,9 @@ Route::get('login', function () {
 });
 Route::get('register', function () {
     return view('register');
+});
+Route::get('forgot-password', function () {
+    return view('forgot-password');
 });
 Route::get('/', [App\Http\Controllers\Dashboard\HomeController::class, 'index']);
 Route::get('user/create', [App\Http\Controllers\Dashboard\UserController::class, 'create']);

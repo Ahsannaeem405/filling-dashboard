@@ -7,15 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <link rel="stylesheet" href="{{ asset('app-assets/css/fonts.css') }}" type="text/css">
-    <title>Register Page</title>
+    <title>Login Page</title>
     {{-- <link rel="apple-touch-icon" href="{{asset('assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/ico/favicon.ico"> --}}
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <!-- BEGIN: Vendor CSS-->
     <!-- END: Vendor CSS-->
     <!-- END: Custom CSS-->
 <style>
-       @font-face {
+    @font-face {
     font-family: 'Poppins-Bold';
     src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
@@ -68,69 +69,10 @@ p, span, a{
 }
 .login-para{
     color:white;
-    margin-top:0;
-    font-size:14px;
+    margin-top:0px;
+    font-size:12px;
 }
-.form-label-group{
-    position:relative;
-}
-.form-card .form-label-group label{
-    color:white;
-}
-.form-card .form-label-group input{
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    margin-bottom: 20px;
-    background-color: transparent;
-    font-style: normal;
-    line-height: normal;
-    padding: 10px 20px;
-    border: 1px solid #929292;
-    width: 88%;
-    border-radius:10px;
-}
-.chckbox-cont {
-    color: #8E8E8E;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    display: flex;
-    gap: 10px;
-}
-.submit-form {
-    display: flex;
-    width: 300px;
-    margin: auto;
-    margin-top: 10px;
-    padding: 15px 0px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    border-radius: 10px;
-    background: #7867ed;
-    border: none;
-    outline: none;
-}
-.create-acnt{
-    color:white;
-    text-align:center;
-    margin-top:20px;
-    font-family: 'Poppins-Regular';
-}
-.create-acnt a{
-    color:#7867ed;
-    text-decoration:none;
-}
+
 .form-card-wraper{
     display: flex;
     align-items: center;
@@ -168,11 +110,13 @@ p, span, a{
     background:#2d2e4a;
     border-radius:5px;
 }
-.form-control-position.pass-icon {
-    position: absolute;
-    right: 10px;
-    top: 36px;
-    color: white;
+a{
+    color:#7867ed;
+    text-decoration:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
 </style>
 </head>
@@ -202,45 +146,11 @@ p, span, a{
                                                 <h2 class="login-tittle"><img src="{{asset('app-assets/images/logo/Logo-main.png')}}" alt="">NullzFilling</h2>
                                             </div>
                                         </div>
-                                        <h3 style='margin:0;color:white;'>Jage die Millionen </h3>
+                                        <h3 style='margin:0;color:white;'> Passwort vergessen? </h3>
                                         <p class="login-para">
-                                         Registriere dich und fange sofort an zu fillen!</p>
-                                        <div class="">
-                                            <div class="">
-                                                <form action="">
-                                                    <div class="form-label-group">
-                                                    <label for="user-name">Benutzername</label>
-                                                        <input type="text" class="form-control" id="user-name" required>
-                                                        <div class="form-control-position">
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="form-label-group">
-                                                    <label for="user-name">Telegram</label>
-                                                        <input type="text" class="form-control" id="user-name" required>
-                                                        <div class="form-control-position">
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="form-label-group">
-                                                    <label for="user-password">Passwort</label>
-                                                        <input type="password" class="form-control" id="user-password" required>
-                                                        <div class="form-control-position pass-icon">
-                                                            <i class="fa fa-eye-slash"></i>
-                                                        </div>
-
-                                                    </div>
-
-
-                                                    <button type="submit" class="submit-form">Registrieren</button>
-                                                    <div class='create-acnt'>
-                                                        Du bist bereits Filler?
-                                                    <a href="{{url('register')}}" class="btn btn-outline-primary float-left btn-inline">Logge dich ein</a>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                         Melde dich bitte mit deinem Telegram Konto, dass du bei der Registrierung angegeben hast, bei
+                                        @NULLZFINLLING</p>
+                                        <div style='text-align:center;'><a href="#"><span style='font-size:20px;'><</span> Zuruck zum Login</a></div>
                                     </div>
                                     <div class="after-div">
                                         <div class="after-inner">
