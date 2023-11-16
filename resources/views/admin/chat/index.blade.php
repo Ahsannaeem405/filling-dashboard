@@ -66,14 +66,69 @@
         font-size: 16px;
         margin-right: 5px;
     }
+    /*  */
+    .account-btn1{
+        border:none;
+        outline:none;
+        color:white;
+        background: #27ce72;
+        border-radius:5px;
+        padding:6px;
+        font-size:11px;
+        width:93px;
+        margin-bottom:20px;
+    }
+    .account-btn2{
+        border:none;
+        outline:none;
+        color:white;
+        background: #7367f0;
+        border-radius:5px;
+        padding:6px;
+        font-size:11px;
+        width:85px;
+        margin-bottom:20px;
+    }
+    .chat-btn{
+        margin:10px 10px 10px;
+    }
+    .account-prof{
+        padding:0px !important;
+    }
+    .account-prof p{
+        margin: 0;
+    font-size: 12px;
+    }
+    .fa-image:before {
+    content: "\f03e";
+    font-size: 20px;
+    color: #C2C6DC;
+}
+.type-icon {
+    position: absolute;
+    right: 108px;
+    top: 10px;
+}
+img.type-icon{
+    width: 22px;
+    right: 135px;
+}
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="content-area-wrapper mt-0">
             <div class="AcountsDetail">
                 <h3>Accounts</h3>
+                <button class='account-btn1'>Neuen Account hinzufugen</button>
+                <button class='account-btn2'>Accounts aktualisieren</button>
                 <ul>
-                    <li class="list-style active"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">test@gmail.com</li>
+                    <li class="list-style active"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">
+                    <span class='account-prof'>
+                        <p>Spielzeugauto Wie</p>
+                        <p>75€ VB</p>
+
+                    </span>
+                </li>
                     <li class="list-style"><span>AH</span>test@gmail.com</li>
                 </ul>
             </div>
@@ -180,7 +235,10 @@
                             </div>
                         </div>
                         <div id="users-list" class="chat-user-list list-group position-relative">
+                            <div style='display:flex; justify-content:space-between;'>
                             <h3 class="primary p-1 mb-0">Chats</h3>
+                            <button class='account-btn2 chat-btn'>Accounts aktualisieren</button>
+                            </div>
                             <ul class="chat-users-list-wrapper media-list">
                                 <li>
                                     <div class="pr-1">
@@ -373,9 +431,16 @@
                                                 <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="" height="40" width="40" />
                                                 <span class="avatar-status-busy"></span>
                                             </div>
-                                            <h6 class="mb-0">Felecia Rower</h6>
+                                            <!-- <h6 class="mb-0">Felecia Rower</h6> -->
+                                            <span class='account-prof'>
+                                                <h6 class="mb-0">Spielzeugauto Wie</h6>
+                                                <p>75€ VB</p>
+
+                                            </span>
                                         </div>
-                                        <span class="favorite"><i class="feather icon-star font-medium-5"></i></span>
+                                        <span class="favorite"><i class="feather icon-star font-medium-5"></i>
+                                        <!-- <span><i class="feather icon-trash font-medium-5"></span> -->
+                                    </span>
                                     </header>
                                 </div>
                                 <div class="user-chats">
@@ -489,8 +554,10 @@
                                     </div>
                                 </div>
                                 <div class="chat-app-form">
-                                    <form class="chat-app-input d-flex" onsubmit="enter_chat();" action="javascript:void(0);">
+                                    <form class="chat-app-input d-flex position-relative" onsubmit="enter_chat();" action="javascript:void(0);">
                                         <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
+                                        <i class="type-icon fa fa-image"></i>
+                                        <img class='type-icon' src="../../../app-assets/images/logo/face.png" alt="user_avatar">
                                         <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o d-lg-none"></i> <span class="d-none d-lg-block">Send</span></button>
                                     </form>
                                 </div>
