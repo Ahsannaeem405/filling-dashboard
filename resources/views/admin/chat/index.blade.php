@@ -113,6 +113,10 @@ img.type-icon{
     width: 22px;
     right: 135px;
 }
+.chat-time-right p{
+    text-align: right;
+    margin-right: 20px;
+}
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -252,7 +256,7 @@ img.type-icon{
                                             <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing</p>
                                         </div>
                                         <div class="contact-meta">
-                                            <span class="float-right mb-25">4:14 PM</span>
+                                            <span class="float-right mb-25">14.11.23,17:35</span>
                                             <span class="badge badge-primary badge-pill float-right">3</span>
                                         </div>
                                     </div>
@@ -269,7 +273,7 @@ img.type-icon{
                                             <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing</p>
                                         </div>
                                         <div class="contact-meta">
-                                            <span class="float-right mb-25">9:09 AM</span>
+                                            <span class="float-right mb-25">14.11.23,11:35</span>
                                         </div>
                                     </div>
                                 </li>
@@ -455,6 +459,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>How can we help? We're here for you!</p>
                                                 </div>
+                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="chat chat-left">
@@ -471,6 +476,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>It should be Bootstrap 4 compatible.</p>
                                                 </div>
+                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="divider">
@@ -489,6 +495,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>Vuexy admin is the responsive bootstrap 4 admin template.</p>
                                                 </div>
+                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="chat chat-left">
@@ -507,6 +514,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>How can I purchase it?</p>
                                                 </div>
+                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="chat">
@@ -519,6 +527,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>Thanks, from ThemeForest.</p>
                                                 </div>
+                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="chat chat-left">
@@ -534,6 +543,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>Thanks.</p>
                                                 </div>
+                                                <!-- <div class="chat-time-left"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                         <div class="chat">
@@ -549,6 +559,7 @@ img.type-icon{
                                                 <div class="chat-content">
                                                     <p>https://pixinvent.ticksy.com/</p>
                                                 </div>
+                                                <!-- <div class="chat-time-right"><p>14.11.23,17:35</p></div> -->
                                             </div>
                                         </div>
                                     </div>
