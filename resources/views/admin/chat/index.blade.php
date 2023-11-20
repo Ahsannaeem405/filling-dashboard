@@ -2,6 +2,9 @@
 @section('title')
     <title>Admin</title>
 @endsection
+@section('chat')
+active
+@endsection
 @section('content')
 <style>
     /* .chat-application .sidebar-content{
@@ -66,19 +69,172 @@
         font-size: 16px;
         margin-right: 5px;
     }
+    /*  */
+    .account-btn1{
+        border:none;
+        outline:none;
+        color:white;
+        background: #27ce72;
+        border-radius:5px;
+        padding:6px;
+        font-size:11px;
+        width:93px;
+        margin-bottom:20px;
+    }
+    .account-btn2{
+        border:none;
+        outline:none;
+        color:white;
+        background: #7367f0;
+        border-radius:5px;
+        padding:6px;
+        font-size:11px;
+        width:85px;
+        margin-bottom:20px;
+    }
+    .chat-btn{
+        margin:10px 10px 10px;
+    }
+    .account-prof{
+        padding:0px !important;
+        background-color:transparent !important;
+    }
+    .account-prof p{
+        margin: 0;
+    font-size: 12px;
+    }
+    .fa-image:before {
+    content: "\f03e";
+    font-size: 20px;
+    color: #C2C6DC;
+}
+.type-icon {
+    position: absolute;
+    right: 3%;
+    top: 10px;
+}
+img.type-icon{
+    width: 22px;
+    right: 14%;
+}
+.chat-time-right p{
+    text-align: right;
+    margin-right: 60px;
+    margin-bottom: 30px;
+}
+.chat-time-left p{
+    text-align: left;
+    margin-left: 60px;
+    margin-bottom: 30px;
+}
+.send{
+    display: flex;
+    width: 25%;
+    padding: 5px !important;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="content-area-wrapper mt-0">
             <div class="AcountsDetail">
                 <h3>Accounts</h3>
+                <button class='account-btn1'>Neuen Account hinzufugen</button>
+                <button class='account-btn2'>Accounts aktualisieren</button>
                 <ul>
-                    <li class="list-style active" value="135524234"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">test@gmail.com</li>
+                    <li class="list-style active"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">
+                    <span class='account-prof'>
+                        <p>Spielzeugauto Wie</p>
+                        <p>75€ VB</p>
+
+                    </span>
+                </li>
                     <li class="list-style"><span>AH</span>test@gmail.com</li>
                 </ul>
             </div>
             <div class="sidebar-left">
                 <div class="sidebar">
+                    <!-- User Chat profile area -->
+                    {{-- <div class="chat-profile-sidebar">
+                        <header class="chat-profile-header">
+                            <span class="close-icon">
+                                <i class="feather icon-x"></i>
+                            </span>
+                            <div class="header-profile-sidebar">
+                                <div class="avatar">
+                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="user_avatar" height="70" width="70">
+                                    <span class="avatar-status-online avatar-status-lg"></span>
+                                </div>
+                                <h4 class="chat-user-name">John Doe</h4>
+                            </div>
+                        </header>
+                        <div class="profile-sidebar-area">
+                            <div class="scroll-area">
+                                <h6>About</h6>
+                                <div class="about-user">
+                                    <fieldset class="mb-0">
+                                        <textarea data-length="120" class="form-control char-textarea" id="textarea-counter" rows="5" placeholder="About User">Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.</textarea>
+                                    </fieldset>
+                                    <small class="counter-value float-right"><span class="char-count">108</span> / 120 </small>
+                                </div>
+                                <h6 class="mt-3">Status</h6>
+                                <ul class="list-unstyled user-status mb-0">
+                                    <li class="pb-50">
+                                        <fieldset>
+                                            <div class="vs-radio-con vs-radio-success">
+                                                <input type="radio" name="userStatus" value="online" checked="checked">
+                                                <span class="vs-radio">
+                                                    <span class="vs-radio--border"></span>
+                                                    <span class="vs-radio--circle"></span>
+                                                </span>
+                                                <span class="">Active</span>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="pb-50">
+                                        <fieldset>
+                                            <div class="vs-radio-con vs-radio-danger">
+                                                <input type="radio" name="userStatus" value="busy">
+                                                <span class="vs-radio">
+                                                    <span class="vs-radio--border"></span>
+                                                    <span class="vs-radio--circle"></span>
+                                                </span>
+                                                <span class="">Do Not Disturb</span>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="pb-50">
+                                        <fieldset>
+                                            <div class="vs-radio-con vs-radio-warning">
+                                                <input type="radio" name="userStatus" value="away">
+                                                <span class="vs-radio">
+                                                    <span class="vs-radio--border"></span>
+                                                    <span class="vs-radio--circle"></span>
+                                                </span>
+                                                <span class="">Away</span>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="pb-50">
+                                        <fieldset>
+                                            <div class="vs-radio-con vs-radio-secondary">
+                                                <input type="radio" name="userStatus" value="offline">
+                                                <span class="vs-radio">
+                                                    <span class="vs-radio--border"></span>
+                                                    <span class="vs-radio--circle"></span>
+                                                </span>
+                                                <span class="">Offline</span>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <!--/ User Chat profile area -->
+                    <!-- Chat Sidebar area -->
                     <div class="sidebar-content card">
                         <span class="sidebar-close-icon">
                             <i class="feather icon-x"></i>
@@ -101,28 +257,31 @@
                             </div>
                         </div>
                         <div id="users-list" class="chat-user-list list-group position-relative">
+                            <div style='display:flex; justify-content:space-between; align-items:center;'>
                             <h3 class="primary p-1 mb-0">Chats</h3>
-                            {{-- <ul class="chat-users-list-wrapper media-list">
+                            <button class='account-btn2 chat-btn'>Accounts aktualisieren</button>
+                            </div>
+                            <ul class="chat-users-list-wrapper media-list">
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-3.jpg') }}" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
                                     <div class="user-chat-info">
                                         <div class="contact-info">
-                                            <h5 class="font-weight-bold mb-0">Elizabeth Elliott</h5>
-                                            <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing</p>
+                                            <h5 class="font-weight-bold mb-0">Susanne Ackermann</h5>
+                                            <p class="truncate">Ich wurde gerne via</p>
                                         </div>
                                         <div class="contact-meta">
-                                            <span class="float-right mb-25">4:14 PM</span>
+                                            <span class="float-right mb-25">14.11.23,17:35</span>
                                             <span class="badge badge-primary badge-pill float-right">3</span>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -132,7 +291,7 @@
                                             <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing</p>
                                         </div>
                                         <div class="contact-meta">
-                                            <span class="float-right mb-25">9:09 AM</span>
+                                            <span class="float-right mb-25">14.11.23,11:35</span>
                                         </div>
                                     </div>
                                 </li>
@@ -145,7 +304,23 @@
                                     
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
+                                            <i></i>
+                                        </span>
+                                    </div>
+                                    <div class="user-chat-info">
+                                        <div class="contact-info">
+                                            <h5 class="font-weight-bold mb-0">Sarah Woods</h5>
+                                            <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing.</p>
+                                        </div>
+                                        <div class="contact-meta">
+                                            <span class="float-right mb-25"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="pr-1">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -161,7 +336,7 @@
                                 </li>
                                 {{-- <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-5.jpg') }}" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -282,9 +457,18 @@
                                                 <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="" height="40" width="40" />
                                                 <span class="avatar-status-busy"></span>
                                             </div>
-                                            <h6 class="mb-0">Felecia Rower</h6>
+                                            <!-- <h6 class="mb-0">Felecia Rower</h6> -->
+                                            <span class='account-prof'>
+                                                <h6 class="mb-0">Spielzeugauto Wie</h6>
+                                                <p>75€ VB</p>
+
+                                            </span>
                                         </div>
+                                       <div>
+                                        <span class="favorite"><i class="feather icon-home font-medium-5"></i></span>
                                         <span class="favorite"><i class="feather icon-star font-medium-5"></i></span>
+                                        <span class="favorite"><i class="feather icon-trash font-medium-5"></i></span>
+                                       </div>
                                     </header>
                                 </div>
                                 <div class="user-chats">
@@ -299,7 +483,9 @@
                                                 <div class="chat-content">
                                                     <p>How can we help? We're here for you!</p>
                                                 </div>
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
@@ -315,7 +501,9 @@
                                                 <div class="chat-content">
                                                     <p>It should be Bootstrap 4 compatible.</p>
                                                 </div>
+
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="divider">
                                             <div class="divider-text">Yesterday</div>
@@ -334,6 +522,7 @@
                                                     <p>Vuexy admin is the responsive bootstrap 4 admin template.</p>
                                                 </div>
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
@@ -352,6 +541,7 @@
                                                     <p>How can I purchase it?</p>
                                                 </div>
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat">
                                             <div class="chat-avatar">
@@ -363,7 +553,9 @@
                                                 <div class="chat-content">
                                                     <p>Thanks, from ThemeForest.</p>
                                                 </div>
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
@@ -378,7 +570,9 @@
                                                 <div class="chat-content">
                                                     <p>Thanks.</p>
                                                 </div>
+
                                             </div>
+                                            <div class="chat-time-left"><p>14.11.23,17:35</p></div>
                                         </div>
                                         <div class="chat">
                                             <div class="chat-avatar">
@@ -393,14 +587,20 @@
                                                 <div class="chat-content">
                                                     <p>https://pixinvent.ticksy.com/</p>
                                                 </div>
+
                                             </div>
+                                            <div class="chat-time-right"><p>14.11.23,17:35</p></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="chat-app-form">
-                                    <form class="chat-app-input d-flex" onsubmit="enter_chat();" action="javascript:void(0);">
-                                        <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
-                                        <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o d-lg-none"></i> <span class="d-none d-lg-block">Send</span></button>
+                                    <form class="chat-app-input d-flex justify-content-between position-relative" onsubmit="enter_chat();" action="javascript:void(0);">
+                                       <div class='position-relative'style='width: 70%;'>
+                                       <input type="text" class="form-control message mr-1 ml-50" id="iconLeft4-1" placeholder="Type your message">
+                                        <i class="type-icon fa fa-image"></i>
+                                        <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}" alt="user_avatar">
+                                       </div>
+                                        <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o"></i> <span class="">Senden</span></button>
                                     </form>
                                 </div>
                             </div> --}}
