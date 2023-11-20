@@ -1,7 +1,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-collapsed-menu-template/index.html">
+            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('dashboard') }}">
                     <div class="brand-logo"></div>
                     <h2 class="brand-text mb-0">Filling</h2>
                 </a></li>
@@ -11,12 +11,14 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a href="#"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
-            <li class=" nav-item"><a href="{{ url('chat') }}"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
-            <li class=" nav-item"><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
-            <li class=" nav-item"><a href="{{ url('userlist') }}"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
-            <li class=" nav-item"><a href="{{url('payment')}}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
+            <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
+            <li class="nav-item "><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            <li class="nav-item {{ Request::is('chat') ? 'active' : '' }}"><a href="{{ route('chat') }}"><i class="fa fa-television"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
+            <li class="nav-item "><a href="#"><i class="fa fa-commenting-o"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
+            @if(auth()->user()->role == 'admin')
+                <li class="nav-item {{ Request::is('user-list') ? 'active' : '' }}"><a href="{{ route('users.list') }}"><i class="fa fa-hourglass-half"></i><span class="menu-title" data-i18n="Calender">Einstellungen</span></a></li>
+                <li class="nav-item {{ Request::is('payment') ? 'active' : '' }}"><a href="{{ route('payment') }}"><i class="feather icon-circle"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
+            @endif
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                 <ul class="menu-content">
                     <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>

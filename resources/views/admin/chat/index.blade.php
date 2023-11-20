@@ -73,91 +73,12 @@
             <div class="AcountsDetail">
                 <h3>Accounts</h3>
                 <ul>
-                    <li class="list-style active"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">test@gmail.com</li>
+                    <li class="list-style active" value="135524234"><img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="">test@gmail.com</li>
                     <li class="list-style"><span>AH</span>test@gmail.com</li>
                 </ul>
             </div>
             <div class="sidebar-left">
                 <div class="sidebar">
-                    <!-- User Chat profile area -->
-                    {{-- <div class="chat-profile-sidebar">
-                        <header class="chat-profile-header">
-                            <span class="close-icon">
-                                <i class="feather icon-x"></i>
-                            </span>
-                            <div class="header-profile-sidebar">
-                                <div class="avatar">
-                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" height="70" width="70">
-                                    <span class="avatar-status-online avatar-status-lg"></span>
-                                </div>
-                                <h4 class="chat-user-name">John Doe</h4>
-                            </div>
-                        </header>
-                        <div class="profile-sidebar-area">
-                            <div class="scroll-area">
-                                <h6>About</h6>
-                                <div class="about-user">
-                                    <fieldset class="mb-0">
-                                        <textarea data-length="120" class="form-control char-textarea" id="textarea-counter" rows="5" placeholder="About User">Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.</textarea>
-                                    </fieldset>
-                                    <small class="counter-value float-right"><span class="char-count">108</span> / 120 </small>
-                                </div>
-                                <h6 class="mt-3">Status</h6>
-                                <ul class="list-unstyled user-status mb-0">
-                                    <li class="pb-50">
-                                        <fieldset>
-                                            <div class="vs-radio-con vs-radio-success">
-                                                <input type="radio" name="userStatus" value="online" checked="checked">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="">Active</span>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="pb-50">
-                                        <fieldset>
-                                            <div class="vs-radio-con vs-radio-danger">
-                                                <input type="radio" name="userStatus" value="busy">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="">Do Not Disturb</span>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="pb-50">
-                                        <fieldset>
-                                            <div class="vs-radio-con vs-radio-warning">
-                                                <input type="radio" name="userStatus" value="away">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="">Away</span>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="pb-50">
-                                        <fieldset>
-                                            <div class="vs-radio-con vs-radio-secondary">
-                                                <input type="radio" name="userStatus" value="offline">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="">Offline</span>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!--/ User Chat profile area -->
-                    <!-- Chat Sidebar area -->
                     <div class="sidebar-content card">
                         <span class="sidebar-close-icon">
                             <i class="feather icon-x"></i>
@@ -166,7 +87,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="sidebar-profile-toggle position-relative d-inline-flex">
                                     <div class="avatar">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" height="40" width="40">
+                                        <img src="{{ asset('app-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="user_avatar" height="40" width="40">
                                         <span class="avatar-status-online"></span>
                                     </div>
                                     <div class="bullet-success bullet-sm position-absolute"></div>
@@ -181,10 +102,10 @@
                         </div>
                         <div id="users-list" class="chat-user-list list-group position-relative">
                             <h3 class="primary p-1 mb-0">Chats</h3>
-                            <ul class="chat-users-list-wrapper media-list">
+                            {{-- <ul class="chat-users-list-wrapper media-list">
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-3.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -201,7 +122,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -216,27 +137,15 @@
                                     </div>
                                 </li>
                             </ul>
-                            <h3 class="primary p-1 mb-0">Contacts</h3>
+                            <h3 class="primary p-1 mb-0">Contacts</h3> --}}
                             <ul class="chat-users-list-wrapper media-list">
+                                
+                                
+                                
+                                    
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" height="42" width="42" alt="Generic placeholder image">
-                                            <i></i>
-                                        </span>
-                                    </div>
-                                    <div class="user-chat-info">
-                                        <div class="contact-info">
-                                            <h5 class="font-weight-bold mb-0">Sarah Woods</h5>
-                                            <p class="truncate">Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing.</p>
-                                        </div>
-                                        <div class="contact-meta">
-                                            <span class="float-right mb-25"></span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -250,9 +159,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-5.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-5.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -268,7 +177,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-9.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-9.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -284,7 +193,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -300,7 +209,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-14.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -316,7 +225,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-3.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -332,7 +241,7 @@
                                 </li>
                                 <li>
                                     <div class="pr-1">
-                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image">
+                                        <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" height="42" width="42" alt="Generic placeholder image">
                                             <i></i>
                                         </span>
                                     </div>
@@ -345,7 +254,7 @@
                                             <span class="float-right mb-25"></span>
                                         </div>
                                     </div>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
@@ -364,13 +273,13 @@
                                 <span class="mb-1 start-chat-icon feather icon-message-square"></span>
                                 <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4>
                             </div>
-                            <div class="active-chat d-none">
+                            {{-- <div class="active-chat d-none">
                                 <div class="chat_navbar">
                                     <header class="chat_header d-flex justify-content-between align-items-center p-1">
                                         <div class="vs-con-items d-flex align-items-center">
                                             <div class="sidebar-toggle d-block d-lg-none mr-1"><i class="feather icon-menu font-large-1"></i></div>
                                             <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="" height="40" width="40" />
+                                                <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="" height="40" width="40" />
                                                 <span class="avatar-status-busy"></span>
                                             </div>
                                             <h6 class="mb-0">Felecia Rower</h6>
@@ -383,7 +292,7 @@
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -395,7 +304,7 @@
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -414,7 +323,7 @@
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -429,7 +338,7 @@
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -447,7 +356,7 @@
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -459,7 +368,7 @@
                                         <div class="chat chat-left">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -474,7 +383,7 @@
                                         <div class="chat">
                                             <div class="chat-avatar">
                                                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="avatar" height="40" width="40" />
+                                                    <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="avatar" height="40" width="40" />
                                                 </a>
                                             </div>
                                             <div class="chat-body">
@@ -494,7 +403,7 @@
                                         <button type="button" class="btn btn-primary send" onclick="enter_chat();"><i class="fa fa-paper-plane-o d-lg-none"></i> <span class="d-none d-lg-block">Send</span></button>
                                     </form>
                                 </div>
-                            </div>
+                            </div> --}}
                         </section>
                         <!-- User Chat profile right area -->
                         <div class="user-profile-sidebar">
@@ -504,7 +413,7 @@
                                 </span>
                                 <div class="header-profile-sidebar">
                                     <div class="avatar">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="user_avatar" height="70" width="70">
+                                        <img src="{{ asset('app-assets/images/portrait/small/avatar-s-1.jpg') }}" alt="user_avatar" height="70" width="70">
                                         <span class="avatar-status-busy avatar-status-lg"></span>
                                     </div>
                                     <h4 class="chat-user-name">Felecia Rower</h4>
@@ -522,4 +431,47 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.list-style.active').on('click',function(){
+            var val = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route('conversation') }}',
+                data: {
+                    user_id: val
+                },
+                success: function(response) {
+                    $('.media-list').empty().append(response.component);
+                    console.log(response.component);
+                },
+                error: function(error) {
+                    // Handle errors if the AJAX request fails
+                    console.error(error);
+                }
+            });
+        });
+
+        $(document).on('click','.messages', function(){
+            var val = $(this).attr('data-id');
+            $.ajax({
+                type: 'get',
+                url: '{{ route('messages') }}',
+                data: {
+                    user_id: val
+                },
+                success: function(response) {
+                    $('.chat-app-window').empty().append(response.component);
+                    console.log(response.component);
+                },
+                error: function(error) {
+                    // Handle errors if the AJAX request fails
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 @endsection
