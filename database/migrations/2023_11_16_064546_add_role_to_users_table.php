@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('role')->after('email')->nullable();
             $table->text('status')->after('email')->nullable();
             $table->text('image')->after('email')->nullable();
+            $table->bigInteger('limit')->after('email')->nullable();
         });
     }
 

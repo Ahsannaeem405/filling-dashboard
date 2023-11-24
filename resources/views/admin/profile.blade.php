@@ -14,6 +14,9 @@
         margin-top: -28px;
         margin-right: 18px;
     }
+    .invalid-feedback{
+        color: rgb(199, 41, 41) !important;
+    }
 </style>
 <div class="content-header row"></div>
 <div class="content-body">
@@ -67,15 +70,19 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="newpassword_confirmation">Confirm Password</label>
-                                        <input id="newpassword_confirmation" type="password" class="form-control" name="newpassword_confirmation" autocomplete="new-password">
+                                        <input id="newpassword_confirmation" type="password" class="form-control @error('newpassword_confirmation') is-invalid @enderror" name="newpassword_confirmation" autocomplete="new-password">
                                         <span toggle="#newpassword_confirmation" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                        <div style="color: red;">  {{ $errors->passw_val->first('newpassword_confirmation') }}</div>
+                                        @error('newpassword_confirmation')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="profile_image">Profile Image</label>
-                                        <input type="file" id="profile_image"  name="profile_image" onchange="showImagePreview()">
+                                        <input type="file" id="profile_image"  name="profile_image" accept="image/*" onchange="showImagePreview()">
                                     </div>
                                 </div>
                                 <div class="col-12">

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
+use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class ChatsController extends Controller
@@ -12,77 +15,104 @@ class ChatsController extends Controller
     
     public function index()
     {
-        return view('admin.chat.index');
+        if(Auth::user()->role === 'user'){
+            $accounts = Account::where('buy_id',Auth::user()->id)->get();
+        }else{
+            $accounts = Account::all();
+        }
+        return view('admin.chat.index',compact('accounts'));
+    }
+
+    private function refreshAccessToken($refreshToken,$domain)
+    {
+        $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+            'refreshToken' => $refreshToken,
+        ]);
+        return [
+            'accessToken' => $response['accessToken'],
+        ];
     }
 
     public function Conversation(Request $request)
     {
-        $response = Http::withHeaders(['User-Agent' => ''])->withToken("eyJhbGciOiJSUzI1NiIsImtpZCI6ImRlLWViYXlrLXNpZy0yMDIxLTEwLTA4VDA0OjUxOjExLjIyMzYyOVoifQ.eyJpc3MiOiJodHRwczovL2lkLmViYXkta2xlaW5hbnplaWdlbi5kZS9vaWRjIiwianRpIjoiVEdULTE0MzU1NC00TkVjZEcxNlZGR28tMGVIQVJqVTR0YW1MQzBxRDNYaElrN3BGV2xKeVlmYzhCTlROVHNBaXNnRThnM0VyUVd3aVU4LWNpcy1hdXRoLTZkNWQ3ZmNkOWItZzl6NHE7QVQtMTE3NTM4OTQtdk9qbU9NVmhLYXF4MlpCaFFXbFpZSWhRMEgtNlZOYU0iLCJpYXQiOjE3MDA0NjI0OTUsImV4cCI6MTcwMDQ2NDI5NSwic3ViIjoiNjc2Y2FiNTEtODkzNy00OTcwLThiYWQtNTJjMmIyYjA2YzQ1IiwiYXpwIjoiZWJheWtfYXBpX2hWSGY2RnR0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSB1cm46ZWJheS1rbGVpbmFuemVpZ2VuOnVzZXIiLCJlY2c6aWQ6YmxvY2tlZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6IjEzNTUyNDIzNCJ9.eOAxVwtDTdJ-Mnkcz4dT7xMNx2-7eek-qxgPKTuSzrySN0wpW5RwZphSLDU5a7BcwV0zTZtJ7msc8-ALxZevK3JOg_wpQtxvRxyIOSPprPla7EPWP3XMmc2HDyn1tkSPMZw-QRqS6bG0b6iN1phayWh6l80Na31x3F6D8_JxYJHBHIULD9LSnq-5Y4HhAMoxXxBy2DAE8cazlGvSJq-RzR5Xxl85vsGr-8lOAbQSUL1UtGfwkjJKLKHyNdcY2lJdEz9552iOelZduFP8sK7N5ZZCwPZBn2tsLUOwCZsNfgt4zcO_KGp4ZuXDh-OiY4kk2ebt1hHYhZW0xVw-gTCmZw")
-            ->get("https://gateway.kleinanzeigen.de/messagebox/api/users/135524234/conversations?size=100000000");
-        $data = $response->json();
+        $url = Setting::first();
+        $domain = $url->site_url;
+
+        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
+        $refreshToken = $request->refreshToken;
+
+        $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations?size=100000000");
 
         return response()->json([
-            'component' => view('admin.chat.conversation',compact('data'))->render(),
+            'component' => view('admin.chat.conversation',compact('data','refreshToken'))->render(),
         ]);
     }
 
     public function ConversationMessages(Request $request)
     {
+        $url = Setting::first();
+        $domain = $url->site_url;
+        
+        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
+        $refreshToken = $request->refreshToken;
+        $conv_id = $request->conv_id;
+        $user_id = $request->user_id;
 
-        $response = Http::withHeaders(['User-Agent' => ''])->withToken("eyJhbGciOiJSUzI1NiIsImtpZCI6ImRlLWViYXlrLXNpZy0yMDIxLTEwLTA4VDA0OjUxOjExLjIyMzYyOVoifQ.eyJpc3MiOiJodHRwczovL2lkLmViYXkta2xlaW5hbnplaWdlbi5kZS9vaWRjIiwianRpIjoiVEdULTE0MzU1NC00TkVjZEcxNlZGR28tMGVIQVJqVTR0YW1MQzBxRDNYaElrN3BGV2xKeVlmYzhCTlROVHNBaXNnRThnM0VyUVd3aVU4LWNpcy1hdXRoLTZkNWQ3ZmNkOWItZzl6NHE7QVQtMTE3NTM4OTQtdk9qbU9NVmhLYXF4MlpCaFFXbFpZSWhRMEgtNlZOYU0iLCJpYXQiOjE3MDA0NjI0OTUsImV4cCI6MTcwMDQ2NDI5NSwic3ViIjoiNjc2Y2FiNTEtODkzNy00OTcwLThiYWQtNTJjMmIyYjA2YzQ1IiwiYXpwIjoiZWJheWtfYXBpX2hWSGY2RnR0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSB1cm46ZWJheS1rbGVpbmFuemVpZ2VuOnVzZXIiLCJlY2c6aWQ6YmxvY2tlZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6IjEzNTUyNDIzNCJ9.eOAxVwtDTdJ-Mnkcz4dT7xMNx2-7eek-qxgPKTuSzrySN0wpW5RwZphSLDU5a7BcwV0zTZtJ7msc8-ALxZevK3JOg_wpQtxvRxyIOSPprPla7EPWP3XMmc2HDyn1tkSPMZw-QRqS6bG0b6iN1phayWh6l80Na31x3F6D8_JxYJHBHIULD9LSnq-5Y4HhAMoxXxBy2DAE8cazlGvSJq-RzR5Xxl85vsGr-8lOAbQSUL1UtGfwkjJKLKHyNdcY2lJdEz9552iOelZduFP8sK7N5ZZCwPZBn2tsLUOwCZsNfgt4zcO_KGp4ZuXDh-OiY4kk2ebt1hHYhZW0xVw-gTCmZw")
-            ->get("https://gateway.kleinanzeigen.de/messagebox/api/users/135524234/conversations/18hj:4nw4mf2:2kpwwbctl");
-        $data = $response->json();
+        $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
+        $name = $data['buyerName'];
+        $logo = $data['buyerInitials'];
 
         return response()->json([
-            'component' => view('admin.chat.messages',compact('data'))->render(),
+            'component' => view('admin.chat.messages',compact('data','refreshToken'))->render(),
+            'name' => $name,
+            'logo' => $logo,
+            'conv_id' => $conv_id,
+            'user_id' => $user_id,
+            'refreshToken' => $refreshToken
+
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function SendMessages(Request $request)
     {
-        //
+        $url = Setting::first();
+        $domain = $url->site_url;
+        
+        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
+
+        Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            ->post("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}?warnBankDetails=1&warnEmail=1&warnPhoneNumber=1",
+            [
+                'message' => $request->message,
+        ]);
+
+        return response()->json([
+            'success' => 'Message Send Successfully',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function AssignAccount(Request $request)
     {
-        //
-    }
+        $limit = Auth::user()->limit;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $count = Account::where('buy_id',Auth::user()->id)->where('buy_date',today())->count();
+        
+        if($count >= $limit){
+            return back()->with('error','Accounts limit are reached!');
+        }else{
+            $account = Account::whereNull('buy_id')->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            if($account){
+                $account->buy_id = Auth::user()->id;
+                $account->buy_date = now()->toDateString();;
+                $account->save();
+                return back()->with('success','Account assign Successfully');
+            }else{
+                return back()->with('error','Accounts are not available!');
+            }
+        }
+        
     }
 }

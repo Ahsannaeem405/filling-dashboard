@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -12,7 +15,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        if(Auth::user()->role === 'user'){
+            $count = Account::where('buy_id',Auth::user()->id)->count();
+        }else{
+            $count = Account::all()->count();
+        }
+        
+        $users = User::whereNot('id',Auth::user()->id)->whereNot('role','admin')->latest()->take(5)->get();
+        return view('admin.index',compact('count','users'));
     }
 
     /**

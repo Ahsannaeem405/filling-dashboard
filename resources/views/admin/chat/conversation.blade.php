@@ -1,10 +1,23 @@
+<style>
+    .initials{
+        background-color: #8a82dd75;
+        padding: 11px 15px;
+        border-radius: 50%;
+        color: #7367f0;
+        font-weight: 700;
+        width: 40px;
+        font-size: 16px;
+        height: 40px;
+        margin-right: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }  
+</style>
 @foreach ($data['conversations'] as $data)
-    <li class="messages" data-id="{{ $data['userIdBuyer'] }}">
+    <li class="messages" data-user-id="{{ $data['userIdSeller'] }}" data-refresh-token="{{ $refreshToken }}" data-conv-id="{{ $data['id'] }}">
         <div class="pr-1">
-            <span class="avatar m-0 avatar-md"><img class="media-object rounded-circle" src="{{ $data['adImage'] }}"
-                    height="42" width="42" alt="Generic placeholder image">
-                <i></i>
-            </span>
+            <span class="initials">{{ $data['sellerInitials'] }}</span>
         </div>
         <div class="user-chat-info">
             <div class="contact-info">

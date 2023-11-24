@@ -24,22 +24,33 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.user.edit',compact('user'));
+        return view('admin.user.edit', compact('user'));
     }
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $user = User::find($id);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'status' => 'required',
+            'limit' => 'required|numeric|min:0',
+        ]);
+    
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->status = $request->status;
+        $user->limit = $request->limit;
         $user->save();
 
-        return back()->with('success','User Updated Successfully.');
+        return redirect()->route('users.list')->with('success', 'User Updated Successfully.');
     }
     public function delete($id)
     {
         User::find($id)->delete();
-        return back()->with('success','User Deleted Successfully.');
+        return back()->with('success', 'User Deleted Successfully.');
     }
     public function EditProfile()
     {
@@ -52,22 +63,14 @@ class UserController extends Controller
 
         $validatedData = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required', 'string', 'email', 'max:255',
+            'email' => 'required|string|email|max:255',
         ]);
 
         if ($validatedData->fails()) {
-              return back()
-                    ->withErrors($validatedData,'passw_val')
-                    ->withInput();
+            return back()
+                ->withErrors($validatedData, 'passw_val')
+                ->withInput();
         }
-        if ($request->oldpassword !== null) {
-            $request->validate([
-                'oldpassword' => 'min:8',
-                'newpassword' => 'min:8|different:oldpassword',
-                'newpassword_confirmation' => 'same:newpassword'
-            ]);
-        }
-
         if ($request->hasFile('profile_image')) {
             $file = $request->file('profile_image');
             $fileName = $file->getClientOriginalName();
@@ -79,36 +82,39 @@ class UserController extends Controller
             $fileName = $user->image;
 
         }
+        if ($request->oldpassword !== null) {
+            $request->validate([
+                'oldpassword' => 'min:8',
+                'newpassword' => 'min:8|different:oldpassword',
+                'newpassword_confirmation' => 'required|same:newpassword'
+            ]);
 
-        if ($request->oldpassword != null) {
-            if (Hash::check($request->oldpassword, $user->password)) {
-                if (Hash::check($request->newpassword, $user->password)) {
-                    return back()->with('error', 'New password must be different from the current password.');
+            if (password_verify($request->oldpassword, $user->password)) {
+                
+                if ($request->input('newpassword') !== $request->input('newpassword_confirmation')) {
+                    return back()->with('error', 'New password and confirmation password do not match.');
                 }
-                $user->name = $request->input('name');
-                $user->email = $request->input('email');
-                if ($request->filled('newpassword')) {
-                    $user->password = bcrypt($request->input('newpassword'));
-                }
-                $user->image = $fileName;
-                $user->update();
-                return back()->with('success', 'Profile and password updated successfully.');
-            }
-            else{
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => bcrypt($request->input('newpassword')),
+                    'image' => $fileName,
+                ]);
+
+                return back()->with('success', 'Profile and password updated.');
+            } else {
                 return back()->with('error', 'Old password does not match.');
             }
-        } else if($request->newpassword != null)
-        {
+        } elseif ($request->newpassword !== null) {
             return back()->with('error', 'Enter old password to change password.');
-        } else
-        {
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->image = $fileName;
-            $user->update();
+        } else {
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'image' => $fileName,
+            ]);
+
             return back()->with('success', 'Profile updated successfully');
         }
-    
     }
-    
 }

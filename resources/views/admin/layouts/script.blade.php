@@ -3,6 +3,8 @@
 <!-- BEGIN Vendor JS-->
 <script src="{{ asset('app-assets/js/scripts/pages/app-chat.js') }}"></script>
 <!-- BEGIN: Theme JS-->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script src="{{asset('app-assets/js/core/app-menu.js')}}"></script>
 <script src="{{asset('app-assets/js/core/app.js')}}"></script>
 <script src="{{asset('app-assets/js/scripts/components.js')}}"></script>
@@ -34,6 +36,10 @@
         background-color: #4CAF50; 
         color: #ffffff; 
     }
+    .custom-warning-toast {
+        background-color: rgb(163, 23, 23); 
+        color: #ffffff; 
+    }
 </style>
 @if (session('toast_error'))
     <script>
@@ -58,7 +64,7 @@
         toastr.success("{{ Session::get('success') }}");
     @endif
     @if (Session::has('error'))
-        toastr.error("{{ Session::get('error') }}");
+        toastr.error("{{ Session::get('error') }}",'',{toastClass: 'custom-warning-toast'});
     @endif
 </script>
 
@@ -76,6 +82,22 @@
                 if (result.isConfirmed) {
                     // If the user confirms the deletion, submit the form
                     document.getElementById('delete-form-' + userId).submit();
+                }
+            });
+        }
+        function deleteAccount(accountId) {
+            Swal.fire({
+                title: 'Delete Account',
+                text: 'Are you sure you want to delete this account?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms the deletion, submit the form
+                    document.getElementById('delete-form-' + accountId).submit();
                 }
             });
         }
@@ -106,7 +128,6 @@
                 currentImage.src = e.target.result;
                 imageNameDisplay.textContent = imageInput.files[0].name;
             };
-
 
             reader.readAsDataURL(imageInput.files[0]);
         }
