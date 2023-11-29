@@ -22,8 +22,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 Auth::routes();
+Route::get('/custom',function(){
+    return view('custom');
+});
 
-Route::middleware(['auth','user'])->group(function (){
+Route::middleware(['auth'])->group(function (){
 
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 

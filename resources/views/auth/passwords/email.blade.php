@@ -219,7 +219,7 @@
                                                 Melde dich bitte mit deinem Telegram Konto, dass du bei der
                                                 Registrierung angegeben hast, bei
                                                 @NULLZFINLLING</p>
-                                                <form method="POST" action="{{ route('password.email') }}">
+                                                {{-- <form method="POST" action="{{ route('password.email') }}">
                                                     @csrf
                                                     <div class="form-label-group">
                                                         <label for="email">Benutzeremail</label>
@@ -240,7 +240,7 @@
                                                         </div>
                                                     </div>
                                                     <button type="submit" class="submit-form">Schicken</button>
-                                                </form>   
+                                                </form>    --}}
                                                 <div style='text-align:center;'><a href="{{ route('login') }}"><span
                                                         style='font-size:20px;'>
                                                         < Zuruck zum Login</a></div>

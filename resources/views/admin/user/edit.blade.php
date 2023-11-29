@@ -34,9 +34,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="email-id-vertical">Email</label>
-                                        <input type="email" id="email-id-vertical" class="form-control @error('email') is-invalid @enderror" value="{{ old('email',$user->email) }}" name="email" placeholder="Email">
-                                        @error('email')
+                                        <label for="telegram-id-vertical">Telegram</label>
+                                        <input type="text" id="telegram-id-vertical" class="form-control @error('telegram') is-invalid @enderror" value="{{ old('telegram',$user->telegram) }}" name="telegram" placeholder="Telegram">
+                                        @error('telegram')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -48,6 +48,17 @@
                                         <label for="limit">Account Limit</label>
                                         <input type="text" min="0" maxlength="3" pattern="[0-9]{1,3}" id="limit" class="form-control @error('limit') is-invalid @enderror" value="{{ old('limit',$user->limit) }}" name="limit" placeholder="Set accounts limit in number">
                                         @error('limit')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="rank">Set Rank</label>
+                                        <input type="text" min="0"  id="rank" class="form-control @error('rank') is-invalid @enderror" value="{{ old('rank',$user->rank) }}" name="rank" placeholder="Rank of user">
+                                        @error('rank')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

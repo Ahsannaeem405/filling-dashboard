@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.0/css/boxicons.min.css">
     <link rel="stylesheet" href="{{ asset('app-assets/css/fonts.css') }}" type="text/css">
+    {{-- Emoji Picker --}}
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css"/>
     
     <style>
         .tippy-popper{

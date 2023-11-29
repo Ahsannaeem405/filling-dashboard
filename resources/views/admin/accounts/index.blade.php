@@ -301,6 +301,12 @@
         .bottom{
             margin-top: 10px;
         }
+        th.sorting:before{
+            margin-left: -10px !important
+        }
+        th.sorting:after{
+            margin-left: -10px !important
+        }
     </style>
     <div class="content-header row"></div>
     <div class="datatable-wraper">

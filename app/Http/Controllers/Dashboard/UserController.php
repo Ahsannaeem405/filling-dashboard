@@ -31,8 +31,9 @@ class UserController extends Controller
         $user = User::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'telegram' => 'required|string|max:255',
             'status' => 'required',
+            // 'rank' => 'required',
             'limit' => 'required|numeric|min:0',
         ]);
     
@@ -40,9 +41,10 @@ class UserController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->telegram = $request->telegram;
         $user->status = $request->status;
         $user->limit = $request->limit;
+        $user->rank = $request->rank;
         $user->save();
 
         return redirect()->route('users.list')->with('success', 'User Updated Successfully.');
@@ -59,8 +61,7 @@ class UserController extends Controller
     }
     public function UpdateProfile(Request $request)
     {
-        $user = Auth::user();
-
+        $user = User::find(Auth::user()->id);
         $validatedData = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
@@ -94,12 +95,12 @@ class UserController extends Controller
                 if ($request->input('newpassword') !== $request->input('newpassword_confirmation')) {
                     return back()->with('error', 'New password and confirmation password do not match.');
                 }
-                $user->update([
-                    'name' => $request->input('name'),
-                    'email' => $request->input('email'),
-                    'password' => bcrypt($request->input('newpassword')),
-                    'image' => $fileName,
-                ]);
+                
+                $user->name = $request->input('name');
+                $user->email = $request->input('email');
+                $user->password = bcrypt($request->input('newpassword'));
+                $user->image = $fileName;
+                $user->save();
 
                 return back()->with('success', 'Profile and password updated.');
             } else {
@@ -108,11 +109,10 @@ class UserController extends Controller
         } elseif ($request->newpassword !== null) {
             return back()->with('error', 'Enter old password to change password.');
         } else {
-            $user->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'image' => $fileName,
-            ]);
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->image = $fileName;
+            $user->save();
 
             return back()->with('success', 'Profile updated successfully');
         }

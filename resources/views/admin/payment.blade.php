@@ -289,6 +289,12 @@
         .bottom{
             margin-top: 10px;
         }
+        th.sorting:before{
+            margin-left: -10px !important
+        }
+        th.sorting:after{
+            margin-left: -10px !important
+        }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -340,10 +346,10 @@
         </div>
         <div class="datatable-wraper">
             <div class='status-select'>
-                <select class='status-selection'>
+                <select class='status-selection' id="statusFilter">
                     <option selected>Select Status</option>
-                    <option value="1">Active</option>
-                    <option value="2">pending</option>
+                    <option value="paid">Active</option>
+                    <option value="not-paid">Pending</option>
                 </select>
             </div>
             <table id="example" class="display nowrap" style="width:100%">
@@ -480,6 +486,21 @@
                         { targets: [0], orderable: false } 
                     ],
                     order: []
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#statusFilter').change(function () {
+                        var selectedStatus = $(this).val().toLowerCase();
+
+                        $('.user-row').hide();
+            
+                        if (selectedStatus === 'select status') {
+                            $('.user-row').show();
+                        } else {
+                            $('.user-row[data-status="' + selectedStatus + '"]').show();
+                        }
+                    });
                 });
             </script>
         </div>

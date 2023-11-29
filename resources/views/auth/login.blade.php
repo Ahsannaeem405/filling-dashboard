@@ -247,20 +247,16 @@
                                                     <form method="POST" action="{{ route('login') }}">
                                                         @csrf
                                                         <div class="form-label-group">
-                                                            <label for="email">Benutzeremail</label>
-                                                            <input id="email" type="email"
-                                                                class="form-control 
-                                                                @error('email') is-invalid @enderror"
-                                                                name="email" value="{{ old('email') }}" required
-                                                                autocomplete="email" autofocus>
-                                                            @error('email')
+                                                            <label for="name">Benutzername</label>
+                                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                                                   name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                            @error('name')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
                                                             @enderror
-                                                            <div class="form-control-position">
-                                                            </div>
                                                         </div>
+                                                        
                                                         <div class="form-label-group">
                                                             <div
                                                                 style='display:flex;justify-content:space-between;align-items:center;'>

@@ -228,8 +228,10 @@
                                                             alt="">NullzFilling</h4>
                                                 </div>
                                             </div>
-                                            
-                                            <h3 style='margin:0;color:white;'>Jage die Millionen </h3>
+                                            <div style="display: flex">
+                                                <h3 style='margin:0;color:white;'>Jage die Millionen</h3> &nbsp;
+                                                <img class="mt-2" src="{{ asset('app-assets/images/icons/rocket.png') }}" width="30px" alt="">
+                                            </div>
                                             <p class="login-para">
                                                 Registriere dich und fange sofort an zu fillen!</p>
                                             <div class="">
@@ -249,9 +251,9 @@
 
                                                         </div>
                                                         <div class="form-label-group">
-                                                            <label for="user-name">Benutzeremail</label>
-                                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-                                                            @error('email')
+                                                            <label for="user-name">Telegram</label>
+                                                            <input id="telegram" type="text" class="form-control @error('telegram') is-invalid @enderror" name="telegram" value="{{ old('telegram') }}" required autocomplete="telegram">
+                                                            @error('telegram')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -272,15 +274,6 @@
                                                                 <div class="form-control-position pass-icon">
                                                                     <i toggle="#password" class="fa fa-eye-slash toggle-password"></i>
                                                                 </div>
-
-                                                        </div>
-
-                                                        <div class="form-label-group">
-                                                            <label for="user-password">BestätigenPasswort</label>
-                                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                                            <div class="form-control-position pass-icon">
-                                                                <i toggle="#password-confirm" class="fa fa-eye-slash toggle-password"></i>
-                                                            </div>
 
                                                         </div>
 

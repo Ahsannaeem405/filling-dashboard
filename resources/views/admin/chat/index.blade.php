@@ -7,32 +7,40 @@
 @endsection
 @section('content')
     <style>
-        .chat-application .sidebar-content{
-            height: calc(var(--vh, 1vh) * 100 - 8rem) !important; 
+        .chat-application .sidebar-content {
+            height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
         }
-        .chat-application .chat-app-window .start-chat-area{
-            height: calc(var(--vh, 1vh) * 100 - 8rem) !important; 
-        } 
-        .chat-application .chat-app-window .user-chats{
+
+        .chat-application .chat-app-window .start-chat-area {
+            height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
+        }
+
+        .chat-application .chat-app-window .user-chats {
             height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
         }
+
         html body .content.app-content .content-area-wrapper {
             height: calc(100% - 0rem);
         }
+
         .scrol-custom::-webkit-scrollbar {
-            width: 6px; 
+            width: 6px;
         }
+
         .scrol-custom::-webkit-scrollbar-track {
-            background-color: transparent; 
+            background-color: transparent;
         }
+
         .scrol-custom::-webkit-scrollbar-thumb {
-            background-color: #999; 
+            background-color: #999;
             border-radius: 8px;
         }
-        .scrol-custom{
+
+        .scrol-custom {
             height: calc(var(--vh, 1vh) * 100 - 13rem);
             overflow: auto;
         }
+
         .AcountsDetail {
             width: 40%;
             background-color: #262c49;
@@ -86,9 +94,11 @@
             align-items: center;
             justify-content: center;
         }
-        .list-style{
+
+        .list-style {
             cursor: pointer;
         }
+
         /*  */
         .account-btn1 {
             border: none;
@@ -165,7 +175,8 @@
             justify-content: center;
             gap: 5px;
         }
-        .initials{
+
+        .initials {
             background-color: #8a82dd75;
             padding: 11px;
             border-radius: 50%;
@@ -173,34 +184,79 @@
             font-weight: 700;
             font-size: 16px;
             margin-right: 0px;
-        } 
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .message-box {
+            position: absolute;
+            background-color: #10163A;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%; 
+            max-width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+            right: 20px;
+        }
+        .message-box p{
+            margin: 0 !important;
+        }
+        body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu{
+            z-index: 1050;
+        }
+        body.dark-layout .header-navbar{
+            z-index: 1000;
+        }
     </style>
+    @if (Auth::user()->status == 'in-active')
+        <div class="overlay">
+            <div class="message-box">
+                <p>Dein Konto wurde noch nicht freigegeben.</p>
+                <p>Bitte Gedulde dich etwas!</p>
+            </div>
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="content-area-wrapper mt-0">
                 <div class="AcountsDetail">
                     <h3>Accounts</h3>
                     @if (Auth::user()->role == 'user')
-                        <a href="{{ route('assign') }}"> <button class='account-btn1'>Neuen Account hinzufugen</button></a>
+                        <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
                         <button class='account-btn2'>Accounts aktualisieren</button>
                     @endif
                     <div class="scrol-custom">
                         <ul>
-                            @if(isset($accounts))
+                            @if (isset($accounts))
                                 @foreach ($accounts as $account)
-                                    <li class="list-style" data-refresh="{{ $account->refreshToken }}" data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
-                                        <span class="initials mr-1">{!! strtoupper(substr($account->description,0,2))  !!}</span>
+                                    <li class="list-style" data-refresh="{{ $account->refreshToken }}"
+                                        data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
+                                        <span class="initials mr-1">{!! strtoupper(substr($account->description, 0, 2)) !!}</span>
                                         <?php
-                                            $string = $account->description;
-                                            $parts = explode(':', $string);
-                                            $email = $parts[0]; 
+                                        $string = $account->description;
+                                        $parts = explode(':', $string);
+                                        $email = $parts[0];
                                         ?>
                                         {{ $email }}
                                     </li>
                                 @endforeach
                             @endif
                         </ul>
-                    </div>                        
+                    </div>
                 </div>
                 <div class="sidebar-left">
                     <div class="sidebar">
@@ -213,7 +269,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="sidebar-profile-toggle position-relative d-inline-flex">
                                         <div class=" profile-avatar">
-                                
+
                                         </div>
                                         <div class="bullet-success bullet-sm position-absolute"></div>
                                     </div>
@@ -232,7 +288,7 @@
                                     <button class='account-btn2 chat-btn'>Accounts aktualisieren</button>
                                 </div>
                                 <ul class="chat-users-list-wrapper media-list">
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -252,8 +308,8 @@
                                     <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4>
                                 </div>
                                 <div class="active-chat">
-                                
-                                </div> 
+
+                                </div>
                             </section>
                             <!-- User Chat profile right area -->
                             <div class="user-profile-sidebar">
@@ -269,7 +325,7 @@
                                     </div>
                                 </header>
                                 <div class="user-profile-sidebar-area p-2">
-                                    
+
                                 </div>
                             </div>
                             <!--/ User Chat profile right area -->
@@ -281,6 +337,52 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var addAccountBtn = $('#addAccountBtn');
+            var isClickable = true;
+
+            addAccountBtn.on('click', function() {
+                if (isClickable) {
+                    // Send an AJAX request to hit the route
+                    $.ajax({
+                        url: '{{ route('assign') }}',
+                        type: 'GET',
+                        success: function(data) {
+                            $('.scrol-custom').empty().append(data.component);
+                            console.log(data);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        },
+                    });
+
+                    // Start the cooldown timer
+                    startCooldownTimer(60, addAccountBtn);
+
+                    // Prevent multiple clicks during the cooldown
+                    isClickable = false;
+                }
+            });
+
+            function startCooldownTimer(seconds, button) {
+                var countdown = seconds;
+
+                var timer = setInterval(function() {
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        button.text('Neuen Account hinzufügen');
+                        isClickable = true; // Enable the button after cooldown
+                    } else {
+                        button.text('Warte auf neues Konto ' + countdown + 's');
+                    }
+
+                    countdown--;
+                }, 1000);
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('.list-style').on('click', function() {
@@ -288,7 +390,7 @@
                 var refreshToken = $(this).attr('data-refresh');
                 var id = $(this).attr('data-id');
                 var user_id = $(this).attr('data-user-id');
-                
+
                 $.ajax({
                     type: 'get',
                     url: '{{ route('conversation') }}',
@@ -334,7 +436,7 @@
                         $('.start-chat-area').attr('data-refresh-token', response.refreshToken);
                     },
                     error: function(error) {
-                        
+
                         console.error(error);
                     }
                 });

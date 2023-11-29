@@ -222,22 +222,72 @@
             font-size: 12px;
             text-align: center;
         }
-        .highlight-color{
+
+        .highlight-color {
             color: #cccccc73 !important;
+        }
+
+        .content-body .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .content-body .message-box {
+            position: absolute;
+            background-color: #10163A;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%;
+            max-width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+            right: 20px;
+        }
+
+        .message-box p {
+            margin: 0 !important;
+        }
+
+        .vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
+            z-index: 1050;
+        }
+
+        .dark-layout .header-navbar {
+            z-index: 1000;
         }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">
-        <!-- Dashboard Analytics Start -->
-        <section id="dashboard-analytics">
+        <section id="dashboard-analytics" class="dashboard">
+            @if (Auth::user()->status == 'in-active')
+                <div class="overlay">
+                    <div class="message-box">
+                        <p>Dein Konto wurde noch nicht freigegeben.</p>
+                        <p>Bitte Gedulde dich etwas!</p>
+                    </div>
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-12 mb-2">
                     <div class="card LoginText_Wrap">
                         <div class="card-header" style="display: block; flex:unset">
                             <h4 class="">Hallo, {{ Auth::user()->name }}</h4>
                             <div class="">
-                                <p class="m-0">Letzter : <span>$lastlogin</span></p>
-                                <p class="m-0">Register : <span>$registerdate</span></p>
+                                <p class="m-0">Letzter : <span>{{ Auth::user()->last_login }}</span></p>
+                                <p class="m-0">Register : <span>{{ Auth::user()->created_at->format('Y-m-d') }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -414,14 +464,16 @@
                                         class="chart-info chart-info-flag d-flex justify-content-between align-items-center mb-1">
                                         <div class="series-info d-flex align-items-center">
                                             @if ($user->image)
-                                                <img src="{{ asset('app-assets/images/profile/'.$user->image) }}" alt="">
+                                                <img src="{{ asset('app-assets/images/profile/' . $user->image) }}"
+                                                    alt="">
                                             @else
-                                                <img src="{{ asset('app-assets/images/profile/profile-logo.png') }}" alt="">
+                                                <img src="{{ asset('app-assets/images/profile/profile-logo.png') }}"
+                                                    alt="">
                                             @endif
-                                            <span class="text-bold-600 mx-50">{{ substr($user->name,0,13) }}</span>
+                                            <span class="text-bold-600 mx-50">{{ substr($user->name, 0, 13) }}</span>
                                         </div>
                                         <div class="series-result">
-                                            <span>49,478 €</span>
+                                            <span>{{ $user->rank }}</span>
                                         </div>
                                     </div>
                                 @endforeach

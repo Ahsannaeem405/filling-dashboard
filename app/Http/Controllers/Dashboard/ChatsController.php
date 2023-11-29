@@ -25,9 +25,10 @@ class ChatsController extends Controller
 
     private function refreshAccessToken($refreshToken,$domain)
     {
-        $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+        $response = Http::withHeaders(['User-Agent' => ''])->post("https://gateway.kleinanzeigen.de/auth/refresh", [
             'refreshToken' => $refreshToken,
         ]);
+        dd($response->json());
         return [
             'accessToken' => $response['accessToken'],
         ];
@@ -39,6 +40,7 @@ class ChatsController extends Controller
         $domain = $url->site_url;
 
         $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
+        
         $refreshToken = $request->refreshToken;
 
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
@@ -99,6 +101,7 @@ class ChatsController extends Controller
 
         $count = Account::where('buy_id',Auth::user()->id)->where('buy_date',today())->count();
         
+
         if($count >= $limit){
             return back()->with('error','Accounts limit are reached!');
         }else{
@@ -108,6 +111,11 @@ class ChatsController extends Controller
                 $account->buy_id = Auth::user()->id;
                 $account->buy_date = now()->toDateString();;
                 $account->save();
+                $accounts = Account::where('buy_id',Auth::user()->id)->get();
+                return response()->json([
+                    'component' => view('admin.chat.accounts',compact('accounts'))->render(),
+                    'success' => 'Account assign Successfully',        
+                ]);
                 return back()->with('success','Account assign Successfully');
             }else{
                 return back()->with('error','Accounts are not available!');

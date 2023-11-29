@@ -298,45 +298,57 @@
         .bottom{
             margin-top: 10px;
         }
+        /* .dt-button span{
+            color: white !important;
+        } */
+        /* .dt-button:first-child{
+            margin-left: -170px !important;
+        } */
+        th.sorting:before{
+            margin-left: -10px !important
+        }
+        th.sorting:after{
+            margin-left: -10px !important
+        }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">
         <div class="user-card-wraper">
             <div class="row">
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="card-main-content">
                         <div class="content-side">
                             <p>Registrierte User</p>
-                            <h2>21459</h2>
+                            <h2>{{ $register }}</h2>
                         </div>
                         <div class="icon-side">
                             <span class='span1'><i class="bx bxs-user"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="card-main-content">
                         <div class="content-side">
                             <p>Warten auf Freigabe</p>
-                            <h2>4567</h2>
+                            <h2>{{ $pending }}</h2>
                         </div>
                         <div class="icon-side">
                             <span class='span2'><i class="bx bxs-user-plus"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="card-main-content">
                         <div class="content-side">
                             <p>Aktive Filler</p>
-                            <h2>19860</h2>
+                            <h2>{{ $active }}</h2>
                         </div>
                         <div class="icon-side">
                             <span class='span3'><i class="bx bx-user-check"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                {{-- <div class="col-md-6 col-lg-3">
                     <div class="card-main-content">
                         <div class="content-side">
                             <p>Gebannte Filler</p>
@@ -349,7 +361,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="datatable-wraper">
@@ -358,13 +370,14 @@
                 <select class='status-selection' id="statusFilter">
                     <option selected>Select Status</option>
                     <option value="active">Active</option>
-                    <option value="in-active">pending</option>
+                    <option value="in-active">Pending</option>
                 </select>
             </div>
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
                         <th>USER</th>
+                        <th class="d-none">USER</th>
                         <th>RANG</th>
                         <th>EINKOMMEN</th>
                         <th>ACCOUNT LIMIT</th>
@@ -388,7 +401,14 @@
                                     </div>
                                 </a>
                             </td>
-                            <td>Null</td>
+                            <td class="d-none">{{ $user->name }}</td>
+                            <td>
+                                @if (isset($user->rank))
+                                    {{ $user->rank }}
+                                @else
+                                    Null
+                                @endif
+                            </td>
                             <td>0$</td>
                             <td>{{ $user->limit }}</td>
                             <td>
@@ -428,29 +448,37 @@
                     dom: '<"top"lfB>rt<"bottom"ip><"clear">',
                     buttons: [{
                             extend: 'collection',
+                            className: 'table-plus-btn',
                             text: 'Export',
                             buttons: [
-                                'copy',
-                                'excel',
-                                'csv',
-                                'pdf',
-                                'print'
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: [1,2,3,4,5]
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: [1,2,3,4,5]
+                                    }
+                                },
+                                {
+                                    extend: 'csv',
+                                    exportOptions: {
+                                        columns: [1,2,3,4,5] 
+                                    }
+                                }   
                             ]
                         },
-                        {
-                            text: '+ Fuge User hinzu',
-                            className: 'table-plus-btn',
-                            action: function(e, dt, button, config) {
-                                
-                            }
-                        },
+                        
 
                     ],
                     language: {
                         searchPlaceholder: 'search...'
                     },
                     columnDefs: [
-                        { targets: [0], orderable: false } 
+                        { targets: [0], orderable: false }
                     ],
                     order: []
                 });
