@@ -6,19 +6,36 @@
     active
 @endsection
 @section('content')
+    @if (Auth::user()->role == 'user')
+        <style>
+            .chat-application .sidebar-content {
+                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+            }
+
+            .chat-application .chat-app-window .start-chat-area {
+                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+            }
+
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 13rem) !important;
+            }
+        </style>
+    @else
+        <style>
+            .chat-application .sidebar-content {
+                height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
+            }
+
+            .chat-application .chat-app-window .start-chat-area {
+                height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
+            }
+
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
+            }
+        </style>
+    @endif
     <style>
-        .chat-application .sidebar-content {
-            height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
-        }
-
-        .chat-application .chat-app-window .start-chat-area {
-            height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
-        }
-
-        .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
-        }
-
         html body .content.app-content .content-area-wrapper {
             height: calc(100% - 0rem);
         }
@@ -99,6 +116,10 @@
             cursor: pointer;
         }
 
+        .initials .active {
+            background-color: red;
+        }
+
         /*  */
         .account-btn1 {
             border: none;
@@ -147,7 +168,7 @@
         .type-icon {
             position: absolute;
             right: 3%;
-            top: 10px;
+            top: 7px;
         }
 
         img.type-icon {
@@ -185,6 +206,7 @@
             font-size: 16px;
             margin-right: 0px;
         }
+
         .overlay {
             display: none;
             position: fixed;
@@ -192,7 +214,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            backdrop-filter: blur(5px); 
+            backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
@@ -206,20 +228,56 @@
             padding: 20px;
             border-radius: 6px;
             text-align: center;
-            width: 80%; 
+            width: 80%;
             max-width: 100%;
             font-size: 17px;
             font-weight: 600;
             right: 20px;
         }
-        .message-box p{
+
+        .message-box p {
             margin: 0 !important;
         }
-        body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu{
+
+        body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
             z-index: 1050;
         }
-        body.dark-layout .header-navbar{
+
+        body.dark-layout .header-navbar {
             z-index: 1000;
+        }
+
+        .emojionearea-editor {
+            color: white !important;
+        }
+
+        .emojionearea.emojionearea-inline.emojionearea-button {
+            opacity: 0 !important;
+            top: 8px !important;
+        }
+
+        .emojionearea .emojionearea-button {
+            opacity: 0 !important;
+            top: 6px !important;
+            right: 50px !important;
+        }
+
+        .chat-application .sidebar-content .chat-user-list {
+            margin-top: 0 !important;
+            height: calc(100% - 0rem);
+        }
+
+        .chat-application .sidebar-content .chat-user-list li .contact-info {
+            width: calc(100vw - (100vw - 100%) - 1rem - -10px);
+        }
+
+        .favorite-1 {
+            margin: 7px;
+            cursor: pointer;
+        }
+
+        .favorite-1:hover {
+            color: goldenrod;
         }
     </style>
     @if (Auth::user()->status == 'in-active')
@@ -237,7 +295,7 @@
                     <h3>Accounts</h3>
                     @if (Auth::user()->role == 'user')
                         <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
-                        <button class='account-btn2'>Accounts aktualisieren</button>
+                        <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
                     @endif
                     <div class="scrol-custom">
                         <ul>
@@ -265,7 +323,7 @@
                             <span class="sidebar-close-icon">
                                 <i class="feather icon-x"></i>
                             </span>
-                            <div class="chat-fixed-search">
+                            {{-- <div class="chat-fixed-search">
                                 <div class="d-flex align-items-center">
                                     <div class="sidebar-profile-toggle position-relative d-inline-flex">
                                         <div class=" profile-avatar">
@@ -281,11 +339,11 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div id="users-list" class="chat-user-list list-group position-relative">
                                 <div style='display:flex; justify-content:space-between; align-items:center;'>
                                     <h3 class="primary p-1 mb-0">Chats</h3>
-                                    <button class='account-btn2 chat-btn'>Accounts aktualisieren</button>
+                                    <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
                                 </div>
                                 <ul class="chat-users-list-wrapper media-list">
 
@@ -308,6 +366,53 @@
                                     <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4>
                                 </div>
                                 <div class="active-chat">
+                                    <div class="chat_navbar">
+                                        <header class="chat_header d-flex justify-content-between align-items-center p-1">
+                                            <div class="vs-con-items d-flex align-items-center">
+                                                <div class="sidebar-toggle d-block d-lg-none mr-1"><i
+                                                        class="feather icon-menu font-large-1"></i></div>
+                                                <div class="avatar user-profile-toggle m-0 m-0 mr-1">
+                                                    <span class="initials buyerInitials"></span>
+                                                    {{-- <span class="avatar-status-busy"></span> --}}
+                                                </div>
+                                                <span class='account-prof'>
+                                                    <h6 class="mb-0 buyerName"></h6>
+                                                    <p><span class="price"></span> € VB</p>
+
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span class="favorite-1"><i
+                                                        class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
+                                                <span class="favorite-1 paypal"><i
+                                                        class="fa-brands fa-paypal font-medium-5"></i></span>
+                                                <span class="favorite-1"><i
+                                                        class="fa-solid fa-building-columns font-medium-5"></i></span>
+                                                <span class="favorite-1"><i
+                                                        class="fa-regular fa-trash-can font-medium-5"></i></span>
+                                            </div>
+                                        </header>
+                                    </div>
+                                    <div class="user-chats">
+                                        <div class="chats append-chat">
+
+                                        </div>
+                                    </div>
+                                    <div class="chat-app-form">
+                                        <form class="chat-app-input d-flex justify-content-between position-relative"
+                                            onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
+                                            <div class='position-relative'style='width: 70%;'>
+                                                <input type="text" class="form-control message mr-1 ml-50 msg"
+                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht">
+                                                <i class="type-icon fa fa-image"></i>
+                                                <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
+                                                    alt="user_avatar">
+                                            </div>
+                                            <button type="button" class="btn btn-primary send" onclick="enter_chat(); "><i
+                                                    class="fa fa-paper-plane-o"></i>
+                                                <span class="">Senden</span></button>
+                                        </form>
+                                    </div>
 
                                 </div>
                             </section>
@@ -338,42 +443,99 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
     <script>
         $(document).ready(function() {
             var addAccountBtn = $('#addAccountBtn');
-            var isClickable = true;
+            var chatBtn = $('.chat-btn');
+            var updateAccountBtn = $('#updateAccountBtn');
 
-            addAccountBtn.on('click', function() {
-                if (isClickable) {
-                    // Send an AJAX request to hit the route
-                    $.ajax({
-                        url: '{{ route('assign') }}',
-                        type: 'GET',
-                        success: function(data) {
-                            $('.scrol-custom').empty().append(data.component);
-                            console.log(data);
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        },
-                    });
+            $(document).on('click', '#addAccountBtn', function() {
+                $.ajax({
+                    url: '{{ route('assign') }}', // Replace with actual URL
+                    type: 'GET',
+                    success: function(data) {
+                        $('.scrol-custom').empty().append(data.component);
+                        if (data.success) {
+                            toastr.success(data.success);
+                        } else if (data.error) {
+                            toastr.error(data.error);
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
 
-                    // Start the cooldown timer
-                    startCooldownTimer(60, addAccountBtn);
+                startCooldownTimer(60, addAccountBtn, function() {
+                    addAccountBtn.text('Neuen Account hinzufügen');
+                    addAccountBtn.prop('disabled', false);
+                });
 
-                    // Prevent multiple clicks during the cooldown
-                    isClickable = false;
-                }
+                addAccountBtn.prop('disabled', true);
             });
 
-            function startCooldownTimer(seconds, button) {
+            $(document).on('click', '#updateAccountBtn', function() {
+                $.ajax({
+                    url: '{{ route('reload') }}', // Replace with actual URL
+                    type: 'GET',
+                    success: function(data) {
+                        $('.start-chat-area').removeClass('d-none');
+                        $('.active-chat').addClass('d-none');
+                        $('.list-style').addClass('d-none');
+                        $('.scrol-custom').empty().append(data.component);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+
+                startCooldownTimer(60, updateAccountBtn, function() {
+                    updateAccountBtn.text('Accounts aktualisieren');
+                    updateAccountBtn.prop('disabled', false);
+                });
+
+                updateAccountBtn.prop('disabled', true);
+            });
+
+            $(document).on('click', '.chat-btn', function() {
+                var refreshToken = $('.list-style').attr('data-refresh');
+                var id = $('.list-style').attr('data-id');
+                var user_id = $('.list-style').attr('data-user-id');
+
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('conversation') }}', // Replace with actual URL
+                    data: {
+                        id: id,
+                        user_id: user_id,
+                        refreshToken: refreshToken
+                    },
+                    success: function(response) {
+                        $('.media-list').empty().append(response.component);
+                        $('.start-chat-area').removeClass('d-none');
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+
+                startCooldownTimer(60, chatBtn, function() {
+                    chatBtn.text('Chats aktualisieren');
+                    chatBtn.prop('disabled', false);
+                });
+
+                chatBtn.prop('disabled', true);
+            });
+
+            function startCooldownTimer(seconds, button, callback) {
                 var countdown = seconds;
 
                 var timer = setInterval(function() {
                     if (countdown <= 0) {
                         clearInterval(timer);
-                        button.text('Neuen Account hinzufügen');
-                        isClickable = true; // Enable the button after cooldown
+                        callback();
                     } else {
                         button.text('Warte auf neues Konto ' + countdown + 's');
                     }
@@ -383,9 +545,90 @@
             }
         });
     </script>
+
+
+    {{-- <script>
+        $(document).ready(function() {
+            var addAccountBtn = $('#addAccountBtn');
+            var updateAccountBtn = $('#updateAccountBtn');
+    
+            $(document).on('click', '#addAccountBtn', function() {
+                $.ajax({
+                    url: '{{ route('assign') }}',
+                    type: 'GET',
+                    success: function(data) {
+                        $('.scrol-custom').empty().append(data.component);
+                        if (data.success) {
+                            toastr.success(data.success);
+                        } else if (data.error) {
+                            toastr.error(data.error);
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+    
+                startCooldownTimer(60, addAccountBtn, function() {
+                    addAccountBtn.text('Neuen Account hinzufügen');
+                    addAccountBtn.prop('disabled', false);
+                });
+    
+                addAccountBtn.prop('disabled', true);
+            });
+    
+            $(document).on('click', '#updateAccountBtn', function() {
+                $.ajax({
+                    url: '{{ route('reload') }}',
+                    type: 'GET',
+                    success: function(data) {
+                        $('.start-chat-area').removeClass('d-none');
+                        $('.active-chat').addClass('d-none');
+                        $('.list-style').addClass('d-none');
+                        $('.scrol-custom').empty().append(data.component);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+    
+                startCooldownTimer(60, updateAccountBtn, function() {
+                    updateAccountBtn.text('Accounts aktualisieren');
+                    updateAccountBtn.prop('disabled', false);
+                });
+    
+                updateAccountBtn.prop('disabled', true);
+            });
+    
+            function startCooldownTimer(seconds, button, callback) {
+                var countdown = seconds;
+    
+                var timer = setInterval(function() {
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        callback();
+                    } else {
+                        button.text('Warte auf neues Konto ' + countdown + 's');
+                    }
+    
+                    countdown--;
+                }, 1000);
+            }
+        });
+    </script> --}}
+
     <script>
         $(document).ready(function() {
-            $('.list-style').on('click', function() {
+            $(document).on('click', '.list-style', function() {
+
+                $(".list-style").removeClass("active");
+                $(".list-style .initials").css('background-color', '');
+
+                $(this).addClass("active");
+                $(this).children('.initials').css('background-color', '#10163A');
+
+                $('.chat-btn').removeClass('d-none');
+
                 var spanValue = $(this).find('span').text();
                 var refreshToken = $(this).attr('data-refresh');
                 var id = $(this).attr('data-id');
@@ -403,16 +646,21 @@
                         $('.start-chat-area').removeClass('d-none');
                         $('.active-chat').addClass('d-none');
                         $('.media-list').empty().append(response.component);
-                        $('.profile-avatar').text(spanValue).addClass('initials');
+                        // $('.profile-avatar').text(spanValue).addClass('initials');
                     },
                     error: function(error) {
-                        // Handle errors if the AJAX request fails
                         console.error(error);
                     }
                 });
             });
 
             $(document).on('click', '.messages', function() {
+
+                $(".messages").removeClass("active");
+                $(".messages .initials").css('background-color', '');
+
+                $(this).addClass("active");
+                $(this).find('.pr-1 .initials').css('background-color', '#10163A');
 
                 var user_id = $(this).attr('data-user-id');
                 var conv_id = $(this).attr('data-conv-id');
@@ -428,18 +676,49 @@
                     success: function(response) {
                         $('.active-chat').removeClass('d-none');
                         $('.start-chat-area').addClass('d-none');
-                        $('.active-chat').empty().append(response.component);
-                        $('.logo').text(response.logo);
-                        $('.name').text(response.name);
+                        $('.append-chat').empty().append(response.component);
+                        $('.buyerInitials').text(response.buyerInitials);
+                        $('.buyerName').text(response.buyerName);
+                        $('.price').text(response.adPrice);
                         $('.start-chat-area').attr('data-conv-id', response.conv_id);
                         $('.start-chat-area').attr('data-user-id', response.user_id);
                         $('.start-chat-area').attr('data-refresh-token', response.refreshToken);
+
                     },
                     error: function(error) {
 
                         console.error(error);
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.paypal', function() {
+
+            var user_id = $('.start-chat-area').attr('data-user-id');
+            var conv_id = $('.start-chat-area').attr('data-conv-id');
+            var refreshToken = $('.start-chat-area').attr('data-refresh-token');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'post',
+                url: '{{ route('upload.payment') }}',
+                data: {
+                    user_id: user_id,
+                    conv_id: conv_id,
+                    refreshToken: refreshToken,
+                },
+                success: function(response) {
+                    toastr.success(response.success);
+                },
+                error: function(error) {
+                    toastr.error(error);
+                }
             });
         });
     </script>
@@ -479,4 +758,11 @@
             setInterval(refresh, 10000);
         })
     </script> --}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+    <script>
+        $('#iconLeft4-1').emojioneArea({
+            pickerPosition: 'top'
+        });
+    </script>
 @endsection

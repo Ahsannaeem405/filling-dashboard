@@ -109,6 +109,32 @@
             border-radius: 10px;
         }
 
+        /* Captcha */
+        .form-label-group-captcha {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-card .form-label-group-captcha label {
+            color: white;
+        }
+
+        .form-card .form-label-group-captcha input {
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            margin-bottom: 20px;
+            background-color: transparent;
+            font-style: normal;
+            line-height: normal;
+            padding: 10px 20px;
+            border: 1px solid #929292;
+            width: 30%;
+            border-radius: 10px;
+        }
+
         .chckbox-cont {
             color: #8E8E8E;
             font-size: 15px;
@@ -277,14 +303,34 @@
 
                                                         </div>
 
-                                                            <button type="submit"
-                                                                class="submit-form">Registrieren</button>
-                                                            <div class='create-acnt'>
-                                                                Du bist bereits Filler?
-                                                                <a href="{{ route('login') }}"
-                                                                    class="btn btn-outline-primary float-left btn-inline">Logge
-                                                                    dich ein</a>
+                                                        <div class="form-label-group">
+                                                            <label for="captcha" >Captcha</label>
+                                                        </div>
+                                                        <div class="form-label-group-captcha">
+                                                            <input id="captcha" type="text" class="form-control @error('captcha') is-invalid @enderror" placeholder="..." name="captcha">
+                                                            <div class="captcha">
+                                                                <span>{!! captcha_img() !!}</span>
+                                                                {{-- <button type="button" class="btn btn-danger" class="reload" id="reload">
+                                                                    &#x21bb;
+                                                                </button> --}}
                                                             </div>
+                                                        </div>
+                                                        <div class="form-label-group">
+                                                            @error('captcha')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+
+                                                        <button type="submit" class="submit-form">Registrieren</button>
+                                                        <div class='create-acnt'>
+                                                            Du bist bereits Filler?
+                                                            <a href="{{ route('login') }}"
+                                                                class="btn btn-outline-primary float-left btn-inline">Logge
+                                                                dich ein</a>
+                                                        </div>
+                                
                                                     </form>
                                                 </div>
                                             </div>

@@ -13,16 +13,20 @@
         align-items: center;
         justify-content: center;
     }  
+    
 </style>
 @foreach ($data['conversations'] as $data)
     <li class="messages" data-user-id="{{ $data['userIdSeller'] }}" data-refresh-token="{{ $refreshToken }}" data-conv-id="{{ $data['id'] }}">
         <div class="pr-1">
-            <span class="initials">{{ $data['sellerInitials'] }}</span>
+            <span class="initials">{{ $data['buyerInitials'] }}</span>
         </div>
         <div class="user-chat-info">
             <div class="contact-info">
-                <h5 class="font-weight-bold mb-0">{{ $data['sellerName'] }}</h5>
-                <p class="truncate">{{ $data['textShortTrimmed'] }}</p>
+                <div style="display: flex; justify-content:space-between">
+                    <h5 class="font-weight-bold mb-0">{{ $data['buyerName'] }}</h5>
+                    <p style="margin-bottom: 0px">{{ \Carbon\Carbon::parse($data['receivedDate'])->format('d.m.y, H:i') }}</p>
+                </div>
+                <p class="truncate" style="max-width:75%">{{ $data['textShortTrimmed'] }}</p>
             </div>
             <div class="contact-meta">
                 <span class="float-right mb-25"></span>

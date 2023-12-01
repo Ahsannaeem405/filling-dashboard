@@ -25,10 +25,9 @@ class ChatsController extends Controller
 
     private function refreshAccessToken($refreshToken,$domain)
     {
-        $response = Http::withHeaders(['User-Agent' => ''])->post("https://gateway.kleinanzeigen.de/auth/refresh", [
+        $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
             'refreshToken' => $refreshToken,
         ]);
-        dd($response->json());
         return [
             'accessToken' => $response['accessToken'],
         ];
@@ -45,7 +44,7 @@ class ChatsController extends Controller
 
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
             ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations?size=100000000");
-
+        
         return response()->json([
             'component' => view('admin.chat.conversation',compact('data','refreshToken'))->render(),
         ]);
@@ -63,13 +62,18 @@ class ChatsController extends Controller
 
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
             ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
-        $name = $data['buyerName'];
-        $logo = $data['buyerInitials'];
+        $buyerName = $data['buyerName'];
+        $buyerInitials = $data['buyerInitials'];
+        $adTitle = $data['adTitle'];
+        $price = $data['adPriceInEuroCent'];
+        $adPrice = $price /100;
 
         return response()->json([
             'component' => view('admin.chat.messages',compact('data','refreshToken'))->render(),
-            'name' => $name,
-            'logo' => $logo,
+            'buyerName' => $buyerName,
+            'buyerInitials' => $buyerInitials,
+            'adTitle' => $adTitle,
+            'adPrice' => $adPrice,
             'conv_id' => $conv_id,
             'user_id' => $user_id,
             'refreshToken' => $refreshToken
@@ -103,7 +107,12 @@ class ChatsController extends Controller
         
 
         if($count >= $limit){
-            return back()->with('error','Accounts limit are reached!');
+            $accounts = Account::where('buy_id',Auth::user()->id)->get();
+            return response()->json([
+                'component' => view('admin.chat.accounts',compact('accounts'))->render(),
+                'error' => 'Accounts limit are reached!',        
+            ]);
+            // return back()->with('error','Accounts limit are reached!');
         }else{
             $account = Account::whereNull('buy_id')->first();
 
@@ -116,11 +125,18 @@ class ChatsController extends Controller
                     'component' => view('admin.chat.accounts',compact('accounts'))->render(),
                     'success' => 'Account assign Successfully',        
                 ]);
-                return back()->with('success','Account assign Successfully');
+                // return back()->with('success','Account assign Successfully');
             }else{
-                return back()->with('error','Accounts are not available!');
+                return response()->json(['error' => 'Accounts limit are reached!']);
+                // return back()->with('error','Accounts are not available!');
             }
         }
-        
+    }
+    public function ReloadAccount()
+    {
+        $accounts = Account::where('buy_id',Auth::user()->id)->get();
+        return response()->json([
+            'component' => view('admin.chat.accounts',compact('accounts'))->render(),
+        ]);
     }
 }

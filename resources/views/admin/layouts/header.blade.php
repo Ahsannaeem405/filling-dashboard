@@ -5,9 +5,6 @@
                 <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
                 </div>
                 <ul class="nav navbar-nav float-right">
-                    <li id="darkModeToggle" style='display: flex; align-items: center;'>
-                        <img class="round" src="{{asset('app-assets/images/logo/night-mode.png')}}" alt="avatar" height="auto" width="29">
-                    </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none">
                                 <span class="user-name text-bold-600">{{ Auth::user()->name }}</span>

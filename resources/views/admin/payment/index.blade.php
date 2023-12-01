@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Admin</title>
+    <title>Payment</title>
 @endsection
 @section('payment')
     active
@@ -348,8 +348,9 @@
             <div class='status-select'>
                 <select class='status-selection' id="statusFilter">
                     <option selected>Select Status</option>
-                    <option value="paid">Active</option>
-                    <option value="not-paid">Pending</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                    <option value="pending">Pending</option>
                 </select>
             </div>
             <table id="example" class="display nowrap" style="width:100%">
@@ -360,102 +361,71 @@
                         </th>
                         <th>CLIENT</th>
                         <th>TOTAL</th>
-                        <th>ISSUED DATE</th>
-                        <th>BALANCE</th>
+                        {{-- <th>ISSUED DATE</th> --}}
+                        <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            #5059
-                        </td>
-                        <td>
-                            <span class='table-icon icon-tr1'>
-                                <img style='width: 19px;' src="{{ asset('app-assets/images/logo/ta-tick.png') }}"
-                                    alt="">
-                            </span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-blue mr-3">EB</div>
+                    @foreach ($payment as $payment)
+                        <tr class="user-row" data-status="{{ strtolower($payment->status) }}">
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+                            <td>
+                                <span class='table-icon icon-tr1'>
+                                    <img style='width: 19px;' src="{{ asset('app-assets/images/logo/ta-tick.png') }}"
+                                        alt="">
+                                </span>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name,0,1) }}</div>
 
-                                    <div class="">
-                                        <p class="font-weight-bold mb-0">Ethan Black</p>
-                                        <p class="text-muted mb-0">ethan-black@example.com</p>
+                                        <div class="">
+                                            <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </td>
-                        <td>3077€</td>
-                        <td>09 May 2020</td>
-                        <td>
-                            <div class="badge badge-success badge-success-alt"
-                                style='background-color: #1d5541; color: #00ab00;'>Paid</div>
-                        </td>
-                        <td>
-                            <i class="bx bxs-envelope mr-1"></i>
-                            <!-- <i class="bx bxs-eye"></i> -->
-                            <i class="fa fa-eye"></i>
-                            <div class="dropdown" style='display:inline-block'>
-                                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
-                                        title="Actions"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <a class="dropdown-item" href="#"> Edit Profile</a>
-                                    <a class="dropdown-item text-danger" href="#"> Remove</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            #5059
-                        </td>
-                        <td>
-                            <span class='table-icon icon-tr2'>
-                                <img style='width: 21px;' src="{{ asset('app-assets/images/logo/ta-arrow-down.png') }}"
-                                    alt="">
-                            </span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-blue mr-3">EB</div>
-
-                                    <div class="">
-                                        <p class="font-weight-bold mb-0">Ethan Black</p>
-                                        <p class="text-muted mb-0">ethan-black@example.com</p>
+                                </a>
+                            </td>
+                            <td>{{ $payment->price }}€</td>
+                            {{-- <td>09 May 2020</td> --}}
+                            <td>
+                                @if ($payment->status)
+                                    <div class="badge badge-success badge-success-alt"
+                                        style='@if($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
+                                        @elseif($payment->status === 'unpaid') background-color: #a72727; color: #f3aaaa;
+                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190;@endif'>{{ $payment->status }}</div>
+                                @else
+                                    <div class="badge badge-success badge-success-alt"
+                                        style='background-color: #093e3c; color: #668f95;'>waiting for approval</div>
+                                @endif    
+                            </td>
+                            <td>
+                                {{-- <i class="bx bxs-envelope mr-1"></i> --}}
+                                <a href="{{ route('chat.view',['id' => $payment->id]) }}" style="color: white"><i class="fa fa-eye"></i></a> 
+                                @if (Auth::user()->role == 'admin')
+                                    <div class="dropdown" style='display:inline-block'>
+                                        <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                                                title="Actions"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                            <a class="dropdown-item" href="{{ route('edit.payment',['id' => $payment->id]) }}"> Edit Profile</a>
+                                            <a class="dropdown-item text-danger" onclick="deleteAccount({{ $payment->id }})"> Remove</a>
+                                        </div>
+                                        <form id="delete-form-{{ $payment->id }}"
+                                            action="{{ route('delete.payment', ['id' => $payment->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
-                                </div>
-                            </a>
-                        </td>
-                        <td>3077€</td>
-                        <td>09 May 2020</td>
-                        <td>
-                            <div class="badge badge-success badge-success-alt"
-                                style='background-color: #1d5541; color: #00ab00;'>Paid</div>
-                        </td>
-                        <td>
-                            <i class="bx bxs-envelope mr-1"></i>
-                            <!-- <i class="bx bxs-eye"></i> -->
-                            <i class="fa fa-eye"></i>
-                            <div class="dropdown" style='display:inline-block'>
-                                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
-                                        title="Actions"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <a class="dropdown-item" href="#"> Edit Profile</a>
-                                    <a class="dropdown-item text-danger" href="#"> Remove</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
 
                 </tbody>
             </table>
@@ -492,7 +462,7 @@
                 $(document).ready(function () {
                     $('#statusFilter').change(function () {
                         var selectedStatus = $(this).val().toLowerCase();
-
+            
                         $('.user-row').hide();
             
                         if (selectedStatus === 'select status') {

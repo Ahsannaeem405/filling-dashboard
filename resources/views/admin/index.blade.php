@@ -297,7 +297,7 @@
                         <div class="card-header d-flex flex-column align-items-start pb-0">
                             <div class="TopHeading">
                                 <h4 class="m-0">Uberblink Rang</h4>
-                                <p class="m-0">aktueller Rang: $currentrang</p>
+                                <p class="m-0">aktueller Rang: {{ Auth::user()->rank }}</p>
                             </div>
                         </div>
                         <div class="card-content StepsCount">
@@ -350,7 +350,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="headingMain">
-                                    <h4>$totalchat {{ $count }}</h4>
+                                    <h4>{{ $count }}</h4>
                                     <p class="m-0 highlight-color">Chats insgesamt</p>
                                 </div>
                                 <ul class="list-unstyled mt-3">
