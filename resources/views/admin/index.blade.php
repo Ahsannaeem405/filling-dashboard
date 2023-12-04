@@ -350,20 +350,20 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="headingMain">
-                                    <h4>{{ $count }}</h4>
+                                    <h4>{{ $totalChat }}</h4>
                                     <p class="m-0 highlight-color">Chats insgesamt</p>
                                 </div>
                                 <ul class="list-unstyled mt-3">
                                     <li class="UncompletedChats">
                                         <i class="fa fa-ticket"></i>
-                                        <h6>Offene chats <span>$uncompletedchats</span></h6>
+                                        <h6>Offene chats <span>{{ $totalUnread }}</span></h6>
                                     </li>
                                     <li class="CompletedChats">
                                         <i class="fa fa-ticke">
                                             <img style='width: 20px;'
                                                 src="{{ asset('app-assets/images/logo/dash-tick.png') }}" alt="">
                                         </i>
-                                        <h6>Bearbeitete chats <span>$completedchats</span></h6>
+                                        <h6>Bearbeitete chats <span>{{ $completeChat }}</span></h6>
                                     </li>
                                 </ul>
                             </div>
@@ -473,7 +473,7 @@
                                             <span class="text-bold-600 mx-50">{{ substr($user->name, 0, 13) }}</span>
                                         </div>
                                         <div class="series-result">
-                                            <span>{{ $user->rank }}</span>
+                                            <span>49.487€</span>
                                         </div>
                                     </div>
                                 @endforeach

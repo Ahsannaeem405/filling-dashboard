@@ -64,7 +64,6 @@ class UserController extends Controller
         $user = User::find(Auth::user()->id);
         $validatedData = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
         ]);
 
         if ($validatedData->fails()) {
@@ -97,12 +96,13 @@ class UserController extends Controller
                 }
                 
                 $user->name = $request->input('name');
-                $user->email = $request->input('email');
+                $user->telegram = $request->input('telegram');
                 $user->password = bcrypt($request->input('newpassword'));
                 $user->image = $fileName;
+                $user->rank = $request->input('rank');
                 $user->save();
 
-                return back()->with('success', 'Profile and password updated.');
+                return redirect()->route('dashboard')->with('success', 'Profile and password updated.');
             } else {
                 return back()->with('error', 'Old password does not match.');
             }
@@ -110,11 +110,12 @@ class UserController extends Controller
             return back()->with('error', 'Enter old password to change password.');
         } else {
             $user->name = $request->input('name');
-            $user->email = $request->input('email');
+            $user->telegram = $request->input('telegram');
             $user->image = $fileName;
+            $user->rank = $request->input('rank');
             $user->save();
 
-            return back()->with('success', 'Profile updated successfully');
+            return redirect()->route('dashboard')->with('success', 'Profile updated successfully');
         }
     }
 }

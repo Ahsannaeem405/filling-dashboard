@@ -279,6 +279,16 @@
         .favorite-1:hover {
             color: goldenrod;
         }
+
+        .custom-success-toast {
+            background-color: #4CAF50;
+            color: #ffffff;
+        }
+
+        .custom-warning-toast {
+            background-color: rgb(163, 23, 23);
+            color: #ffffff;
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -362,8 +372,9 @@
                             <div class="chat-overlay"></div>
                             <section class="chat-app-window">
                                 <div class="start-chat-area" data-conv-id="" data-user-id="" data-refresh-token="">
-                                    <span class="mb-1 start-chat-icon feather icon-message-square"></span>
-                                    <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4>
+                                    <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
+                                            width="100px"></span>
+                                    {{-- <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4> --}}
                                 </div>
                                 <div class="active-chat">
                                     <div class="chat_navbar">
@@ -451,16 +462,45 @@
             var chatBtn = $('.chat-btn');
             var updateAccountBtn = $('#updateAccountBtn');
 
+            var storedCountdown = localStorage.getItem('countdown');
+            if (storedCountdown && new Date(storedCountdown) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, addAccountBtn, function() {
+                    addAccountBtn.text('Neuen Account hinzufügen');
+                    addAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown');
+                });
+                addAccountBtn.prop('disabled', true);
+            }
+
             $(document).on('click', '#addAccountBtn', function() {
+
+                localStorage.setItem('countdown', new Date(Date.now() + 60000).toISOString());
+
                 $.ajax({
-                    url: '{{ route('assign') }}', // Replace with actual URL
+                    url: '{{ route('assign') }}',
                     type: 'GET',
                     success: function(data) {
                         $('.scrol-custom').empty().append(data.component);
                         if (data.success) {
-                            toastr.success(data.success);
+                            // toastr.success(data.success);
+                            toastr.success(data.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
                         } else if (data.error) {
-                            toastr.error(data.error);
+                            toastr.error(data.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
                         }
                     },
                     error: function(error) {
@@ -471,14 +511,29 @@
                 startCooldownTimer(60, addAccountBtn, function() {
                     addAccountBtn.text('Neuen Account hinzufügen');
                     addAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown');
                 });
 
                 addAccountBtn.prop('disabled', true);
             });
 
+            var storedCountdown2 = localStorage.getItem('countdown2');
+            if (storedCountdown2 && new Date(storedCountdown2) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown2) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, updateAccountBtn, function() {
+                    updateAccountBtn.text('Accounts aktualisieren');
+                    updateAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown2');
+                });
+                updateAccountBtn.prop('disabled', true);
+            }
+
             $(document).on('click', '#updateAccountBtn', function() {
+
+                localStorage.setItem('countdown2', new Date(Date.now() + 60000).toISOString());
+
                 $.ajax({
-                    url: '{{ route('reload') }}', // Replace with actual URL
+                    url: '{{ route('reload') }}',
                     type: 'GET',
                     success: function(data) {
                         $('.start-chat-area').removeClass('d-none');
@@ -494,19 +549,34 @@
                 startCooldownTimer(60, updateAccountBtn, function() {
                     updateAccountBtn.text('Accounts aktualisieren');
                     updateAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown2');
                 });
 
                 updateAccountBtn.prop('disabled', true);
             });
 
+            var storedCountdown3 = localStorage.getItem('countdown3');
+            if (storedCountdown3 && new Date(storedCountdown3) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown3) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, chatBtn, function() {
+                    chatBtn.text('Chats aktualisieren');
+                    chatBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown3');
+                });
+                chatBtn.prop('disabled', true);
+            }
+
             $(document).on('click', '.chat-btn', function() {
+
+                localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
+
                 var refreshToken = $('.list-style').attr('data-refresh');
                 var id = $('.list-style').attr('data-id');
                 var user_id = $('.list-style').attr('data-user-id');
 
                 $.ajax({
                     type: 'get',
-                    url: '{{ route('conversation') }}', // Replace with actual URL
+                    url: '{{ route('conversation') }}',
                     data: {
                         id: id,
                         user_id: user_id,
@@ -524,6 +594,7 @@
                 startCooldownTimer(60, chatBtn, function() {
                     chatBtn.text('Chats aktualisieren');
                     chatBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown3');
                 });
 
                 chatBtn.prop('disabled', true);
@@ -539,7 +610,6 @@
                     } else {
                         button.text('Warte auf neues Konto ' + countdown + 's');
                     }
-
                     countdown--;
                 }, 1000);
             }
@@ -643,12 +713,32 @@
                         refreshToken: refreshToken
                     },
                     success: function(response) {
-                        $('.start-chat-area').removeClass('d-none');
-                        $('.active-chat').addClass('d-none');
-                        $('.media-list').empty().append(response.component);
-                        // $('.profile-avatar').text(spanValue).addClass('initials');
+
+                        if (response.hasOwnProperty('error')) {
+
+                            $('.start-chat-area').removeClass('d-none');
+                            $('.active-chat').addClass('d-none');
+                            $('.media-list').empty();
+                            $('.chat-btn').addClass('d-none');
+
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else {
+                            $('.start-chat-area').removeClass('d-none');
+                            $('.active-chat').addClass('d-none');
+                            $('.media-list').empty().append(response.component);
+                        }
+
                     },
                     error: function(error) {
+
+                        toastr.error('An error occurred. Please try again.');
                         console.error(error);
                     }
                 });
@@ -674,15 +764,31 @@
                         refreshToken: refreshToken,
                     },
                     success: function(response) {
-                        $('.active-chat').removeClass('d-none');
-                        $('.start-chat-area').addClass('d-none');
-                        $('.append-chat').empty().append(response.component);
-                        $('.buyerInitials').text(response.buyerInitials);
-                        $('.buyerName').text(response.buyerName);
-                        $('.price').text(response.adPrice);
-                        $('.start-chat-area').attr('data-conv-id', response.conv_id);
-                        $('.start-chat-area').attr('data-user-id', response.user_id);
-                        $('.start-chat-area').attr('data-refresh-token', response.refreshToken);
+
+                        if (response.hasOwnProperty('error')) {
+
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else {
+                            $('.active-chat').removeClass('d-none');
+                            $('.start-chat-area').addClass('d-none');
+                            $('.append-chat').empty().append(response.component);
+                            $('.buyerInitials').text(response.buyerInitials);
+                            $('.buyerName').text(response.buyerName);
+                            $('.initials').text(response.buyerInitials);
+                            $('.name').text(response.buyerName);
+                            $('.price').text(response.adPrice);
+                            $('.start-chat-area').attr('data-conv-id', response.conv_id);
+                            $('.start-chat-area').attr('data-user-id', response.user_id);
+                            $('.start-chat-area').attr('data-refresh-token', response
+                                .refreshToken);
+                        }
 
                     },
                     error: function(error) {
@@ -695,7 +801,7 @@
     </script>
     <script>
         $(document).on('click', '.paypal', function() {
-
+            $(this).css('color', 'goldenrod');
             var user_id = $('.start-chat-area').attr('data-user-id');
             var conv_id = $('.start-chat-area').attr('data-conv-id');
             var refreshToken = $('.start-chat-area').attr('data-refresh-token');
@@ -714,7 +820,14 @@
                     refreshToken: refreshToken,
                 },
                 success: function(response) {
-                    toastr.success(response.success);
+                    toastr.success(response.success, '', {
+                        onShown: function() {
+                            $('.toast-success').css({
+                                'background-color': '#4CAF50',
+                                'color': '#ffffff'
+                            });
+                        }
+                    });
                 },
                 error: function(error) {
                     toastr.error(error);

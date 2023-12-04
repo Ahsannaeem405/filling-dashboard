@@ -77,8 +77,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'status' => 'in-active',
             'role' => 'user',
-            'limit' => '1',
-            'last_login' => Carbon::now()->format('Y-m-d')
+            'limit' => '20',
+            'last_login' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
     }
 }

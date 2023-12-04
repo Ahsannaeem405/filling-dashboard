@@ -200,7 +200,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-      left:unset !important; */
+          left:unset !important; */
             left: -2px !important;
         }
 
@@ -283,16 +283,20 @@
             top: 34px;
             z-index: 9;
         }
-        .dt-button{
+
+        .dt-button {
             border-radius: 5px !important;
         }
-        .bottom{
+
+        .bottom {
             margin-top: 10px;
         }
-        th.sorting:before{
+
+        th.sorting:before {
             margin-left: -10px !important
         }
-        th.sorting:after{
+
+        th.sorting:after {
             margin-left: -10px !important
         }
     </style>
@@ -361,7 +365,7 @@
                         </th>
                         <th>CLIENT</th>
                         <th>TOTAL</th>
-                        <th>ISSUED DATE</th>
+                        {{-- <th>ISSUED DATE</th> --}}
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -381,7 +385,7 @@
                             <td>
                                 <a href="#">
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name,0,1) }}</div>
+                                        <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name, 0, 1) }}</div>
 
                                         <div class="">
                                             <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
@@ -390,37 +394,37 @@
                                 </a>
                             </td>
                             <td>{{ $payment->price }}€</td>
-                            <td>{{ $payment->created_at->format('d M Y') }}</td>
+                            {{-- <td>09 May 2020</td> --}}
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"
-                                        style='@if($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
+                                        style='@if ($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
                                         @elseif($payment->status === 'unpaid') background-color: #a72727; color: #f3aaaa;
-                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190;@endif'>{{ $payment->status }}</div>
+                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
+                                        {{ $payment->status }}</div>
                                 @else
                                     <div class="badge badge-success badge-success-alt"
                                         style='background-color: #093e3c; color: #668f95;'>waiting for approval</div>
-                                @endif    
+                                @endif
                             </td>
                             <td>
-                                <a href="{{ route('chat.view',['id' => $payment->id]) }}" style="color: white"><i class="bx bxs-envelope mr-1"></i></a> 
-                                <a href="#" style="color: white"><i class="fa fa-eye"></i></a> 
+                                <a href="{{ route('user.chat.view', ['id' => $payment->id]) }}" style="color: white"><i
+                                        class="bx bxs-envelope mr-1"></i></a>
+                                <a href="#" style="color: white"><i
+                                        class="fa fa-eye"></i></a>
                                 <div class="dropdown" style='display:inline-block'>
-                                        <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
-                                                title="Actions"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                            <a class="dropdown-item" href="{{ route('edit.payment',['id' => $payment->id]) }}"> Edit Profile</a>
-                                            <a class="dropdown-item text-danger" onclick="deleteAccount({{ $payment->id }})"> Remove</a>
-                                        </div>
-                                        <form id="delete-form-{{ $payment->id }}"
-                                            action="{{ route('delete.payment', ['id' => $payment->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                    <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                                            title="Actions"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <a class="dropdown-item">
+                                            Edit Profile</a>
+                                        <a class="dropdown-item text-danger">
+                                            Remove</a>
                                     </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -450,19 +454,20 @@
                     language: {
                         searchPlaceholder: 'Search Invoice'
                     },
-                    columnDefs: [
-                        { targets: [0], orderable: false } 
-                    ],
+                    columnDefs: [{
+                        targets: [0],
+                        orderable: false
+                    }],
                     order: []
                 });
             </script>
             <script>
-                $(document).ready(function () {
-                    $('#statusFilter').change(function () {
+                $(document).ready(function() {
+                    $('#statusFilter').change(function() {
                         var selectedStatus = $(this).val().toLowerCase();
-            
+
                         $('.user-row').hide();
-            
+
                         if (selectedStatus === 'select status') {
                             $('.user-row').show();
                         } else {

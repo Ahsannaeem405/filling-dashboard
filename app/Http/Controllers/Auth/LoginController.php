@@ -27,6 +27,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $user->update(['last_login' => Carbon::now()->format('Y-m-d')]);
+        $user->update(['last_login' => Carbon::now()->format('Y-m-d H:i:s')]);
     }
 }

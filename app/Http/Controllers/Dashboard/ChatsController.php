@@ -12,131 +12,155 @@ use Illuminate\Support\Facades\Http;
 
 class ChatsController extends Controller
 {
-    
+
     public function index()
     {
-        if(Auth::user()->role === 'user'){
-            $accounts = Account::where('buy_id',Auth::user()->id)->get();
-        }else{
+        if (Auth::user()->role === 'user') {
+            $accounts = Account::where('buy_id', Auth::user()->id)->get();
+        } else {
             $accounts = Account::all();
         }
-        return view('admin.chat.index',compact('accounts'));
+        return view('admin.chat.index', compact('accounts'));
     }
 
-    private function refreshAccessToken($refreshToken,$domain)
+    private function refreshAccessToken($refreshToken, $domain)
     {
-        $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
-            'refreshToken' => $refreshToken,
-        ]);
-        return [
-            'accessToken' => $response['accessToken'],
-        ];
+        try {
+            $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+                'refreshToken' => $refreshToken,
+            ]);
+            return [
+                'accessToken' => $response['accessToken'],
+            ];
+        } catch (\Exception $e) {
+            return [
+                'accessToken' => null,
+            ];
+        }
     }
 
     public function Conversation(Request $request)
     {
-        $url = Setting::first();
-        $domain = $url->site_url;
+       
+        try {
+            
+            $url = Setting::first();
+            $domain = $url->site_url;
 
-        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
-        
-        $refreshToken = $request->refreshToken;
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
 
-        $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-            ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations?size=100000000");
+            $refreshToken = $request->refreshToken;
+
+            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations?size=100000000");
+            $numFound = $data['_meta']['numFound'];
+            $numUnread = $data['_meta']['numUnread'];
+
+            return response()->json([
+                'component' => view('admin.chat.conversation', compact('data', 'refreshToken'))->render(),
+            ]);
+        } catch (\Exception $e) {
         
-        return response()->json([
-            'component' => view('admin.chat.conversation',compact('data','refreshToken'))->render(),
-        ]);
+            return response()->json(['error' => 'An error occurred. Please try again.']);
+        }
     }
 
     public function ConversationMessages(Request $request)
     {
-        $url = Setting::first();
-        $domain = $url->site_url;
-        
-        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
-        $refreshToken = $request->refreshToken;
-        $conv_id = $request->conv_id;
-        $user_id = $request->user_id;
+        try {
+            $url = Setting::first();
+            $domain = $url->site_url;
 
-        $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-            ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
-        $buyerName = $data['buyerName'];
-        $buyerInitials = $data['buyerInitials'];
-        $adTitle = $data['adTitle'];
-        $price = $data['adPriceInEuroCent'];
-        $adPrice = $price /100;
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
+            $refreshToken = $request->refreshToken;
+            $conv_id = $request->conv_id;
+            $user_id = $request->user_id;
 
-        return response()->json([
-            'component' => view('admin.chat.messages',compact('data','refreshToken'))->render(),
-            'buyerName' => $buyerName,
-            'buyerInitials' => $buyerInitials,
-            'adTitle' => $adTitle,
-            'adPrice' => $adPrice,
-            'conv_id' => $conv_id,
-            'user_id' => $user_id,
-            'refreshToken' => $refreshToken
+            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
+            $buyerName = $data['buyerName'];
+            $buyerInitials = $data['buyerInitials'];
+            $adTitle = $data['adTitle'];
+            $price = $data['adPriceInEuroCent'];
+            $adPrice = $price / 100;
 
-        ]);
+            return response()->json([
+                'component' => view('admin.chat.messages', compact('data', 'refreshToken'))->render(),
+                'buyerName' => $buyerName,
+                'buyerInitials' => $buyerInitials,
+                'adTitle' => $adTitle,
+                'adPrice' => $adPrice,
+                'conv_id' => $conv_id,
+                'user_id' => $user_id,
+                'refreshToken' => $refreshToken
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred. Please try again.']);
+        }
     }
 
     public function SendMessages(Request $request)
     {
-        $url = Setting::first();
-        $domain = $url->site_url;
-        
-        $accessToken = $this->refreshAccessToken($request->refreshToken,$domain);
+        try {
+            $url = Setting::first();
+            $domain = $url->site_url;
 
-        Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-            ->post("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}?warnBankDetails=1&warnEmail=1&warnPhoneNumber=1",
-            [
-                'message' => $request->message,
-        ]);
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
 
-        return response()->json([
-            'success' => 'Message Send Successfully',
-        ]);
+            Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->post(
+                    "{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}?warnBankDetails=1&warnEmail=1&warnPhoneNumber=1",
+                    [
+                        'message' => $request->message,
+                    ]
+                );
+
+            return response()->json([
+                'success' => 'Message Send Successfully',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred. Please try again.']);
+        }
     }
 
     public function AssignAccount(Request $request)
     {
         $limit = Auth::user()->limit;
 
-        $count = Account::where('buy_id',Auth::user()->id)->where('buy_date',today())->count();
-        
+        $count = Account::where('buy_id', Auth::user()->id)->where('buy_date', today())->count();
+        $accounts = Account::where('buy_id', Auth::user()->id)->get();
 
-        if($count >= $limit){
-            $accounts = Account::where('buy_id',Auth::user()->id)->get();
+        if ($count >= $limit) {
             return response()->json([
-                'component' => view('admin.chat.accounts',compact('accounts'))->render(),
-                'error' => 'Accounts limit are reached!',        
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'error' => 'Accounts limit are reached!',
             ]);
-            // return back()->with('error','Accounts limit are reached!');
-        }else{
+        } else {
             $account = Account::whereNull('buy_id')->first();
 
-            if($account){
+            if ($account) {
                 $account->buy_id = Auth::user()->id;
                 $account->buy_date = now()->toDateString();;
                 $account->save();
-                $accounts = Account::where('buy_id',Auth::user()->id)->get();
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
                 return response()->json([
-                    'component' => view('admin.chat.accounts',compact('accounts'))->render(),
-                    'success' => 'Account assign Successfully',        
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'success' => 'Account assign Successfully',
                 ]);
-                // return back()->with('success','Account assign Successfully');
-            }else{
-                return response()->json(['error' => 'Accounts limit are reached!']);
-                // return back()->with('error','Accounts are not available!');
+            } else {
+                return response()->json([
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'error' => 'Accounts not empty!',
+                ]);
             }
         }
     }
     public function ReloadAccount()
     {
-        $accounts = Account::where('buy_id',Auth::user()->id)->get();
+        $accounts = Account::where('buy_id', Auth::user()->id)->get();
         return response()->json([
-            'component' => view('admin.chat.accounts',compact('accounts'))->render(),
+            'component' => view('admin.chat.accounts', compact('accounts'))->render(),
         ]);
     }
 }

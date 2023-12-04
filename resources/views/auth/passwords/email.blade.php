@@ -62,7 +62,7 @@
         .card.form-card {
             width: 300px;
             background: #303348;
-            padding: 40px;
+            padding: 25px 40px;
             box-shadow: 1px 1px 15px 0px rgba(0, 0, 0, 0.1);
         }
 
@@ -192,6 +192,9 @@
         .alert-success{
             color: green;
         }
+        .card-header{
+            margin-top: 20px
+        }
     </style>
 </head>
 
@@ -207,14 +210,17 @@
                                     <div class="wraped-div">
                                         <div class="before-div"></div>
                                         <div class="card form-card">
-                                            <div class="card-header">
+                                            <div class="card-header" >
                                                 <div class="card-title">
                                                     <h2 class="login-tittle"><img
                                                             src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
                                                             alt="">NullzFilling</h2>
                                                 </div>
                                             </div>
-                                            <h3 style='margin:0;color:white;'> Passwort vergessen? </h3>
+                                            <div style="display: flex; margin-bottom:5px">
+                                                <h3 style='margin:0;color:white;'>Passwort vergessen?</h3> &nbsp;
+                                                <img class="mt-2" src="{{ asset('app-assets/images/icons/lock.png') }}" width="30px" alt="">
+                                            </div>
                                             <p class="login-para">
                                                 Melde dich bitte mit deinem Telegram Konto, dass du bei der
                                                 Registrierung angegeben hast, bei
@@ -242,7 +248,7 @@
                                                     <button type="submit" class="submit-form">Schicken</button>
                                                 </form>    --}}
                                                 <div style='text-align:center;'><a href="{{ route('login') }}"><span
-                                                        style='font-size:20px;'>
+                                                        style='font-size:20px; margin-top:10px'>
                                                         < Zuruck zum Login</a></div>
                                         </div>
                                         <div class="after-div">

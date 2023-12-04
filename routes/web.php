@@ -22,11 +22,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 Auth::routes();
-Route::get('/custom',function(){
+Route::get('/custom', function () {
     return view('custom');
 });
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
@@ -63,24 +63,27 @@ Route::middleware(['auth'])->group(function (){
     Route::post('settings/store', [SettingController::class, 'StoreSetting'])->name('store.setting');
 
     // Payment
-    if(Auth::check() && Auth::user()->role == 'admin'){
-        Route::get('payment', [PaymentsController::class, 'index'])->name('payment');
-        Route::post('upload/payment',[PaymentsController::class,'UploadPayment'])->name('upload.payment');
-        Route::get('payment/edit/{id}',[PaymentsController::class,'EditPayment'])->name('edit.payment');
-        Route::post('payment/update/{id}',[PaymentsController::class,'UpdatePayment'])->name('update.payment');
-        Route::delete('payment/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
-        Route::get('payment/chat/{id}',[PaymentsController::class,'Chat'])->name('chat.view');
-    }else{
-        Route::get('einnahmen', [PaymentsController::class, 'index'])->name('payment');
-        Route::post('upload/einnahmen',[PaymentsController::class,'UploadPayment'])->name('upload.payment');
-        Route::get('einnahmen/edit/{id}',[PaymentsController::class,'EditPayment'])->name('edit.payment');
-        Route::post('einnahmen/update/{id}',[PaymentsController::class,'UpdatePayment'])->name('update.payment');
-        Route::delete('einnahmen/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
-        Route::get('einnahmen/chat/{id}',[PaymentsController::class,'Chat'])->name('chat.view');
-    }
+    Route::get('payment', [PaymentsController::class, 'index'])->name('payment');
+    Route::post('upload/payment', [PaymentsController::class, 'UploadPayment'])->name('upload.payment');
+    Route::get('payment/edit/{id}', [PaymentsController::class, 'EditPayment'])->name('edit.payment');
+    Route::post('payment/update/{id}', [PaymentsController::class, 'UpdatePayment'])->name('update.payment');
+    Route::delete('payment/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
+    Route::get('payment/chat/{id}', [PaymentsController::class, 'Chat'])->name('chat.view');
+
+    // Einnahmen
+    Route::get('einnahmen', [PaymentsController::class, 'index'])->name('user.payment');
+    Route::get('einnahmen/chat/{id}', [PaymentsController::class, 'Chat'])->name('user.chat.view');
+
+    // }else{
+    //     Route::get('einnahmen', [PaymentsController::class, 'index'])->name('payment');
+    //     Route::post('upload/einnahmen',[PaymentsController::class,'UploadPayment'])->name('upload.payment');
+    //     Route::get('einnahmen/edit/{id}',[PaymentsController::class,'EditPayment'])->name('edit.payment');
+    //     Route::post('einnahmen/update/{id}',[PaymentsController::class,'UpdatePayment'])->name('update.payment');
+    //     Route::delete('einnahmen/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
+    //     Route::get('einnahmen/chat/{id}',[PaymentsController::class,'Chat'])->name('chat.view');
+    // }
 
     // Assign Accounts
     Route::get('assign-account', [ChatsController::class, 'AssignAccount'])->name('assign');
     Route::get('reload-account', [ChatsController::class, 'ReloadAccount'])->name('reload');
-
 });

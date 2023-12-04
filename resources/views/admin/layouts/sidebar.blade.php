@@ -27,11 +27,17 @@
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i><span class="menu-title" data-i18n="Calender">Dashboard</span></a></li>
-            <li class="nav-item {{ Request::is('einnahmen*') ? 'active' : '' }}"><a href="{{ route('payment') }}"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            
+            @if(auth()->user()->role == 'user')
+                <li class="nav-item {{ Request::is('einnahmen*') ? 'active' : '' }}"><a href="{{ route('user.payment') }}"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            @elseif(auth()->user()->role == 'admin')
+                <li class="nav-item"><a href="#"><i class="fa fa-shopping-cart"></i><span class="menu-title" data-i18n="Calender">Einnahmen</span></a></li>
+            @endif
+
             <li class="nav-item {{ Request::is('chat') ? 'active' : '' }}"><a href="{{ route('chat') }}"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Calender">Chats</span></a></li>
             <li class="nav-item "><a href="#"><i class="fa fa-support"></i><span class="menu-title" data-i18n="Calender">Kontakte</span></a></li>
             @if(auth()->user()->role == 'admin')
-            <label class="label" style="padding: 0 30px; font-weight:600">ADMINPANEL</label>
+                <label class="label" style="padding: 0 30px; font-weight:600">ADMINPANEL</label>
                 <li class="nav-item {{ Request::is('user-list') ? 'active' : '' }}"><a href="{{ route('users.list') }}"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Calender">Benutzerliste</span></a></li>
                 <li class="nav-item {{ Request::is('payment*') ? 'active' : '' }}"><a href="{{ route('payment') }}"><i class="fa fa-file-text"></i><span class="menu-title" data-i18n="Calender">Payments</span></a></li>
                 <li class="nav-item {{ Request::is('accounts*')  ? 'active' : '' }}"><a href="{{ route('accounts') }}"><i class="fa fa-id-card"></i><span class="menu-title" data-i18n="Calender">Accounts</span></a></li>

@@ -14,12 +14,12 @@ class PaymentsController extends Controller
     {
         if(Auth::user()->role == 'admin'){
             $payment = Payment::all();
+            return view('admin.payment.index',compact('payment'));
         }else{
             $payment = Payment::where('user_id',Auth::user()->id)->get();
+            return view('admin.payment.user_side.index',compact('payment'));
         }
-        
 
-        return view('admin.payment.index',compact('payment'));
     }
     private function refreshAccessToken($refreshToken, $domain)
     {
@@ -76,8 +76,12 @@ class PaymentsController extends Controller
     public function Chat($id){
         $payment = Payment::find($id);
         $chatMessages = json_decode($payment->chat, true);
-
-        return view('admin.payment.chat',compact('chatMessages','payment'));
+        if(Auth::user()->role == 'admin'){
+            return view('admin.payment.chat',compact('chatMessages','payment'));
+        }else{
+            return view('admin.payment.user_side.chat',compact('chatMessages','payment'));
+        }
+        
     }
     public function DeletePayment($id)
     {

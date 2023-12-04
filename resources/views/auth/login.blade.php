@@ -239,9 +239,12 @@
                                                             alt="">NullzFilling</h4>
                                                 </div>
                                             </div>
-                                            <h3 style='margin:0;color:white;'> Willkommen! </h3>
+                                            <div style="display: flex">
+                                                <h3 style='margin:0;color:white;'>Willkommen!</h3> &nbsp;
+                                                <img class="mt-2" src="{{ asset('app-assets/images/icons/hand.png') }}" width="30px" alt="">
+                                            </div>
                                             <p class="login-para">
-                                                Bitte logge dich ein fur die Millionen</p>
+                                                Bitte logge dich ein für die Millionen</p>
                                             <div class="">
                                                 <div class="">
                                                     <form method="POST" action="{{ route('login') }}">
