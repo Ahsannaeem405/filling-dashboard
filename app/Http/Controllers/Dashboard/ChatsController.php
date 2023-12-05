@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Http;
 
 class ChatsController extends Controller
 {
-
     public function index()
     {
         if (Auth::user()->role === 'user') {
@@ -23,10 +22,10 @@ class ChatsController extends Controller
         return view('admin.chat.index', compact('accounts'));
     }
 
-    private function refreshAccessToken($refreshToken, $domain)
+    private function refreshAccessToken($refreshToken, $accessTokenApi)
     {
         try {
-            $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+            $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
                 'refreshToken' => $refreshToken,
             ]);
             return [
@@ -41,18 +40,20 @@ class ChatsController extends Controller
 
     public function Conversation(Request $request)
     {
-       
         try {
             
-            $url = Setting::first();
-            $domain = $url->site_url;
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserConvAPi = $setting->getUserConv_api;
 
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
+            $conversation_api = str_replace('{USERID}', $request->user_id, $getUserConvAPi);
 
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
             $refreshToken = $request->refreshToken;
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations?size=100000000");
+                ->get("{$conversation_api}");
+              
             $numFound = $data['_meta']['numFound'];
             $numUnread = $data['_meta']['numUnread'];
 
@@ -68,19 +69,28 @@ class ChatsController extends Controller
     public function ConversationMessages(Request $request)
     {
         try {
-            $url = Setting::first();
-            $domain = $url->site_url;
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserConvMsgAPi = $setting->getUserConvMsg_api;
 
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
+            $msg_api = str_replace('{USERID}', $request->user_id, $getUserConvMsgAPi);
+
+            $conv_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
+
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
+
             $refreshToken = $request->refreshToken;
             $conv_id = $request->conv_id;
             $user_id = $request->user_id;
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
+                ->get("{$conv_msg_api}");
             $buyerName = $data['buyerName'];
             $buyerInitials = $data['buyerInitials'];
             $adTitle = $data['adTitle'];
+            $ad = $data['adImage'];
+            $adImage = str_replace('{imageId}', 0, $ad);
+            
             $price = $data['adPriceInEuroCent'];
             $adPrice = $price / 100;
 
@@ -89,6 +99,7 @@ class ChatsController extends Controller
                 'buyerName' => $buyerName,
                 'buyerInitials' => $buyerInitials,
                 'adTitle' => $adTitle,
+                'adImage' => $adImage,
                 'adPrice' => $adPrice,
                 'conv_id' => $conv_id,
                 'user_id' => $user_id,
@@ -103,14 +114,18 @@ class ChatsController extends Controller
     public function SendMessages(Request $request)
     {
         try {
-            $url = Setting::first();
-            $domain = $url->site_url;
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $sendMsgAPi = $setting->postMsg_api;
 
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
+            $msg_api = str_replace('{USERID}', $request->user_id, $sendMsgAPi);
+
+            $send_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
+
+            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
 
             Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->post(
-                    "{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}?warnBankDetails=1&warnEmail=1&warnPhoneNumber=1",
+                ->post("{$send_msg_api}",
                     [
                         'message' => $request->message,
                     ]

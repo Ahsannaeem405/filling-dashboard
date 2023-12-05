@@ -16,6 +16,7 @@ class AdminSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin',
+            'telegram' => 'admin@telegram_id',
             'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
             'status' => 'active',

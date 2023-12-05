@@ -227,8 +227,12 @@
             top: 36px;
             color: white;
         }
-        .invalid-feedback{
+
+        .invalid-feedback {
             color: rgb(199, 41, 41);
+            position: relative;
+            top: -17px;
+            left: 12px;
         }
     </style>
 </head>
@@ -256,7 +260,9 @@
                                             </div>
                                             <div style="display: flex">
                                                 <h3 style='margin:0;color:white;'>Jage die Millionen</h3> &nbsp;
-                                                <img class="mt-2" src="{{ asset('app-assets/images/icons/rocket.png') }}" width="30px" alt="">
+                                                <img class="mt-2"
+                                                    src="{{ asset('app-assets/images/icons/rocket.png') }}"
+                                                    width="30px" alt="">
                                             </div>
                                             <p class="login-para">
                                                 Registriere dich und fange sofort an zu fillen!</p>
@@ -266,7 +272,10 @@
                                                         @csrf
                                                         <div class="form-label-group">
                                                             <label for="user-name">Benutzername</label>
-                                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                            <input id="name" type="text"
+                                                                class="form-control @error('name') is-invalid @enderror"
+                                                                name="name" value="{{ old('name') }}" required
+                                                                autocomplete="name" autofocus>
                                                             @error('name')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
@@ -278,7 +287,10 @@
                                                         </div>
                                                         <div class="form-label-group">
                                                             <label for="user-name">Telegram</label>
-                                                            <input id="telegram" type="text" class="form-control @error('telegram') is-invalid @enderror" name="telegram" value="{{ old('telegram') }}" required autocomplete="telegram">
+                                                            <input id="telegram" type="text"
+                                                                class="form-control @error('telegram') is-invalid @enderror"
+                                                                name="telegram" value="{{ old('telegram') }}" required
+                                                                autocomplete="telegram">
                                                             @error('telegram')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
@@ -291,23 +303,28 @@
 
                                                         <div class="form-label-group">
                                                             <label for="user-password">Passwort</label>
-                                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                                            <input id="password" type="password"
+                                                                class="form-control @error('password') is-invalid @enderror"
+                                                                name="password" required autocomplete="new-password">
                                                             @error('password')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
                                                             @enderror
-                                                                <div class="form-control-position pass-icon">
-                                                                    <i toggle="#password" class="fa fa-eye-slash toggle-password"></i>
-                                                                </div>
+                                                            <div class="form-control-position pass-icon">
+                                                                <i toggle="#password"
+                                                                    class="fa fa-eye-slash toggle-password"></i>
+                                                            </div>
 
                                                         </div>
 
                                                         <div class="form-label-group">
-                                                            <label for="captcha" >Captcha</label>
+                                                            <label for="captcha">Captcha</label>
                                                         </div>
                                                         <div class="form-label-group-captcha">
-                                                            <input id="captcha" type="text" class="form-control @error('captcha') is-invalid @enderror" placeholder="..." name="captcha">
+                                                            <input id="captcha" type="text"
+                                                                class="form-control @error('captcha') is-invalid @enderror"
+                                                                placeholder="..." name="captcha">
                                                             <div class="captcha">
                                                                 <span>{!! captcha_img() !!}</span>
                                                                 {{-- <button type="button" class="btn btn-danger" class="reload" id="reload">
@@ -330,7 +347,7 @@
                                                                 class="btn btn-outline-primary float-left btn-inline">Logge
                                                                 dich ein</a>
                                                         </div>
-                                
+
                                                     </form>
                                                 </div>
                                             </div>
@@ -350,7 +367,7 @@
             </div>
         </div>
     </div>
-   
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -368,4 +385,3 @@
 </body>
 
 </html>
-

@@ -16,14 +16,22 @@ class SettingController extends Controller
     {
         $setting = Setting::first();
         if($setting){
-            $setting->site_url = $request->url;
+            $setting->accessToken_api = $request->accessToken_api;
+            $setting->getUser_api = $request->getUser_api;
+            $setting->getUserConv_api = $request->getUserConv_api;
+            $setting->getUserConvMsg_api = $request->getUserConvMsg_api;
+            $setting->postMsg_api = $request->postMsg_api;
             $setting->save();
-            return back()->with('success','Account Setting Saved.');
+            return back()->with('success','Api Setting Updated.');
         }else{
             Setting::create([
-                'site_url' => $request->url
+                'accessToken_api' => $request->accessToken_api,
+                'getUser_api' => $request->getUser_api,
+                'getUserConv_api' => $request->getUserConv_api,
+                'getUserConvMsg_api' => $request->getUserConvMsg_api,
+                'postMsg_api' => $request->postMsg_api,
             ]);
-            return back()->with('success','Account Setting Saved.');
+            return back()->with('success','Api Setting Created.');
         }
         
     }

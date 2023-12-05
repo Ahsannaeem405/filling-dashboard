@@ -18,6 +18,11 @@ return new class extends Migration
             $table->integer('account_id')->nullable();
             $table->text('description')->nullable();
             $table->text('refreshToken')->nullable();
+            $table->text('adPic')->nullable();
+            $table->text('adTitle')->nullable();
+            $table->text('adPrice')->nullable();
+            $table->text('adStatus')->nullable();
+            $table->text('reloadDate')->nullable();
             $table->timestamps();
         });
     }

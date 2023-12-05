@@ -299,7 +299,53 @@
         th.sorting:after {
             margin-left: -10px !important
         }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .message-box {
+            position: absolute;
+            background-color: #10163A;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%;
+            max-width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+            right: 20px;
+        }
+
+        .message-box p {
+            margin: 0 !important;
+        }
+        body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
+            z-index: 1050;
+        }
+
+        body.dark-layout .header-navbar {
+            z-index: 1000;
+        }
     </style>
+    @if (Auth::user()->status == 'in-active')
+        <div class="overlay">
+            <div class="message-box">
+                <p>Dein Konto wurde noch nicht freigegeben.</p>
+                <p>Bitte Gedulde dich etwas!</p>
+            </div>
+        </div>
+    @endif
     <div class="content-header row"></div>
     <div class="content-body">
         <div class="user-card-wraper">
@@ -365,7 +411,7 @@
                         </th>
                         <th>CLIENT</th>
                         <th>TOTAL</th>
-                        {{-- <th>ISSUED DATE</th> --}}
+                        <th>ISSUED DATE</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -394,7 +440,7 @@
                                 </a>
                             </td>
                             <td>{{ $payment->price }}€</td>
-                            {{-- <td>09 May 2020</td> --}}
+                            <td>{{ $payment->created_at->format('d M Y') }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"
@@ -410,8 +456,10 @@
                             <td>
                                 <a href="{{ route('user.chat.view', ['id' => $payment->id]) }}" style="color: white"><i
                                         class="bx bxs-envelope mr-1"></i></a>
-                                <a href="#" style="color: white"><i
-                                        class="fa fa-eye"></i></a>
+                                <a class="open-modal-btn" id="{{ $payment->id }}" style="color: white" data-toggle="modal"
+                                    data-target="#customModal">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                 <div class="dropdown" style='display:inline-block'>
                                     <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -420,7 +468,7 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                         <a class="dropdown-item">
-                                            Edit Profile</a>
+                                            Edit Status</a>
                                         <a class="dropdown-item text-danger">
                                             Remove</a>
                                     </div>
@@ -477,5 +525,44 @@
                 });
             </script>
         </div>
+
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="customModalLabel">Detail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="top:10px; right:20px">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.open-modal-btn').on('click', function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                        url: "{{ route('user.payment.view') }}",
+                        method: 'GET',
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            $('.modal-body').empty().append(response.component);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                $('#customModal').modal('show');
+            });
+        });
+    </script>
 @endsection

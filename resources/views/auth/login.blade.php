@@ -206,16 +206,22 @@
             top: 36px;
             color: white;
         }
+
         .custom-success-toast {
-            background-color: #4CAF50; 
-            color: #ffffff; 
+            background-color: #4CAF50;
+            color: #ffffff;
         }
+
         .custom-warning-toast {
-            background-color: rgb(163, 23, 23); 
-            color: #ffffff; 
+            background-color: rgb(163, 23, 23);
+            color: #ffffff;
         }
-        .invalid-feedback{
+
+        .invalid-feedback {
             color: rgb(199, 41, 41);
+            position: relative;
+            top: -17px;
+            left: 12px;
         }
     </style>
 </head>
@@ -241,7 +247,9 @@
                                             </div>
                                             <div style="display: flex">
                                                 <h3 style='margin:0;color:white;'>Willkommen!</h3> &nbsp;
-                                                <img class="mt-2" src="{{ asset('app-assets/images/icons/hand.png') }}" width="30px" alt="">
+                                                <img class="mt-2"
+                                                    src="{{ asset('app-assets/images/icons/hand.png') }}" width="30px"
+                                                    alt="">
                                             </div>
                                             <p class="login-para">
                                                 Bitte logge dich ein für die Millionen</p>
@@ -251,25 +259,27 @@
                                                         @csrf
                                                         <div class="form-label-group">
                                                             <label for="name">Benutzername</label>
-                                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                                                   name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                            <input id="name" type="text"
+                                                                class="form-control @error('name') is-invalid @enderror"
+                                                                name="name" value="{{ old('name') }}" required
+                                                                autocomplete="name" autofocus>
                                                             @error('name')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
                                                             @enderror
                                                         </div>
-                                                        
+
                                                         <div class="form-label-group">
                                                             <div
                                                                 style='display:flex;justify-content:space-between;align-items:center;'>
                                                                 <label for="user-password">Passwort</label>
                                                                 @if (Route::has('password.request'))
-                                                                    <a  href="{{ route('password.request') }}">
+                                                                    <a href="{{ route('password.request') }}">
                                                                         <span>Passwort vergessen?</span>
                                                                     </a>
                                                                 @endif
-                                                                
+
                                                             </div>
                                                             <input id="password" type="password"
                                                                 class="form-control 
@@ -332,7 +342,9 @@
     </script>
     <script>
         @if (Session::has('success'))
-            toastr.success("{{ Session::get('success') }}",'',{toastClass: 'custom-success-toast'});
+            toastr.success("{{ Session::get('success') }}", '', {
+                toastClass: 'custom-success-toast'
+            });
         @endif
         @if (Session::has('info'))
             toastr.info("{{ Session::get('info') }}");
@@ -344,7 +356,9 @@
             toastr.success("{{ Session::get('success') }}");
         @endif
         @if (Session::has('error'))
-            toastr.error("{{ Session::get('error') }}",'',{toastClass: 'custom-warning-toast'});
+            toastr.error("{{ Session::get('error') }}", '', {
+                toastClass: 'custom-warning-toast'
+            });
         @endif
     </script>
 </body>

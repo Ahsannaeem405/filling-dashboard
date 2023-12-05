@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->text('site_url')->nullable();
+            $table->text('accessToken_api')->nullable();
+            $table->text('getUser_api')->nullable();
+            $table->text('getUserConv_api')->nullable();
+            $table->text('getUserConvMsg_api')->nullable();
+            $table->text('postMsg_api')->nullable();
             $table->timestamps();
         });
     }

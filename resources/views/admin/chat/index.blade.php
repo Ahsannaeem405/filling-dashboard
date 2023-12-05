@@ -313,13 +313,18 @@
                                 @foreach ($accounts as $account)
                                     <li class="list-style" data-refresh="{{ $account->refreshToken }}"
                                         data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
-                                        <span class="initials mr-1">{!! strtoupper(substr($account->description, 0, 2)) !!}</span>
-                                        <?php
-                                        $string = $account->description;
-                                        $parts = explode(':', $string);
-                                        $email = $parts[0];
-                                        ?>
-                                        {{ $email }}
+                                        <img src="{{ $account->adPic }}" alt="">
+                                        <div class="user-chat-info">
+                                            <div class="contact-info">
+                                                <div style="display: flex; justify-content:space-between">
+                                                    <h5 class="font-weight-bold mb-0">{{ substr($account->adTitle,0,22) }}</h5>
+                                                    <p style="margin-bottom: 0px">{{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y, H:i') }}</p>
+                                                </div>
+                                                <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <span></span>
                                     </li>
                                 @endforeach
                             @endif
@@ -383,11 +388,11 @@
                                                 <div class="sidebar-toggle d-block d-lg-none mr-1"><i
                                                         class="feather icon-menu font-large-1"></i></div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span class="initials buyerInitials"></span>
+                                                    <span class=""><img class="buyerInitials" src="" alt="" width="35px"></span>
                                                     {{-- <span class="avatar-status-busy"></span> --}}
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName"></h6>
+                                                    <h6 class="mb-0 buyerName" style="width:220px"></h6>
                                                     <p><span class="price"></span> € VB</p>
 
                                                 </span>
@@ -435,9 +440,9 @@
                                     </span>
                                     <div class="header-profile-sidebar">
                                         <div class="avatar">
-                                            <span class="logo initials"></span>
+                                            <span class="logo "><img class="pop-up-initials" src="" alt="" width="35px"></span>
                                         </div>
-                                        <h4 class="chat-user-name name"></h4>
+                                        <h4 class="chat-user-name pop-up-name"></h4>
                                     </div>
                                 </header>
                                 <div class="user-profile-sidebar-area p-2">
@@ -779,10 +784,10 @@
                             $('.active-chat').removeClass('d-none');
                             $('.start-chat-area').addClass('d-none');
                             $('.append-chat').empty().append(response.component);
-                            $('.buyerInitials').text(response.buyerInitials);
-                            $('.buyerName').text(response.buyerName);
-                            $('.initials').text(response.buyerInitials);
-                            $('.name').text(response.buyerName);
+                            $('.buyerInitials').attr('src', response.adImage);;
+                            $('.buyerName').text(response.adTitle);
+                            $('.pop-up-initials').attr('src',response.adImage);
+                            $('.pop-up-name').text(response.adTitle);
                             $('.price').text(response.adPrice);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
                             $('.start-chat-area').attr('data-user-id', response.user_id);
@@ -820,14 +825,25 @@
                     refreshToken: refreshToken,
                 },
                 success: function(response) {
-                    toastr.success(response.success, '', {
-                        onShown: function() {
-                            $('.toast-success').css({
-                                'background-color': '#4CAF50',
-                                'color': '#ffffff'
+                    if (response.success) {
+                            toastr.success(response.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else if (response.error) {
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
                             });
                         }
-                    });
                 },
                 error: function(error) {
                     toastr.error(error);
@@ -835,7 +851,7 @@
             });
         });
     </script>
-    {{-- <script>
+    <script>
         $(document).ready(function(){
             function refresh() {
                 if ($('.start-chat-area').hasClass('d-none')) {
@@ -854,7 +870,7 @@
                         success: function(response) {
                             // $('.active-chat').removeClass('d-none');
                             // $('.start-chat-area').addClass('d-none');
-                            $('.active-chat').empty().append(response.component);
+                            $('.append-chat').empty().append(response.component);
                             // $('.logo').text(response.logo);
                             // $('.name').text(response.name);
                             // $('.start-chat-area').attr('data-conv-id', response.conv_id);
@@ -870,7 +886,7 @@
             }
             setInterval(refresh, 10000);
         })
-    </script> --}}
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
     <script>

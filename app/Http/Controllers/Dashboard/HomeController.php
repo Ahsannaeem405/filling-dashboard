@@ -15,10 +15,10 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    private function refreshAccessToken($refreshToken, $domain)
+    private function refreshAccessToken($refreshToken, $accessTokenApi)
     {
         try {
-            $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+            $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
                 'refreshToken' => $refreshToken,
             ]);
             return [
@@ -47,14 +47,18 @@ class HomeController extends Controller
         $completeChat = 0;
 
         try{    
-            $url = Setting::first();
-            $domain = $url->site_url;
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserConvAPi = $setting->getUserConv_api;
     
             foreach ($accounts as $account) {
-                $accessToken = $this->refreshAccessToken($account->refreshToken, $domain);
-    
+
+                $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
+
+                $accessToken = $this->refreshAccessToken($account->refreshToken, $accessTokenApi);
+
                 $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                    ->get("{$domain}/messagebox/api/users/{$account->account_id}/conversations?size=100000000");
+                ->get("{$conversation_api}");
     
                 $totalChat += $data['_meta']['numFound'];
                 $totalUnread += $data['_meta']['numUnread'];

@@ -333,7 +333,7 @@
                                         $parts = explode(':', $string);
                                         $email = $parts[0]; 
                                     ?>
-                                    <p class="font-weight-bold mb-0">{{ $email }}</p>
+                                    <p class="font-weight-bold mb-0">{{ substr($email,0,30) }}</p>
                                 </div>
                             </div>
                         </a>

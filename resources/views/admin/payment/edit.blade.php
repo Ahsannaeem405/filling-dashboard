@@ -13,7 +13,7 @@
         <div class="col-md-6 col-12 m-auto">
             <div class="card" style="height: auto;">
                 <div class="card-header">
-                    <h4 class="card-title">Edit Payment</h4>
+                    <h4 class="card-title">Update Status</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">

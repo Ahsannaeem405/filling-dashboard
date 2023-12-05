@@ -12,18 +12,17 @@ class PaymentsController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->role == 'admin'){
+        if (Auth::user()->role == 'admin') {
             $payment = Payment::all();
-            return view('admin.payment.index',compact('payment'));
-        }else{
-            $payment = Payment::where('user_id',Auth::user()->id)->get();
-            return view('admin.payment.user_side.index',compact('payment'));
+            return view('admin.payment.index', compact('payment'));
+        } else {
+            $payment = Payment::where('user_id', Auth::user()->id)->get();
+            return view('admin.payment.user_side.index', compact('payment'));
         }
-
     }
-    private function refreshAccessToken($refreshToken, $domain)
+    private function refreshAccessToken($refreshToken, $accessTokenApi)
     {
-        $response = Http::withHeaders(['User-Agent' => ''])->post("{$domain}/auth/refresh", [
+        $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
             'refreshToken' => $refreshToken,
         ]);
         return [
@@ -32,13 +31,19 @@ class PaymentsController extends Controller
     }
     public function UploadPayment(Request $request)
     {
-        $url = Setting::first();
-        $domain = $url->site_url;
+        $setting = Setting::first();
+        $accessTokenApi = $setting->accessToken_api;
+        $getUserConvMsgAPi = $setting->getUserConvMsg_api;
 
-        $accessToken = $this->refreshAccessToken($request->refreshToken, $domain);
+        $msg_api = str_replace('{USERID}', $request->user_id, $getUserConvMsgAPi);
+
+        $conv_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
+
+        $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
+
 
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-            ->get("{$domain}/messagebox/api/users/{$request->user_id}/conversations/{$request->conv_id}");
+            ->get("{$conv_msg_api}");
 
         $payment = Payment::where('client_id', $data['userIdBuyer'])->first();
         if ($payment) {
@@ -47,7 +52,7 @@ class PaymentsController extends Controller
             $payment->client_name = $data['buyerName'];
             $payment->seller_name = $data['sellerName'];
             $payment->chat = json_encode($data['messages']);
-            $payment->price = $data['adPriceInEuroCent']/100;
+            $payment->price = $data['adPriceInEuroCent'] / 100;
             $payment->save();
         } else {
             $new = new Payment();
@@ -56,36 +61,50 @@ class PaymentsController extends Controller
             $new->client_name = $data['buyerName'];
             $new->seller_name = $data['sellerName'];
             $new->chat = json_encode($data['messages']);
-            $new->price = $data['adPriceInEuroCent']/100;
+            $new->price = $data['adPriceInEuroCent'] / 100;
             $new->save();
         }
-        
+
         return response()->json(['success' => 'Chat data saved successfully']);
     }
-    public function EditPayment($id){
+    public function EditPayment($id)
+    {
         $payment = Payment::find($id);
-        return view('admin.payment.edit',compact('payment'));
+        return view('admin.payment.edit', compact('payment'));
     }
-    public function UpdatePayment(Request $request,$id)
+    public function UpdatePayment(Request $request, $id)
     {
         $payment = Payment::find($id);
         $payment->status = $request->status;
         $payment->save();
-        return redirect()->route('payment')->with('success','Status updated successfully');
+        return redirect()->route('payment')->with('success', 'Status updated successfully');
     }
-    public function Chat($id){
+    public function Chat($id)
+    {
         $payment = Payment::find($id);
         $chatMessages = json_decode($payment->chat, true);
-        if(Auth::user()->role == 'admin'){
-            return view('admin.payment.chat',compact('chatMessages','payment'));
-        }else{
-            return view('admin.payment.user_side.chat',compact('chatMessages','payment'));
+        if (Auth::user()->role == 'admin') {
+            return view('admin.payment.chat', compact('chatMessages', 'payment'));
+        } else {
+            return view('admin.payment.user_side.chat', compact('chatMessages', 'payment'));
         }
-        
     }
     public function DeletePayment($id)
     {
         Payment::find($id)->delete();
-        return back()->with('success','Deleted Successfully.');
+        return back()->with('success', 'Deleted Successfully.');
+    }
+    public function PaymentView(Request $request)
+    {
+        $payment = Payment::find($request->id);
+        if (Auth::user()->role == 'admin')
+            return response()->json([
+                'component' => view('admin.payment.paymentview', compact('payment'))->render(),
+            ]);
+        else {
+            return response()->json([
+                'component' => view('admin.payment.user_side.paymentview', compact('payment'))->render(),
+            ]);
+        }
     }
 }

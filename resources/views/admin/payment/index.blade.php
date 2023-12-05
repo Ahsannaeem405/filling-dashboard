@@ -200,7 +200,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-      left:unset !important; */
+                      left:unset !important; */
             left: -2px !important;
         }
 
@@ -283,17 +283,30 @@
             top: 34px;
             z-index: 9;
         }
-        .dt-button{
+
+        .dt-button {
             border-radius: 5px !important;
         }
-        .bottom{
+
+        .bottom {
             margin-top: 10px;
         }
-        th.sorting:before{
+
+        th.sorting:before {
             margin-left: -10px !important
         }
-        th.sorting:after{
+
+        th.sorting:after {
             margin-left: -10px !important
+        }
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
         }
     </style>
     <div class="content-header row"></div>
@@ -381,7 +394,7 @@
                             <td>
                                 <a href="#">
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name,0,1) }}</div>
+                                        <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name, 0, 1) }}</div>
 
                                         <div class="">
                                             <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
@@ -394,40 +407,48 @@
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"
-                                        style='@if($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
+                                        style='@if ($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
                                         @elseif($payment->status === 'unpaid') background-color: #a72727; color: #f3aaaa;
-                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190;@endif'>{{ $payment->status }}</div>
+                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
+                                        {{ $payment->status }}</div>
                                 @else
                                     <div class="badge badge-success badge-success-alt"
                                         style='background-color: #093e3c; color: #668f95;'>waiting for approval</div>
-                                @endif    
+                                @endif
                             </td>
                             <td>
-                                <a href="{{ route('chat.view',['id' => $payment->id]) }}" style="color: white"><i class="bx bxs-envelope mr-1"></i></a> 
-                                <a href="#" style="color: white"><i class="fa fa-eye"></i></a> 
+                                <a href="{{ route('chat.view', ['id' => $payment->id]) }}" style="color: white"><i
+                                        class="bx bxs-envelope mr-1"></i></a>
+                                <a class="open-modal-btn" id="{{ $payment->id }}" style="color: white" data-toggle="modal"
+                                    data-target="#customModal">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+
                                 <div class="dropdown" style='display:inline-block'>
-                                        <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
-                                                title="Actions"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                            <a class="dropdown-item" href="{{ route('edit.payment',['id' => $payment->id]) }}"> Edit Profile</a>
-                                            <a class="dropdown-item text-danger" onclick="deleteAccount({{ $payment->id }})"> Remove</a>
-                                        </div>
-                                        <form id="delete-form-{{ $payment->id }}"
-                                            action="{{ route('delete.payment', ['id' => $payment->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                    <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
+                                            title="Actions"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <a class="dropdown-item"
+                                            href="{{ route('edit.payment', ['id' => $payment->id]) }}">
+                                            Edit Status</a>
+                                        <a class="dropdown-item text-danger" onclick="deleteAccount({{ $payment->id }})">
+                                            Remove</a>
                                     </div>
+                                    <form id="delete-form-{{ $payment->id }}"
+                                        action="{{ route('delete.payment', ['id' => $payment->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
 
                 </tbody>
             </table>
-
 
             <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
             <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -450,19 +471,20 @@
                     language: {
                         searchPlaceholder: 'Search Invoice'
                     },
-                    columnDefs: [
-                        { targets: [0], orderable: false } 
-                    ],
+                    columnDefs: [{
+                        targets: [0],
+                        orderable: false
+                    }],
                     order: []
                 });
             </script>
             <script>
-                $(document).ready(function () {
-                    $('#statusFilter').change(function () {
+                $(document).ready(function() {
+                    $('#statusFilter').change(function() {
                         var selectedStatus = $(this).val().toLowerCase();
-            
+
                         $('.user-row').hide();
-            
+
                         if (selectedStatus === 'select status') {
                             $('.user-row').show();
                         } else {
@@ -472,5 +494,44 @@
                 });
             </script>
         </div>
+
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="customModalLabel">Detail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="top:10px; right:20px">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.open-modal-btn').on('click', function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                        url: "{{ route('payment.view') }}",
+                        method: 'GET',
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            $('.modal-body').empty().append(response.component);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                $('#customModal').modal('show');
+            });
+        });
+    </script>
 @endsection

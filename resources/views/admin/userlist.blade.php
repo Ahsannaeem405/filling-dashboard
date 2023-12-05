@@ -254,7 +254,7 @@
 
         div#example_length {
             margin-bottom: 15px;
-            width: 50%;
+            width: 65%;
         }
 
         div#example_filter {
@@ -274,7 +274,6 @@
         .top {
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
 
         body.dark-layout .dataTables_wrapper .dt-buttons .buttons-copy,
@@ -293,6 +292,7 @@
             cursor: pointer;
         }
         .dt-button{
+            margin-left: 10px !important;
             border-radius: 5px !important;
         }
         .bottom{
