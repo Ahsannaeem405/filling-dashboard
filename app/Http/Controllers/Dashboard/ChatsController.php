@@ -34,11 +34,9 @@ class ChatsController extends Controller
 
             $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
 
-            
-
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-            
+
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'refreshToken'))->render(),
             ]);

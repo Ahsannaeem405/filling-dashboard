@@ -23,13 +23,16 @@
             .chat-application .chat-app-form {
                 padding: 12px 10px !important;
             }
-            .chat-application .sidebar-content .chat-user-list{
+
+            .chat-application .sidebar-content .chat-user-list {
                 width: 365px !important;
             }
-            .chat-application .sidebar-content{
+
+            .chat-application .sidebar-content {
                 width: 365px !important;
             }
-            .new-user{
+
+            .new-user {
                 width: 190px !important;
             }
         </style>
@@ -286,6 +289,9 @@
         .chat-application .sidebar-content .chat-user-list li .contact-info {
             width: calc(100vw - (100vw - 100%) - 1rem - -10px);
         }
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top{
+            right: 32px !important;
+        }
 
         .favorite-1 {
             margin: 7px;
@@ -324,8 +330,18 @@
             height: 46px;
             margin-right: 6px;
         }
-        body.dark-layout .avatar{
+
+        body.dark-layout .avatar {
             background-color: transparent !important;
+        }
+
+        .ellipsis {
+            width: 100px;
+            margin-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            F
         }
     </style>
     @if (Auth::user()->status == 'in-active')
@@ -364,7 +380,7 @@
                                         <div class="user-chat-info new-user">
                                             <div class="contact-info">
                                                 <div style="display: flex; justify-content:space-between">
-                                                    <h5 class="font-weight-bold mb-0">{{ substr($account->adTitle, 0, 11) }}
+                                                    <h5 class="font-weight-bold mb-0 ellipsis">{{ $account->adTitle }}
                                                         &nbsp;&nbsp;&nbsp;
                                                     </h5>
                                                     <p style="margin-bottom: 0px">
