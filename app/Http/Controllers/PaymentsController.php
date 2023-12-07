@@ -39,7 +39,7 @@ class PaymentsController extends Controller
 
         $conv_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
 
-        $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
+        $accessToken = refreshAccessToken($request->refreshToken, $accessTokenApi);
 
 
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])

@@ -19,19 +19,32 @@
             .chat-application .chat-app-window .user-chats {
                 height: calc(var(--vh, 1vh) * 100 - 13rem) !important;
             }
+
+            .chat-application .chat-app-form {
+                padding: 12px 10px !important;
+            }
+            .chat-application .sidebar-content .chat-user-list{
+                width: 365px !important;
+            }
+            .chat-application .sidebar-content{
+                width: 365px !important;
+            }
+            .new-user{
+                width: 190px !important;
+            }
         </style>
     @else
         <style>
             .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
             }
 
             .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 8rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
             }
         </style>
     @endif
@@ -94,7 +107,8 @@
 
         .AcountsDetail ul li img {
             border-radius: 50%;
-            width: 40px;
+            width: 46px;
+            height: 46px;
             margin-right: 6px;
         }
 
@@ -122,6 +136,7 @@
 
         /*  */
         .account-btn1 {
+            margin: 1px 1px;
             border: none;
             outline: none;
             color: white;
@@ -129,11 +144,12 @@
             border-radius: 5px;
             padding: 6px;
             font-size: 11px;
-            width: 96px;
+            width: 87px;
             margin-bottom: 20px;
         }
 
         .account-btn2 {
+            margin: 1px 1px;
             border: none;
             outline: none;
             color: white;
@@ -289,6 +305,28 @@
             background-color: rgb(163, 23, 23);
             color: #ffffff;
         }
+
+        .avatar-status-busy {
+            width: 13px !important;
+            height: 13px !important;
+            bottom: -5px !important;
+        }
+
+        .avatar-status-online {
+            width: 13px !important;
+            height: 13px !important;
+            bottom: -5px !important;
+        }
+
+        .adImage {
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-right: 6px;
+        }
+        body.dark-layout .avatar{
+            background-color: transparent !important;
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -302,29 +340,40 @@
         <div class="col-md-12">
             <div class="content-area-wrapper mt-0">
                 <div class="AcountsDetail">
-                    <h3>Accounts</h3>
-                    @if (Auth::user()->role == 'user')
-                        <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
+                    <div class="d-flex" style="justify-content: space-between">
+                        <h3>Accounts</h3>
+                        @if (Auth::user()->role == 'user')
+                            <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
+                        @endif
                         <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
-                    @endif
+                    </div>
                     <div class="scrol-custom">
                         <ul>
                             @if (isset($accounts))
                                 @foreach ($accounts as $account)
                                     <li class="list-style" data-refresh="{{ $account->refreshToken }}"
                                         data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
-                                        <img src="{{ $account->adPic }}" alt="">
-                                        <div class="user-chat-info">
+                                        <div class="avatar user-profile-toggle mr-1">
+                                            <img class="adPic" src="{{ $account->adPic }}" alt="">
+                                            @if ($account->adStatus == 'ACTIVE')
+                                                <p class="avatar-status-online"></p>
+                                            @else
+                                                <p class="avatar-status-busy"></p>
+                                            @endif
+                                        </div>
+                                        <div class="user-chat-info new-user">
                                             <div class="contact-info">
                                                 <div style="display: flex; justify-content:space-between">
-                                                    <h5 class="font-weight-bold mb-0">{{ substr($account->adTitle,0,22) }}</h5>
-                                                    <p style="margin-bottom: 0px">{{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y, H:i') }}</p>
+                                                    <h5 class="font-weight-bold mb-0">{{ substr($account->adTitle, 0, 11) }}
+                                                        &nbsp;&nbsp;&nbsp;
+                                                    </h5>
+                                                    <p style="margin-bottom: 0px">
+                                                        {{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y') }}
+                                                    </p>
                                                 </div>
                                                 <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
                                             </div>
                                         </div>
-                                        
-                                        <span></span>
                                     </li>
                                 @endforeach
                             @endif
@@ -388,7 +437,7 @@
                                                 <div class="sidebar-toggle d-block d-lg-none mr-1"><i
                                                         class="feather icon-menu font-large-1"></i></div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span class=""><img class="buyerInitials" src="" alt="" width="35px"></span>
+                                                    <img class="adImage buyerInitials" src="" alt="">
                                                     {{-- <span class="avatar-status-busy"></span> --}}
                                                 </div>
                                                 <span class='account-prof'>
@@ -440,9 +489,10 @@
                                     </span>
                                     <div class="header-profile-sidebar">
                                         <div class="avatar">
-                                            <span class="logo "><img class="pop-up-initials" src="" alt="" width="35px"></span>
+                                            <img class="adImage pop-up-initials" src="" alt=""
+                                                width="35px">
                                         </div>
-                                        <h4 class="chat-user-name pop-up-name"></h4>
+                                        <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
                                     </div>
                                 </header>
                                 <div class="user-profile-sidebar-area p-2">
@@ -541,10 +591,11 @@
                     url: '{{ route('reload') }}',
                     type: 'GET',
                     success: function(data) {
-                        $('.start-chat-area').removeClass('d-none');
-                        $('.active-chat').addClass('d-none');
-                        $('.list-style').addClass('d-none');
                         $('.scrol-custom').empty().append(data.component);
+                        $('.start-chat-area').removeClass('d-none');
+                        // $('.list-style').addClass('d-none');
+                        $('.media-list').empty();
+                        $('.chat-btn').addClass('d-none');
                     },
                     error: function(error) {
                         console.error(error);
@@ -620,77 +671,6 @@
             }
         });
     </script>
-
-
-    {{-- <script>
-        $(document).ready(function() {
-            var addAccountBtn = $('#addAccountBtn');
-            var updateAccountBtn = $('#updateAccountBtn');
-    
-            $(document).on('click', '#addAccountBtn', function() {
-                $.ajax({
-                    url: '{{ route('assign') }}',
-                    type: 'GET',
-                    success: function(data) {
-                        $('.scrol-custom').empty().append(data.component);
-                        if (data.success) {
-                            toastr.success(data.success);
-                        } else if (data.error) {
-                            toastr.error(data.error);
-                        }
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    },
-                });
-    
-                startCooldownTimer(60, addAccountBtn, function() {
-                    addAccountBtn.text('Neuen Account hinzufügen');
-                    addAccountBtn.prop('disabled', false);
-                });
-    
-                addAccountBtn.prop('disabled', true);
-            });
-    
-            $(document).on('click', '#updateAccountBtn', function() {
-                $.ajax({
-                    url: '{{ route('reload') }}',
-                    type: 'GET',
-                    success: function(data) {
-                        $('.start-chat-area').removeClass('d-none');
-                        $('.active-chat').addClass('d-none');
-                        $('.list-style').addClass('d-none');
-                        $('.scrol-custom').empty().append(data.component);
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    },
-                });
-    
-                startCooldownTimer(60, updateAccountBtn, function() {
-                    updateAccountBtn.text('Accounts aktualisieren');
-                    updateAccountBtn.prop('disabled', false);
-                });
-    
-                updateAccountBtn.prop('disabled', true);
-            });
-    
-            function startCooldownTimer(seconds, button, callback) {
-                var countdown = seconds;
-    
-                var timer = setInterval(function() {
-                    if (countdown <= 0) {
-                        clearInterval(timer);
-                        callback();
-                    } else {
-                        button.text('Warte auf neues Konto ' + countdown + 's');
-                    }
-    
-                    countdown--;
-                }, 1000);
-            }
-        });
-    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -786,7 +766,7 @@
                             $('.append-chat').empty().append(response.component);
                             $('.buyerInitials').attr('src', response.adImage);;
                             $('.buyerName').text(response.adTitle);
-                            $('.pop-up-initials').attr('src',response.adImage);
+                            $('.pop-up-initials').attr('src', response.adImage);
                             $('.pop-up-name').text(response.adTitle);
                             $('.price').text(response.adPrice);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
@@ -826,24 +806,24 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                            toastr.success(response.success, '', {
-                                onShown: function() {
-                                    $('.toast-success').css({
-                                        'background-color': '#4CAF50',
-                                        'color': '#ffffff'
-                                    });
-                                }
-                            });
-                        } else if (response.error) {
-                            toastr.error(response.error, '', {
-                                onShown: function() {
-                                    $('.toast-error').css({
-                                        'background-color': 'rgb(163, 23, 23)',
-                                        'color': '#ffffff'
-                                    });
-                                }
-                            });
-                        }
+                        toastr.success(response.success, '', {
+                            onShown: function() {
+                                $('.toast-success').css({
+                                    'background-color': '#4CAF50',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    } else if (response.error) {
+                        toastr.error(response.error, '', {
+                            onShown: function() {
+                                $('.toast-error').css({
+                                    'background-color': 'rgb(163, 23, 23)',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    }
                 },
                 error: function(error) {
                     toastr.error(error);
@@ -852,7 +832,7 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             function refresh() {
                 if ($('.start-chat-area').hasClass('d-none')) {
                     var user_id = $('.start-chat-area').attr('data-user-id');
@@ -868,23 +848,16 @@
                             refreshToken: refreshToken,
                         },
                         success: function(response) {
-                            // $('.active-chat').removeClass('d-none');
-                            // $('.start-chat-area').addClass('d-none');
                             $('.append-chat').empty().append(response.component);
-                            // $('.logo').text(response.logo);
-                            // $('.name').text(response.name);
-                            // $('.start-chat-area').attr('data-conv-id', response.conv_id);
-                            // $('.start-chat-area').attr('data-user-id', response.user_id);
-                            // $('.start-chat-area').attr('data-refresh-token', response.refreshToken);
                         },
                         error: function(error) {
-                            
+
                             console.error(error);
                         }
                     });
                 }
             }
-            setInterval(refresh, 10000);
+            // setInterval(refresh, 10000);
         })
     </script>
 

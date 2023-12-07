@@ -8,9 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'description',
-        'account_id',
-        'refreshToken',
-    ];
+    protected $guarded = [];
 }

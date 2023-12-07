@@ -12,24 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    private function refreshAccessToken($refreshToken, $accessTokenApi)
-    {
-        try {
-            $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
-                'refreshToken' => $refreshToken,
-            ]);
-            return [
-                'accessToken' => $response['accessToken'],
-            ];
-        } catch (\Exception $e) {
-            return [
-                'accessToken' => null,
-            ];
-        }
-    }
+
     public function index()
     {
         if (Auth::user()->role === 'user') {
@@ -40,7 +23,7 @@ class HomeController extends Controller
             $count = $accounts->count();
         }
         
-        $users = User::whereNot('id', Auth::user()->id)->whereNot('role', 'admin')->latest()->take(5)->get();
+        $users = User::whereNot('id', Auth::user()->id)->whereNot('role', 'admin')->orderBy('rank', 'DESC')->latest()->take(5)->get();
 
         $totalChat = 0;
         $totalUnread = 0;
@@ -55,7 +38,7 @@ class HomeController extends Controller
 
                 $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
-                $accessToken = $this->refreshAccessToken($account->refreshToken, $accessTokenApi);
+                $accessToken = refreshAccessToken($account->refreshToken, $accessTokenApi);
 
                 $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
@@ -71,55 +54,6 @@ class HomeController extends Controller
             $totalUnread = 'Something went wrong!';
             $completeChat = 'Something went wrong!';
             return view('admin.index', compact('totalChat', 'users','totalUnread','completeChat'));
-        }
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        }   
     }
 }

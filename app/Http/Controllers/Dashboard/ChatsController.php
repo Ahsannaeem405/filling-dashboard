@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Setting;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -22,46 +21,28 @@ class ChatsController extends Controller
         return view('admin.chat.index', compact('accounts'));
     }
 
-    private function refreshAccessToken($refreshToken, $accessTokenApi)
-    {
-        try {
-            $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
-                'refreshToken' => $refreshToken,
-            ]);
-            return [
-                'accessToken' => $response['accessToken'],
-            ];
-        } catch (\Exception $e) {
-            return [
-                'accessToken' => null,
-            ];
-        }
-    }
-
     public function Conversation(Request $request)
     {
         try {
-            
+
             $setting = Setting::first();
             $accessTokenApi = $setting->accessToken_api;
             $getUserConvAPi = $setting->getUserConv_api;
+            $refreshToken = $request->refreshToken;
 
             $conversation_api = str_replace('{USERID}', $request->user_id, $getUserConvAPi);
 
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
-            $refreshToken = $request->refreshToken;
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+
+            
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-              
-            $numFound = $data['_meta']['numFound'];
-            $numUnread = $data['_meta']['numUnread'];
-
+            
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'refreshToken'))->render(),
             ]);
         } catch (\Exception $e) {
-        
             return response()->json(['error' => 'An error occurred. Please try again.']);
         }
     }
@@ -72,32 +53,26 @@ class ChatsController extends Controller
             $setting = Setting::first();
             $accessTokenApi = $setting->accessToken_api;
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
-
-            $msg_api = str_replace('{USERID}', $request->user_id, $getUserConvMsgAPi);
-
-            $conv_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
-
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
-
             $refreshToken = $request->refreshToken;
             $conv_id = $request->conv_id;
             $user_id = $request->user_id;
 
+            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+
+            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conv_msg_api}");
-            $buyerName = $data['buyerName'];
-            $buyerInitials = $data['buyerInitials'];
-            $adTitle = $data['adTitle'];
-            $ad = $data['adImage'];
-            $adImage = str_replace('{imageId}', 0, $ad);
-            
-            $price = $data['adPriceInEuroCent'];
-            $adPrice = $price / 100;
+
+            $account = Account::where('account_id', $data['userIdSeller'])->first();
+            $adTitle = $account->adTitle;
+            $adImage = $account->adPic;
+            $adPrice = $account->adPrice;
 
             return response()->json([
                 'component' => view('admin.chat.messages', compact('data', 'refreshToken'))->render(),
-                'buyerName' => $buyerName,
-                'buyerInitials' => $buyerInitials,
                 'adTitle' => $adTitle,
                 'adImage' => $adImage,
                 'adPrice' => $adPrice,
@@ -122,10 +97,11 @@ class ChatsController extends Controller
 
             $send_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
 
-            $accessToken = $this->refreshAccessToken($request->refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($request->refreshToken, $accessTokenApi);
 
             Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->post("{$send_msg_api}",
+                ->post(
+                    "{$send_msg_api}",
                     [
                         'message' => $request->message,
                     ]
@@ -166,16 +142,72 @@ class ChatsController extends Controller
             } else {
                 return response()->json([
                     'component' => view('admin.chat.accounts', compact('accounts'))->render(),
-                    'error' => 'Accounts not empty!',
+                    'error' => 'Account not found!',
                 ]);
             }
         }
     }
     public function ReloadAccount()
     {
-        $accounts = Account::where('buy_id', Auth::user()->id)->get();
-        return response()->json([
-            'component' => view('admin.chat.accounts', compact('accounts'))->render(),
-        ]);
+        if(Auth::user()->role == 'admin'){
+            $accounts_reload = Account::all();
+        }else{
+            $accounts_reload = Account::where('buy_id', Auth::user()->id)->get();
+        }
+        if ($accounts_reload) {
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserApi = $setting->getUser_api;
+
+            foreach ($accounts_reload as $account) {
+                
+                $data = $account->description;
+                $parts = explode(':', $data);
+                $email = $parts[0];
+
+                $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
+
+                $accessToken = refreshAccessToken($account->refreshToken, $accessTokenApi);
+
+                $data = Http::withHeaders([
+                    'User-Agent' => '',
+                    'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
+                    'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
+                ])->get("{$getUser_api}");
+
+                $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+
+                $adPrice = $adData['price']['amount']['value'];
+                $adTitle = $adData['title']['value'];
+                $reloadDate = $adData['last-user-edit-date']['value'];
+                $status = $adData['ad-status']['value'];
+    
+                $pictureLink = null;
+                if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
+                    $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
+                }
+
+                $account = Account::find($account->id);
+                $account->adTitle = $adTitle;
+                $account->adPic = $pictureLink;
+                $account->adPrice = $adPrice;
+                $account->adStatus = $status;
+                $account->reloadDate = $reloadDate;
+                $account->save();
+            }
+            if(Auth::user()->role == 'admin'){
+                $accounts = Account::all();
+            }else{
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
+            }
+            return response()->json([
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+            ]);
+        }else{
+            return response()->json([
+                'error' => 'Account not found.',
+            ]);
+        }
+        
     }
 }
