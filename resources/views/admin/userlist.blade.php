@@ -310,6 +310,19 @@
         th.sorting:after{
             margin-left: -10px !important
         }
+        @media screen and (max-device-width:300px), screen and (max-width:768px){
+            .top {
+                display: grid;
+                justify-items: start;
+                justify-content: start;
+            }
+            .card-main-content{
+                margin-bottom: 12px;
+            }
+            .datatable-wraper{
+                overflow-x: scroll;
+            }
+        }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">

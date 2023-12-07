@@ -186,28 +186,32 @@
                                     </div>
                                     <div class="table-wrapper">
                                         <table>
-                                            <tr style='border-bottom: 2px solid gray;'>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            <tr>
-                                                <td>boss lifestyle 600</td>
-                                                <td>730</td>
-                                                <td>Active</td>
-                                                <td class="action-icons">
-                                                    <a href="#"><img
-                                                            src="{{ asset('app-assets/images/user/magnifying-plus.png') }}"
-                                                            alt="png"></a>
-                                                    <a href="#"><img
-                                                            src="{{ asset('app-assets/images/user/video-pause.png') }}"
-                                                            alt="png"></a>
-                                                    <a href="#"><img style='margin-left: 2px;'
-                                                            src="{{ asset('app-assets/images/user/delete.png') }}"
-                                                            alt="png"></a>
-                                                </td>
-                                            </tr>
+                                            <thead>
+                                                <tr style='border-bottom: 2px solid gray;'>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>boss lifestyle 600</td>
+                                                    <td>730</td>
+                                                    <td>Active</td>
+                                                    <td class="action-icons">
+                                                        <a href="#"><img
+                                                                src="{{ asset('app-assets/images/user/magnifying-plus.png') }}"
+                                                                alt="png"></a>
+                                                        <a href="#"><img
+                                                                src="{{ asset('app-assets/images/user/video-pause.png') }}"
+                                                                alt="png"></a>
+                                                        <a href="#"><img style='margin-left: 2px;'
+                                                                src="{{ asset('app-assets/images/user/delete.png') }}"
+                                                                alt="png"></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>

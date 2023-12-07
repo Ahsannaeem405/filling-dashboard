@@ -327,6 +327,54 @@
         body.dark-layout .avatar{
             background-color: transparent !important;
         }
+        @media screen and (max-device-width:768px), screen and (max-width:991px){
+            html body .content.app-content .content-area-wrapper {
+                height: calc(100% - 0rem);
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .chat-application .sidebar-content {
+                -webkit-transform: translateX(0%);
+                -ms-transform: translateX(0%);
+                transform: translateX(0%);
+                width: 100% !important;
+            }
+            .AcountsDetail, .chat-application .sidebar-content .chat-user-list{
+                width: 100% !important;
+            }
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
+            }
+        }
+        @media screen and (max-device-width:300px), screen and (max-width:768px){
+            .chat-application .sidebar-content {
+                -webkit-transform: translateX(0%);
+                -ms-transform: translateX(0%);
+                transform: translateX(0%);
+                width: 100% !important;
+            }
+            .AcountsDetail, .chat-application .sidebar-content .chat-user-list{
+                width: 100% !important;
+            }
+            html body .content.app-content .content-area-wrapper {
+                height: calc(100% - 0rem);
+                display: grid;
+                grid-template: none;
+            }
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
+            }
+            .special_class{
+                display: none;
+            }
+            .chat-application .sidebar-content .chat-user-list ul{
+                max-height: 170px;
+                overflow-y: scroll;
+            }
+            .chat-application .sidebar-content {
+                height: calc(var(--vh, 1vh) * 100 - 15.5rem) !important;
+            }
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -351,7 +399,7 @@
                         <ul>
                             @if (isset($accounts))
                                 @foreach ($accounts as $account)
-                                    <li class="list-style" data-refresh="{{ $account->refreshToken }}"
+                                    <li class="list-style ToggleBtn" data-refresh="{{ $account->refreshToken }}"
                                         data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
                                         <div class="avatar user-profile-toggle mr-1">
                                             <img class="adPic" src="{{ $account->adPic }}" alt="">
@@ -405,7 +453,8 @@
                                 </div>
                             </div> --}}
                             <div id="users-list" class="chat-user-list list-group position-relative">
-                                <div style='display:flex; justify-content:space-between; align-items:center;'>
+                                <div style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
+                                    <i class="feather icon-arrow-left BackArr" style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px;"></i>
                                     <h3 class="primary p-1 mb-0">Chats</h3>
                                     <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
                                 </div>
@@ -432,21 +481,21 @@
                                 </div>
                                 <div class="active-chat">
                                     <div class="chat_navbar">
-                                        <header class="chat_header d-flex justify-content-between align-items-center p-1">
+                                        <header class="chat_header d-grid p-1">
                                             <div class="vs-con-items d-flex align-items-center">
-                                                <div class="sidebar-toggle d-block d-lg-none mr-1"><i
+                                                <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
                                                         class="feather icon-menu font-large-1"></i></div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
                                                     <img class="adImage buyerInitials" src="" alt="">
                                                     {{-- <span class="avatar-status-busy"></span> --}}
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName" style="width:220px"></h6>
+                                                    <h6 class="mb-0 buyerName" style="max-width:150px"></h6>
                                                     <p><span class="price"></span> € VB</p>
 
                                                 </span>
                                             </div>
-                                            <div>
+                                            <div class="mt-2">
                                                 <span class="favorite-1"><i
                                                         class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
                                                 <span class="favorite-1 paypal"><i
@@ -510,7 +559,49 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+    <script>
+       $(document).ready(function(){
+    // Function to add class based on screen size
+    function addClassBasedOnSize() {
+        var screenWidth = $(window).width();
 
+        if (screenWidth >= 300 && screenWidth <= 768) {
+            $('.sidebar-left, .content-right').addClass('special_class');
+        } else {
+            $('.sidebar-left, .content-right').removeClass('special_class');
+        }
+    }
+
+    // Function to handle click event
+    $(document).on('click', '.ToggleBtn', function(){
+        var screenWidth = $(window).width();
+
+        if (screenWidth >= 300 && screenWidth <= 768) {
+            $('.special_class').css('display','block');
+            $('.AcountsDetail').css('display','none');
+        } else {
+            $('.special_class').css('display','none');
+            $('.AcountsDetail').css('display','block');
+        }
+    });
+    $(document).on('click', '.BackArr', function(){
+        var screenWidth = $(window).width();
+
+        if (screenWidth >= 300 && screenWidth <= 768) {
+            $('.special_class').css('display','none');
+            $('.AcountsDetail').css('display','block');
+        } else {
+            $('.special_class').css('display','block');
+            $('.AcountsDetail').css('display','none');
+        }
+    });
+
+    // Call the function on document ready and on window resize
+    addClassBasedOnSize();
+    $(window).resize(addClassBasedOnSize);
+});
+
+    </script>
     <script>
         $(document).ready(function() {
             var addAccountBtn = $('#addAccountBtn');

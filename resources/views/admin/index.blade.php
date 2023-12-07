@@ -266,6 +266,17 @@
         .dark-layout .header-navbar {
             z-index: 1000;
         }
+        @media screen and (min-device-width:300px), screen and (max-width:768px){
+            .StepsCount {
+                padding-top: 15px;
+            }
+            .StepsCount .col{
+                margin-bottom: 12px;
+            }
+            .ChatsCard, .PriceTotal_WrapCard{
+                height: auto !important;
+            }
+        }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -387,8 +398,7 @@
                                             <p class="highlight-color">You informed of this week compared to last week</p>
                                         </div>
                                     </div>
-                                    <div
-                                        class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
+                                    <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
                                         <div id="avg-session-chart"></div>
                                         <div class="weekday">
                                             <span>Mo</span>
@@ -403,7 +413,7 @@
                                 </div>
                                 <hr />
                                 <div class="row avg-sessions pt-50">
-                                    <div class="col-4">
+                                    <div class="col-12 col-md-6 col-sm-4">
                                         <div class="EarningBox">
                                             <i class="bx bx-dollar-sign">$</i>
                                             <h6 class="text-bold-700 mb-0">Earning</h6>
@@ -416,7 +426,7 @@
                                                 aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-12 col-md-6 col-sm-4">
                                         <div class="ProfitBox">
                                             <i class="fa fa-ticke">
                                                 <img style='width: 20px;'
@@ -433,7 +443,7 @@
                                                 aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-12 col-md-6 col-sm-4">
                                         <div class="GebBox">
                                             <i class="fa fa-ticket"></i>
                                             <h6 class="text-bold-700 mb-0">Gebuhren</h6>

@@ -14,6 +14,7 @@
             margin-top: 30px;
             color: white;
             position: relative;
+            overflow: hidden;
         }
 
         table.dataTable thead tr {
@@ -190,7 +191,7 @@
             padding: 7px 5px;
             border-radius: 4px;
             font-size: 11px;
-            width: 170px;
+            width: 100%;
         }
 
         option {
@@ -308,6 +309,26 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
         }
+        .line-div3{
+            visibility: hidden;
+        }
+        @media screen and (max-device-width:300px), screen and (max-width:768px){
+            .line-div{
+                display: none;
+            }
+            .top {
+                display: grid;
+                justify-items: start;
+            }
+        }
+        @media screen and (max-device-width:768), screen and (max-width:991px){
+            .card-main-content{
+                margin-bottom: 12px;
+            }
+            .status-select{
+                right: 40px;
+            }
+        }
     </style>
     <div class="content-header row"></div>
     <div class="content-body">
@@ -353,6 +374,7 @@
                                 <img src="{{ asset('app-assets/images/logo/unavailable.png') }}" alt="">
                             </span>
                         </div>
+                        <div class="line-div line-div3"></div>
                     </div>
                 </div>
             </div>
@@ -366,7 +388,7 @@
                     <option value="pending">Pending</option>
                 </select>
             </div>
-            <table id="example" class="display nowrap" style="width:100%">
+            <table id="example" class="table data-list-view dataTable no-footer dt-checkboxes-select" style="width:100%">
                 <thead>
                     <tr>
                         <th>#ID</th>
