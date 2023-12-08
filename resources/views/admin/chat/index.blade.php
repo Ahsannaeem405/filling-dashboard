@@ -17,7 +17,7 @@
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 13rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
             }
 
             .chat-application .chat-app-form {
@@ -47,7 +47,7 @@
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 22rem) !important;
             }
         </style>
     @endif
@@ -188,11 +188,12 @@
             position: absolute;
             right: 3%;
             top: 7px;
+            cursor: pointer;
         }
 
         img.type-icon {
             width: 22px;
-            right: 14%;
+            right: 45px;
         }
 
         .chat-time-right p {
@@ -276,9 +277,10 @@
         }
 
         .emojionearea .emojionearea-button {
-            opacity: 0 !important;
-            top: 6px !important;
+            position: absolute !important;
             right: 50px !important;
+            top: 6px !important;
+            opacity: 0 !important;
         }
 
         .chat-application .sidebar-content .chat-user-list {
@@ -333,6 +335,13 @@
 
         body.dark-layout .avatar {
             background-color: transparent !important;
+        }
+        .ellipsis {
+            width: 100px;
+            margin-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         @media screen and (max-device-width:768px), screen and (max-width:991px){
             html body .content.app-content .content-area-wrapper {
@@ -408,7 +417,7 @@
                                 @foreach ($accounts as $account)
                                     <li class="list-style ToggleBtn" data-refresh="{{ $account->refreshToken }}"
                                         data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
-                                        <div class="avatar user-profile-toggle mr-1">
+                                        <div class="avatar  mr-1">
                                             <img class="adPic" src="{{ $account->adPic }}" alt="">
                                             @if ($account->adStatus == 'ACTIVE')
                                                 <p class="avatar-status-online"></p>
@@ -461,7 +470,7 @@
                             </div> --}}
                             <div id="users-list" class="chat-user-list list-group position-relative">
                                 <div style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
-                                    <i class="feather icon-arrow-left BackArr" style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px;"></i>
+                                    <i class="feather icon-arrow-left BackArr" style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
                                     <h3 class="primary p-1 mb-0">Chats</h3>
                                     <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
                                 </div>
@@ -525,7 +534,7 @@
                                             <div class='position-relative'style='width: 70%;'>
                                                 <input type="text" class="form-control message mr-1 ml-50 msg"
                                                     id="iconLeft4-1" placeholder="Sende eine Nachricht">
-                                                <i class="type-icon fa fa-image"></i>
+                                                <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
@@ -955,7 +964,7 @@
                     });
                 }
             }
-            // setInterval(refresh, 10000);
+            setInterval(refresh, 10000);
         })
     </script>
 
@@ -965,4 +974,5 @@
             pickerPosition: 'top'
         });
     </script>
+    
 @endsection

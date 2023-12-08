@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
+
 class ChatsController extends Controller
 {
     public function index()
@@ -63,7 +64,7 @@ class ChatsController extends Controller
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conv_msg_api}");
-
+// dd($data->json());
             $account = Account::where('account_id', $data['userIdSeller'])->first();
             $adTitle = $account->adTitle;
             $adImage = $account->adPic;
@@ -97,13 +98,37 @@ class ChatsController extends Controller
 
             $accessToken = refreshAccessToken($request->refreshToken, $accessTokenApi);
 
-            Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->post(
-                    "{$send_msg_api}",
-                    [
-                        'message' => $request->message,
-                    ]
-                );
+            if ($request->image === 'undefined') {
+
+                Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                    ->post(
+                        "{$send_msg_api}",
+                        [
+                            'message' => $request->message,
+                        ]
+                    );
+                    
+            } else {
+
+                $file = $request->image;
+                $fileName = $file->getClientOriginalName();
+                $destinationPath = public_path('content_media');
+                $file->move($destinationPath, $fileName);
+                $path = public_path('content_media/' . $fileName);
+
+                Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                    ->attach(
+                        'attachment',
+                        file_get_contents($path),
+                        'file.jpg'
+                    )
+                    ->post(
+                        "{$send_msg_api}",
+                        [
+                            'message' => '{"message":"' . $request->message . '"}',
+                        ]
+                    );
+            }
 
             return response()->json([
                 'success' => 'Message Send Successfully',
@@ -147,9 +172,9 @@ class ChatsController extends Controller
     }
     public function ReloadAccount()
     {
-        if(Auth::user()->role == 'admin'){
+        if (Auth::user()->role == 'admin') {
             $accounts_reload = Account::all();
-        }else{
+        } else {
             $accounts_reload = Account::where('buy_id', Auth::user()->id)->get();
         }
         if ($accounts_reload) {
@@ -158,7 +183,7 @@ class ChatsController extends Controller
             $getUserApi = $setting->getUser_api;
 
             foreach ($accounts_reload as $account) {
-                
+
                 $data = $account->description;
                 $parts = explode(':', $data);
                 $email = $parts[0];
@@ -179,7 +204,7 @@ class ChatsController extends Controller
                 $adTitle = $adData['title']['value'];
                 $reloadDate = $adData['last-user-edit-date']['value'];
                 $status = $adData['ad-status']['value'];
-    
+
                 $pictureLink = null;
                 if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                     $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
@@ -193,19 +218,18 @@ class ChatsController extends Controller
                 $account->reloadDate = $reloadDate;
                 $account->save();
             }
-            if(Auth::user()->role == 'admin'){
+            if (Auth::user()->role == 'admin') {
                 $accounts = Account::all();
-            }else{
+            } else {
                 $accounts = Account::where('buy_id', Auth::user()->id)->get();
             }
             return response()->json([
                 'component' => view('admin.chat.accounts', compact('accounts'))->render(),
             ]);
-        }else{
+        } else {
             return response()->json([
                 'error' => 'Account not found.',
             ]);
         }
-        
     }
 }

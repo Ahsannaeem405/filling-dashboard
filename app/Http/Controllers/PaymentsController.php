@@ -14,10 +14,16 @@ class PaymentsController extends Controller
     {
         if (Auth::user()->role == 'admin') {
             $payment = Payment::all();
-            return view('admin.payment.index', compact('payment'));
+            $paidAmount = Payment::where('status', 'paid')->sum('price');
+            $unpaidAmount = Payment::where('status', 'pending')->sum('price');
+            $count = $payment->count();
+            return view('admin.payment.index', compact('payment','count','paidAmount','unpaidAmount'));
         } else {
             $payment = Payment::where('user_id', Auth::user()->id)->get();
-            return view('admin.payment.user_side.index', compact('payment'));
+            $paidAmount = Payment::where('user_id', Auth::user()->id)->where('status', 'paid')->sum('price');
+            $unpaidAmount = Payment::where('user_id', Auth::user()->id)->where('status', 'pending')->sum('price');
+            $count = $payment->count();
+            return view('admin.payment.user_side.index', compact('payment','count','paidAmount','unpaidAmount'));
         }
     }
     private function refreshAccessToken($refreshToken, $accessTokenApi)

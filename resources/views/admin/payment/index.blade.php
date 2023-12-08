@@ -99,7 +99,7 @@
         }
 
         .avatar-blue {
-            background-color: #c8d9f1;
+            background-color: #2a456a  !important;
             color: #467fcf;
         }
 
@@ -337,7 +337,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card-main-content">
                         <div class="content-side">
-                            <h3>165</h3>
+                            <h3>{{ $count }}</h3>
                             <p>Payments</p>
 
                         </div>
@@ -350,7 +350,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card-main-content">
                         <div class="content-side">
-                            <h3>2.785€</h3>
+                            <h3>{{ $paidAmount }}€</h3>
                             <p>Ausgezahlt</p>
 
                         </div>
@@ -365,7 +365,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card-main-content">
                         <div class="content-side">
-                            <h3>786€</h3>
+                            <h3>{{ $unpaidAmount }}€</h3>
                             <p>Ausstehend</p>
 
                         </div>
