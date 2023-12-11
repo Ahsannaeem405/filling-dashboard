@@ -11,7 +11,8 @@
 @section('content')
     <style>
         html body .content.app-content .content-area-wrapper {
-            height: calc(100% - 0rem);
+            height: calc(100% - 2rem);
+            overflow: hidden;
         }
 
         .chat-time-right p {

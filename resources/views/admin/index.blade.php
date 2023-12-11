@@ -308,7 +308,7 @@
                         <div class="card-header d-flex flex-column align-items-start pb-0">
                             <div class="TopHeading">
                                 <h4 class="m-0">Uberblink Rang</h4>
-                                <p class="m-0">aktueller Rang: {{ Auth::user()->rank }}</p>
+                                <p class="m-0">Aktueller Rang: {{ Auth::user()->rank }}</p>
                             </div>
                         </div>
                         <div class="card-content StepsCount">
@@ -323,28 +323,28 @@
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Advanced</span></p>
                                 <div class="">
                                     <span>3.500-5.999 €</span>
-                                    <span>45% Gebuhren</span>
+                                    <span>45% Einnahmen</span>
                                 </div>
                             </div>
                             <div class="col Pro_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Pro</span></p>
                                 <div class="">
                                     <span>6.000-9.999 €</span>
-                                    <span>50% Gebuhren</span>
+                                    <span>50% Einnahmen</span>
                                 </div>
                             </div>
                             <div class="col Leg_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Legend</span></p>
                                 <div class="">
                                     <span>0-3.499 €</span>
-                                    <span>55% Gebuhren</span>
+                                    <span>55% Einnahmen</span>
                                 </div>
                             </div>
                             <div class="col Vip_CS">
                                 <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>VIP</span></p>
                                 <div class="">
                                     <span>20.000 €</span>
-                                    <span>60% Gebuhren</span>
+                                    <span>60% Einnahmen</span>
                                 </div>
                             </div>
                         </div>
