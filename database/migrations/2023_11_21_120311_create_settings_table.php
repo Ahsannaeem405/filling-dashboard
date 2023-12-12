@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('getUserConv_api')->nullable();
             $table->text('getUserConvMsg_api')->nullable();
             $table->text('postMsg_api')->nullable();
+            $table->text('delete_api')->nullable();
             $table->timestamps();
         });
     }

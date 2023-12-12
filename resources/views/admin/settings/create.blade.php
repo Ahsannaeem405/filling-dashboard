@@ -49,6 +49,12 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-vertical">Delete Conversation API Url</label>
+                                        <input type="text" name="deleteMsg_api" class="form-control" placeholder="Set Delete Conversation Messages API Url" value="{{ isset($setting) ? $setting->deleteConvMsg_api : '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Set</button>
                                 </div>
                             </div>

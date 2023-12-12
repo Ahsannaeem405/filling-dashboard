@@ -63,7 +63,7 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 22.8rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
         }
 
         .content-right {
@@ -147,6 +147,21 @@
         .chat {
             margin-top: 20px
         }
+        .adImage {
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-right: 6px;
+        }
+        .chat-app-form{
+            height: 100px;
+        }
+        .chat-app-input{
+            margin-top: 10px;
+        }
+        .chat-application .chat-app-form{
+            padding: 5px 10px !important;
+        }
     </style>
 
     <div class="row">
@@ -167,12 +182,11 @@
                                                     <i class="feather icon-menu font-large-1"></i>
                                                 </div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span
-                                                        class="initials buyerInitials">{{ substr($payment->client_name, 0, 1) }}</span>
+                                                    <span class="initials buyerInitials">{{ $data['buyerInitials'] }}</span>
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName">{{ $payment->client_name }}</h6>
-                                                    <p><span class="price">{{ $payment->price }}</span> € VB</p>
+                                                    <h6 class="mb-0 buyerName" data-conv-id="{{ $data['id'] }}"  data-id="{{ $account->id }}">{{ $data['buyerName'] }}</h6>
+                                                    <p><span class="price">{{ $account->adPrice }}</span> € VB</p>
                                                 </span>
                                             </div>
                                             <a href="{{ route('payment') }}"><i class="fa fa-arrow-left"></i></a>
@@ -180,7 +194,7 @@
                                     </div>
                                     <div class="user-chats">
                                         <div class="chats append-chat">
-                                            @foreach ($chatMessages as $chat)
+                                            @foreach ($data['messages'] as $chat)
                                                 @php
                                                     $carbonDate = \Carbon\Carbon::parse($chat['receivedDate']);
                                                 @endphp
@@ -192,7 +206,7 @@
                                                                 data-placement="right" title=""
                                                                 data-original-title="">
                                                                 <span
-                                                                    class="initials">{{ substr($payment->seller_name, 0, 1) }}</span>
+                                                                    class="initials">{{ $data['sellerInitials'] }}</span>
                                                             </a>
                                                         </div>
                                                         <div class="chat-body">
@@ -211,7 +225,7 @@
                                                             <a class="avatar m-0" data-toggle="tooltip" href="#"
                                                                 data-placement="left" title="" data-original-title="">
                                                                 <span
-                                                                    class="initials">{{ substr($payment->client_name, 0, 1) }}</span>
+                                                                    class="initials">{{ $data['buyerInitials'] }}</span>
                                                             </a>
                                                         </div>
                                                         <div class="chat-body">
@@ -251,9 +265,6 @@
             </div>
         </div>
     </div>
-
-    <input type="hidden" class="new" value="{{ $refreshToken }}" data-user-id="{{ $data['userIdSeller'] }}"
-        data-conv-id="{{ $data['id'] }}">
     <input type="file" id="imageInput" style="display:none" accept="image/jpeg">
 
     <script>
@@ -273,16 +284,14 @@
 
         function enter_chat(image) {
             var message = $(".message").val();
-            var refreshToken = $('.new').val();
-            var user_id = $('.new').attr('data-user-id');
-            var conv_id = $('.new').attr('data-conv-id');
+            var id = $('.buyerName').attr('data-id');
+            var conv_id = $('.buyerName').attr('data-conv-id');
 
             var formData = new FormData();
 
             formData.append('image', image);
             formData.append('message', message);
-            formData.append('refreshToken', refreshToken);
-            formData.append('user_id', user_id);
+            formData.append('id', id);
             formData.append('conv_id', conv_id);
 
             if (message != "") {

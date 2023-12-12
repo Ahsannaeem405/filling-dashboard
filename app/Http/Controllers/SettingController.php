@@ -21,6 +21,7 @@ class SettingController extends Controller
             $setting->getUserConv_api = $request->getUserConv_api;
             $setting->getUserConvMsg_api = $request->getUserConvMsg_api;
             $setting->postMsg_api = $request->postMsg_api;
+            $setting->deleteMsg_api = $request->deleteMsg_api;
             $setting->save();
             return back()->with('success','Api Setting Updated.');
         }else{
@@ -30,6 +31,7 @@ class SettingController extends Controller
                 'getUserConv_api' => $request->getUserConv_api,
                 'getUserConvMsg_api' => $request->getUserConvMsg_api,
                 'postMsg_api' => $request->postMsg_api,
+                'deleteMsg_api' => $request->deleteMsg_api,
             ]);
             return back()->with('success','Api Setting Created.');
         }

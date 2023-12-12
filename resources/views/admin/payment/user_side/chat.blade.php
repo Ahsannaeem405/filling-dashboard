@@ -1,14 +1,18 @@
 @extends('admin.layouts.master')
+
 @section('title')
     <title>Chat</title>
 @endsection
+
 @section('chat')
     active
 @endsection
+
 @section('content')
     <style>
         html body .content.app-content .content-area-wrapper {
-            height: calc(100% - 0rem);
+            height: calc(100% - 2rem);
+            overflow: hidden;
         }
 
         .chat-time-right p {
@@ -59,16 +63,31 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 18.8rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 20.8rem) !important;
         }
+
         .content-right {
             width: calc(100vw - (100vw - 100%) - 0px) !important;
             float: right;
         }
-        .fa-arrow-left{
+
+        .fa-arrow-left {
             color: white;
             cursor: pointer;
             font-size: 22px;
+        }
+
+        .time-right {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+        }
+
+        .time-left {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+            right: 95px
         }
     </style>
 
@@ -90,20 +109,19 @@
                                                     <i class="feather icon-menu font-large-1"></i>
                                                 </div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span
-                                                        class="initials buyerInitials">{{ substr($payment->client_name, 0, 1) }}</span>
+                                                    <span class="initials buyerInitials">{{ $data['buyerInitials'] }}</span>
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName">{{ $payment->client_name }}</h6>
-                                                    <p><span class="price">{{ $payment->price }}</span> € VB</p>
+                                                    <h6 class="mb-0 buyerName" data-conv-id="{{ $data['id'] }}"  data-id="{{ $account->id }}">{{ $data['buyerName'] }}</h6>
+                                                    <p><span class="price">{{ $account->adPrice }}</span> € VB</p>
                                                 </span>
                                             </div>
-                                            <a href="{{ route('user.payment') }}"><i class="fa fa-arrow-left"></i></a>
+                                            <a href="{{ route('payment') }}"><i class="fa fa-arrow-left"></i></a>
                                         </header>
                                     </div>
                                     <div class="user-chats">
                                         <div class="chats append-chat">
-                                            @foreach ($chatMessages as $chat)
+                                            @foreach ($data['messages'] as $chat)
                                                 @php
                                                     $carbonDate = \Carbon\Carbon::parse($chat['receivedDate']);
                                                 @endphp
@@ -115,7 +133,7 @@
                                                                 data-placement="right" title=""
                                                                 data-original-title="">
                                                                 <span
-                                                                    class="initials">{{ substr($payment->seller_name, 0, 1) }}</span>
+                                                                    class="initials">{{ $data['sellerInitials'] }}</span>
                                                             </a>
                                                         </div>
                                                         <div class="chat-body">
@@ -134,7 +152,7 @@
                                                             <a class="avatar m-0" data-toggle="tooltip" href="#"
                                                                 data-placement="left" title="" data-original-title="">
                                                                 <span
-                                                                    class="initials">{{ substr($payment->client_name, 0, 1) }}</span>
+                                                                    class="initials">{{ $data['buyerInitials'] }}</span>
                                                             </a>
                                                         </div>
                                                         <div class="chat-body">

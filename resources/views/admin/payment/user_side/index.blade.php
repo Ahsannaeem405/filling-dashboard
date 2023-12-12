@@ -436,7 +436,7 @@
                                         <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name, 0, 1) }}</div>
 
                                         <div class="">
-                                            <p class="font-weight-bold mb-0">{{ substr($payment->ad_title, 0,60)  }}</p>
+                                            <p class="font-weight-bold mb-0">{{ substr($payment->account->adTitle, 0,60)  }}</p>
                                             <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
                                         </div>
                                     </div>

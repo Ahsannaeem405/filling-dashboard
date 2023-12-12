@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
-
 class ChatsController extends Controller
 {
     public function index()
@@ -70,17 +69,17 @@ class ChatsController extends Controller
 
             $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
 
+
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conv_msg_api}");
-// dd($data->json());
-            $account = Account::where('account_id', $data['userIdSeller'])->first();
+            
             $adTitle = $account->adTitle;
             $adImage = $account->adPic;
             $adPrice = $account->adPrice;
             $client_id = $data['userIdBuyer'];
 
             return response()->json([
-                'component' => view('admin.chat.messages', compact('data', 'refreshToken'))->render(),
+                'component' => view('admin.chat.messages', compact('data', 'account'))->render(),
                 'adTitle' => $adTitle,
                 'adImage' => $adImage,
                 'adPrice' => $adPrice,
@@ -121,7 +120,6 @@ class ChatsController extends Controller
                             'message' => $request->message,
                         ]
                     );
-                    
             } else {
 
                 $file = $request->image;
@@ -151,7 +149,32 @@ class ChatsController extends Controller
             return response()->json(['error' => 'An error occurred. Please try again.']);
         }
     }
+    public function DeleteConversation(Request $request)
+    {
+        try {
 
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getDeleteApi = $setting->delete_api;
+// dd($getDeleteApi);
+            $account = Account::find($request->id);
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
+ 
+
+            $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
+            $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
+
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+
+            Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->delete("{$deleteApi}");
+
+            return response()->json(['success' => 'Chat deleted Successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred. Please try again.']);
+        }
+    }
     public function AssignAccount(Request $request)
     {
         $limit = Auth::user()->limit;

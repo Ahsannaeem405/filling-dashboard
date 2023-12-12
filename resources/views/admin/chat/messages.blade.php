@@ -1,33 +1,8 @@
-<style>
-    .time-right {
-        font-size: 12px;
-        margin-top: 12px;
-        position: absolute;
-    }
-
-    .time-left {
-        font-size: 12px;
-        margin-top: 12px;
-        position: absolute;
-        right: 95px
-    }
-
-    .time-left-append {
-        font-size: 12px;
-        margin-top: 45px;
-        position: absolute;
-        right: 95px;
-    }
-
-    .chat {
-        margin-top: 20px
-    }
-</style>
-
 @php
     use Carbon\Carbon;
 @endphp
 @foreach ($data['messages'] as $message)
+
     @if (!empty($message['textShort']))
         @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
             @php
@@ -42,7 +17,17 @@
                 </div>
                 <div class="chat-body">
                     <div class="chat-content">
-                        <p>{{ $message['textShort'] }}</p>
+                        @if (!empty($message['attachments']))
+                            @php
+                                $url = $message['attachments'][0]['url'];
+                                $id = $account->id;
+                                $src = showImage($url,$id);
+                            @endphp
+                            <img src="{{ $src }}" width="185px"  class="selected-image">
+                            <p>{{ $message['textShort'] }}</p>
+                        @else
+                            <p>{{ $message['textShort'] }}</p>
+                        @endif
                         <p>
                             <span class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
                         </p>
@@ -62,7 +47,17 @@
                 </div>
                 <div class="chat-body">
                     <div class="chat-content">
-                        <p>{{ $message['textShort'] }}</p>
+                        @if (!empty($message['attachments']))
+                            @php
+                                $url = $message['attachments'][0]['url'];
+                                $id = $account->id;
+                                $src = showImage($url,$id);
+                            @endphp
+                            <img src="{{ $src }}" width="185px" class="selected-image">
+                            <p>{{ $message['textShort'] }}</p>
+                        @else
+                            <p>{{ $message['textShort'] }}</p>
+                        @endif
                         <p>
                             <span class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
                         </p>
@@ -94,8 +89,7 @@
         @endif
     @endif
 @endforeach
-<input type="hidden" class="new" value="{{ $refreshToken }}" data-user-id="{{ $data['userIdSeller'] }}"
-    data-conv-id="{{ $data['id'] }}">
+<input type="hidden" class="new" data-id="{{ $account->id }}" data-conv-id="{{ $data['id'] }}">
 <input type="file" id="imageInput" style="display:none" accept="image/jpeg">
 
 <script>
@@ -115,16 +109,14 @@
 
     function enter_chat(image) {
         var message = $(".message").val();
-        var refreshToken = $('.new').val();
-        var user_id = $('.new').attr('data-user-id');
+        var id = $('.new').attr('data-id');
         var conv_id = $('.new').attr('data-conv-id');
 
         var formData = new FormData();
 
         formData.append('image', image);
         formData.append('message', message);
-        formData.append('refreshToken', refreshToken);
-        formData.append('user_id', user_id);
+        formData.append('id', id);
         formData.append('conv_id', conv_id);
 
         if (message != "") {

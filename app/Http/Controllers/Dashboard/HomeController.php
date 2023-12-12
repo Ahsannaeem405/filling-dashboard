@@ -23,7 +23,8 @@ class HomeController extends Controller
             $count = $accounts->count();
         }
         
-        $users = User::whereNot('id', Auth::user()->id)->whereNot('role', 'admin')->orderBy('rank', 'DESC')->latest()->take(5)->get();
+        $users = User::whereNot('id', Auth::user()->id)->whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(5)->get();
+        $users = $users->sortByDesc('rank');
 
         $totalChat = 0;
         $totalUnread = 0;

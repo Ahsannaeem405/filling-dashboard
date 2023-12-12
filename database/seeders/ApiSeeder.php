@@ -19,6 +19,7 @@ class ApiSeeder extends Seeder
             'getUserConv_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations?size=100000000',
             'getUserConvMsg_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations/{CONVERSATIONID}',
             'postMsg_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations/{CONVERSATIONID}?warnBankDetails=1&warnEmail=1&warnPhoneNumber=1',
+            'delete_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations?ids={CONVERSATIONID}',
         ]);
     }
 }

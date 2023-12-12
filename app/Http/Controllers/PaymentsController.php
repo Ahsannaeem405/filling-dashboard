@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Payment;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -28,43 +29,52 @@ class PaymentsController extends Controller
     }
     public function UploadPayment(Request $request)
     {
-        $setting = Setting::first();
-        $accessTokenApi = $setting->accessToken_api;
-        $getUserConvMsgAPi = $setting->getUserConvMsg_api;
-
-        $msg_api = str_replace('{USERID}', $request->user_id, $getUserConvMsgAPi);
-
-        $conv_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
-
-        $accessToken = refreshAccessToken($request->refreshToken, $accessTokenApi);
-
-
-        $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-            ->get("{$conv_msg_api}");
-
-        $payment = Payment::where('user_id',Auth::user()->id)->where('client_id', $data['userIdBuyer'])->first();
-        if ($payment) {
-            $payment->user_id = Auth::user()->id;
-            $payment->ad_title = $data['adTitle'];
-            $payment->client_id = $data['userIdBuyer'];
-            $payment->client_name = $data['buyerName'];
-            $payment->seller_name = $data['sellerName'];
-            $payment->chat = json_encode($data['messages']);
-            $payment->price = $data['adPriceInEuroCent'] / 100;
-            $payment->save();
-        } else {
-            $new = new Payment();
-            $new->user_id = Auth::user()->id;
-            $new->ad_title = $data['adTitle'];
-            $new->client_id = $data['userIdBuyer'];
-            $new->client_name = $data['buyerName'];
-            $new->seller_name = $data['sellerName'];
-            $new->chat = json_encode($data['messages']);
-            $new->price = $data['adPriceInEuroCent'] / 100;
-            $new->save();
+        try{
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserConvMsgAPi = $setting->getUserConvMsg_api;
+    
+            $account = Account::find($request->id);
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
+            $conv_id = $request->conv_id;
+    
+            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+    
+            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+    
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+    
+    
+            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->get("{$conv_msg_api}");
+    
+            $payment = Payment::where('user_id',Auth::user()->id)->where('client_id', $data['userIdBuyer'])->first();
+            if ($payment) {
+                $payment->user_id = Auth::user()->id;
+                $payment->account_id = $account->id;
+                $payment->client_id = $data['userIdBuyer'];
+                $payment->conv_id = $conv_id;
+                $payment->client_name = $data['buyerName'];
+                $payment->price = $data['adPriceInEuroCent'] / 100;
+                $payment->save();
+            } else {
+                $new = new Payment();
+                $new->user_id = Auth::user()->id;
+                $new->account_id = $account->id;
+                $new->client_id = $data['userIdBuyer'];
+                $new->conv_id = $conv_id;
+                $new->client_name = $data['buyerName'];
+                $new->price = $data['adPriceInEuroCent'] / 100;
+                $new->save();
+            }
+    
+            return response()->json(['success' => 'Payment wurde angefordert.']);
         }
-
-        return response()->json(['success' => 'Payment wurde angefordert.']);
+        catch(\Exception $e){
+            return response()->json(['success' => 'Something went wrong.']);
+        }
+        
     }
     public function EditPayment($id)
     {
@@ -85,13 +95,41 @@ class PaymentsController extends Controller
     }
     public function Chat($id)
     {
-        $payment = Payment::find($id);
-        $chatMessages = json_decode($payment->chat, true);
-        if (Auth::user()->role == 'admin') {
-            return view('admin.payment.chat', compact('chatMessages', 'payment'));
-        } else {
-            return view('admin.payment.user_side.chat', compact('chatMessages', 'payment'));
+        
+        
+        try {
+            $payment = Payment::find($id);
+            $conv_id = $payment->conv_id;
+
+            $setting = Setting::first();
+            $accessTokenApi = $setting->accessToken_api;
+            $getUserConvMsgAPi = $setting->getUserConvMsg_api;
+
+            $account = Account::find($payment->account_id);
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
+
+
+            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+
+            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+
+            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->get("{$conv_msg_api}");
+            $data = $data->json();
+
+            if (Auth::user()->role == 'admin') {
+                return view('admin.payment.chat', compact('data', 'account'));
+            } else {
+                return view('admin.payment.user_side.chat', compact('data', 'account'));
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred. Please try again.']);
         }
+        
     }
     public function DeletePayment($id)
     {

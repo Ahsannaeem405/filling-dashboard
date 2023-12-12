@@ -142,7 +142,7 @@ class AccountController extends Controller
 
             $parts = explode(':', $data);
             $email = $parts[0];
-
+            
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
 
             $response = refreshAccessToken($refreshToken, $accessTokenApi);

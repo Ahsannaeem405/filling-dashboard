@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('conversation', [ChatsController::class, 'Conversation'])->name('conversation');
     Route::get('conversation/messages', [ChatsController::class, 'ConversationMessages'])->name('messages');
     Route::post('conversation/messages/send-message', [ChatsController::class, 'SendMessages'])->name('send.messages');
+    Route::get('delete/conversation', [ChatsController::class, 'DeleteConversation'])->name('delete.conversation');
 
     // Accounts
     Route::get('accounts', [AccountController::class, 'Account'])->name('accounts');

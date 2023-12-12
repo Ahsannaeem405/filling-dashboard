@@ -6,52 +6,19 @@
     active
 @endsection
 @section('content')
-    @if (Auth::user()->role == 'user')
-        <style>
-            .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-            }
-
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-            }
-
-            .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
-            }
-
-            .chat-application .chat-app-form {
-                padding: 12px 10px !important;
-            }
-
-            .chat-application .sidebar-content .chat-user-list {
-                width: 365px !important;
-            }
-
-            .chat-application .sidebar-content {
-                width: 365px !important;
-            }
-
-            .new-user {
-                width: 190px !important;
-            }
-        </style>
-    @else
-        <style>
-            .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-            }
-
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
-            }
-
-            .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 24rem) !important;
-            }
-        </style>
-    @endif
     <style>
+        .chat-application .sidebar-content {
+            height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
+        }
+
+        .chat-application .chat-app-window .start-chat-area {
+            height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
+        }
+
+        .chat-application .chat-app-window .user-chats {
+            height: calc(var(--vh, 1vh) * 100 - 22rem) !important;
+        }
+
         html body .content.app-content .content-area-wrapper {
             height: calc(100% - 2rem);
             overflow: hidden;
@@ -303,8 +270,8 @@
         }
 
         /* .favorite-1:hover {
-            color: goldenrod;
-        } */
+                        color: goldenrod;
+                    } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -409,6 +376,30 @@
                 height: calc(var(--vh, 1vh) * 100 - 15.5rem) !important;
             }
         }
+
+        .time-right {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+        }
+
+        .time-left {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+            right: 95px
+        }
+
+        .time-left-append {
+            font-size: 12px;
+            margin-top: 45px;
+            position: absolute;
+            right: 95px;
+        }
+
+        .chat {
+            margin-top: 20px
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -428,6 +419,7 @@
                             <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
                         @endif
                         <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
+
                     </div>
                     <div class="scrol-custom">
                         <ul>
@@ -536,7 +528,7 @@
                                                         class="fa-brands fa-paypal font-medium-5"></i></span>
                                                 <span class="favorite-1"><i
                                                         class="fa-solid fa-building-columns font-medium-5"></i></span>
-                                                <span class="favorite-1"><i
+                                                <span class="favorite-1 delete-chat"><i
                                                         class="fa-regular fa-trash-can font-medium-5"></i></span>
                                             </div>
                                         </header>
@@ -750,17 +742,13 @@
 
                 localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
 
-                var refreshToken = $('.list-style').attr('data-refresh');
                 var id = $('.list-style').attr('data-id');
-                var user_id = $('.list-style').attr('data-user-id');
 
                 $.ajax({
                     type: 'get',
                     url: '{{ route('conversation') }}',
                     data: {
-                        id: id,
-                        user_id: user_id,
-                        refreshToken: refreshToken
+                        id: id
                     },
                     success: function(response) {
                         $('.media-list').empty().append(response.component);
@@ -888,7 +876,7 @@
                             $('.pop-up-initials').attr('src', response.adImage);
                             $('.pop-up-name').text(response.adTitle);
                             $('.price').text(response.adPrice);
-                            $('.paypal').attr('data-id',response.client_id);
+                            $('.paypal').attr('data-id', response.client_id);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
                             $('.start-chat-area').attr('data-id', response.account_id);
                         }
@@ -905,17 +893,17 @@
     <script>
         $(document).on('click', '.paypal', function() {
             var currentColor = $(this).css('color');
-            if (currentColor === 'rgb(218, 165, 32)') { 
+            if (currentColor === 'rgb(218, 165, 32)') {
                 deletePaymentEntry();
-                $(this).css('color', '');    
+                $(this).css('color', '');
             } else {
                 uploadPayment();
-                $(this).css('color','goldenrod');
+                $(this).css('color', 'goldenrod');
             }
         });
 
         function uploadPayment() {
-            var user_id = $('.start-chat-area').attr('data-id');
+            var id = $('.start-chat-area').attr('data-id');
             var conv_id = $('.start-chat-area').attr('data-conv-id');
 
             $.ajaxSetup({
@@ -964,7 +952,7 @@
                 type: 'get',
                 url: '{{ route('remove.payment') }}',
                 data: {
-                    id:id
+                    id: id
                 },
                 success: function(response) {
                     if (response.success) {
@@ -994,18 +982,64 @@
         }
     </script>
     <script>
+        $(document).on('click', '.delete-chat', function() {
+            var id = $('.start-chat-area').attr('data-id');
+            var conv_id = $('.start-chat-area').attr('data-conv-id');
+            $.ajax({
+                type: 'get',
+                url: '{{ route('delete.conversation') }}',
+                data: {
+                    conv_id: conv_id,
+                    id: id,
+                },
+                success: function(response) {
+                    $('.start-chat-area').removeClass('d-none');
+                    $('.active-chat').addClass('d-none');
+                    $('.list-style').removeClass('active');
+                    $('.append-chat').empty();
+                    $('.media-list').empty();
+                    $('.chat-btn').addClass('d-none');
+
+                    if (response.success) {
+                        toastr.success(response.success, '', {
+                            onShown: function() {
+                                $('.toast-success').css({
+                                    'background-color': '#4CAF50',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    } else if (response.error) {
+                        toastr.error(response.error, '', {
+                            onShown: function() {
+                                $('.toast-error').css({
+                                    'background-color': 'rgb(163, 23, 23)',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    }
+                },
+                error: function(error) {
+
+                    console.error(error);
+                }
+            });
+        })
+    </script>
+    <script>
         $(document).ready(function() {
             function refresh() {
                 if ($('.start-chat-area').hasClass('d-none')) {
-                    var user_id = $('.start-chat-area').attr('data-id');
+                    var id = $('.start-chat-area').attr('data-id');
                     var conv_id = $('.start-chat-area').attr('data-conv-id');
 
                     $.ajax({
                         type: 'get',
                         url: '{{ route('messages') }}',
                         data: {
-                            account_id: account_id,
                             conv_id: conv_id,
+                            id: id,
                         },
                         success: function(response) {
                             $('.append-chat').empty().append(response.component);
@@ -1017,8 +1051,9 @@
                     });
                 }
             }
-            // setInterval(refresh, 10000);
+            // setInterval(refresh, 20000);
         })
     </script>
+
 
 @endsection

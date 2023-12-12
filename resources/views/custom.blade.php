@@ -1,116 +1,78 @@
-@extends('admin.layouts.master')
-@section('title')
-    <title>Chat</title>
-@endsection
-@section('chat')
-    active
-@endsection
-@section('content')
-    <style>
+<!DOCTYPE html>
+<html lang="en">
 
-        html body .content.app-content .content-area-wrapper {
-            height: calc(100% - 0rem);
-        }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    img {
+        --s: 15px;
+        --b: 2px;
+        --w: 200px;
+        --c: #7B3B3B;
 
-        .chat-time-right p {
-            text-align: right;
-            margin-right: 60px;
-            margin-bottom: 30px;
-        }
+        width: var(--w);
+        aspect-ratio: 1;
+        object-fit: cover;
+        padding: calc(2*var(--s));
+        --_g: var(--c) var(--b), #0000 0 calc(100% - var(--b)), var(--c) 0;
+        background:
+            linear-gradient(var(--_g)) 50%/100% var(--_i, 100%) no-repeat,
+            linear-gradient(90deg, var(--_g)) 50%/var(--_i, 100%) 100% no-repeat;
+        outline: calc(var(--w)/2) solid #0009;
+        outline-offset: calc(var(--w)/-2 - 2*var(--s));
+        transition: .4s;
+        cursor: pointer;
+    }
 
-        .chat-time-left p {
-            text-align: left;
-            margin-left: 60px;
-            margin-bottom: 30px;
-        }
+    img:hover {
+        outline: var(--b) solid var(--c);
+        outline-offset: calc(var(--s)/-2);
+        --_i: calc(100% - 2*var(--s));
+    }
 
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        background: #e8e8e8;
+    }
+    h1{
+        text-align: center;
+    }
+    .text{
+        position: absolute;
+        display: flex;
+    }
+</style>
 
-        .initials {
-            background-color: #8a82dd75;
-            padding: 11px;
-            border-radius: 50%;
-            color: #7367f0;
-            font-weight: 700;
-            font-size: 16px;
-            margin-right: 0px;
-        }
-
-
-    </style>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="content-area-wrapper mt-0">
-                <div class="content-right">
-                    <div class="content-wrapper">
-                        <div class="content-header row">
-                        </div>
-                        <div class="content-body">
-                            <div class="chat-overlay"></div>
-                            <section class="chat-app-window">
-                                <div class="active-chat">
-                                    <div class="chat_navbar">
-                                        <header class="chat_header d-flex justify-content-between align-items-center p-1">
-                                            <div class="vs-con-items d-flex align-items-center">
-                                                <div class="sidebar-toggle d-block d-lg-none mr-1"><i
-                                                        class="feather icon-menu font-large-1"></i></div>
-                                                <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span class="initials buyerInitials">A</span>
-                                                </div>
-                                                <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName">Afaq</h6>
-                                                    <p><span class="price">2200</span> € VB</p>
-
-                                                </span>
-                                            </div>
-                                            
-                                        </header>
-                                    </div>
-                                    <div class="user-chats">
-                                        <div class="chats append-chat">
-                                          
-                                              <div class="chat">
-                                                  <div class="chat-avatar">
-                                                      <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title=""
-                                                          data-original-title="">
-                                                          <span class="initials">A</span>
-                                                      </a>
-                                                  </div>
-                                                  <div class="chat-body">
-                                                      <div class="chat-content">
-                                                          <p>hello hea jda b aida sajdas dsajdias asjasd a saba abdiaa abaja</p>
-                                                          <p>
-                                                              <span class="time-left">22-10-2029</span>
-                                                          </p>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          
-                                              <div class="chat chat-left">
-                                                  <div class="chat-avatar">
-                                                      <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title=""
-                                                          data-original-title="">
-                                                          <span class="initials">B</span>
-                                                      </a>
-                                                  </div>
-                                                  <div class="chat-body">
-                                                      <div class="chat-content">
-                                                          <p>hello hea jda b aida sajdas dsajdias asjasd a saba abdiaa abaja</p>
-                                                          <p>
-                                                              <span class="time-right">22-10-2029</span>
-                                                          </p>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          {{-- @endif
-                                      @endforeach --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body>
+    <div class="">
+        <h1>Projects</h1>
+        <a href="">
+            <img src="https://picsum.photos/id/111/300/300" alt="an old car">
+            <h5 class="text">abc</h5>
+        </a> 
+        <a href="">
+            <img src="https://picsum.photos/id/111/300/300" alt="an old car">
+            <h5 class="text">abc</h5>
+        </a> 
+        <a href="">
+            <img src="https://picsum.photos/id/111/300/300" alt="an old car">
+            <h5 class="text">abc</h5>
+        </a> 
+        <a href="">
+            <img src="https://picsum.photos/id/111/300/300" alt="an old car">
+            <h5 class="text">abc</h5>
+        </a> 
     </div>
-@endsection
+    
+</body>
+
+</html>

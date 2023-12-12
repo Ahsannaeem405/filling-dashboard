@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
+            $table->integer('account_id')->nullable();
             $table->text('client_id')->nullable();
-            $table->text('ad_title')->nullable();
+            $table->text('conv_id')->nullable();
             $table->text('client_name')->nullable();
-            $table->text('seller_name')->nullable();
-            $table->text('chat')->nullable();
             $table->text('price')->nullable();
             $table->text('status')->nullable();
             $table->text('reason')->nullable();
