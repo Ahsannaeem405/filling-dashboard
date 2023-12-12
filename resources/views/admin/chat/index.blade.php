@@ -47,7 +47,7 @@
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 24rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
             }
         </style>
     @endif
@@ -517,27 +517,28 @@
                                 <div class="active-chat">
                                     <div class="chat_navbar">
                                         <header class="chat_header d-grid p-1">
-                                            <div class="vs-con-items d-flex align-items-center">
+                                            <div class="vs-con-items d-flex align-items-center justify-content-between">
                                                 <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
                                                         class="feather icon-menu font-large-1"></i></div>
-                                                <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <img class="adImage buyerInitials" src="" alt="">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar user-profile-toggle m-0 m-0">
+                                                        <img class="adImage buyerInitials" src="" alt="">
+                                                    </div>
+                                                    <span class='account-prof'>
+                                                        <h6 class="mb-0 buyerName" style="max-width:60px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h6>
+                                                        <p><span class="price"></span> € VB</p>
+                                                    </span>
                                                 </div>
-                                                <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName" style="max-width:150px"></h6>
-                                                    <p><span class="price"></span> € VB</p>
-
-                                                </span>
-                                            </div>
-                                            <div class="mt-2">
-                                                <span class="favorite-1"><i
-                                                        class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
-                                                <span class="favorite-1 paypal" data-id=""><i
-                                                        class="fa-brands fa-paypal font-medium-5"></i></span>
-                                                <span class="favorite-1"><i
-                                                        class="fa-solid fa-building-columns font-medium-5"></i></span>
-                                                <span class="favorite-1"><i
-                                                        class="fa-regular fa-trash-can font-medium-5"></i></span>
+                                                <div class="">
+                                                    <span class="favorite-1"><i
+                                                            class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
+                                                    <span class="favorite-1 paypal" data-id=""><i
+                                                            class="fa-brands fa-paypal font-medium-5"></i></span>
+                                                    <span class="favorite-1"><i
+                                                            class="fa-solid fa-building-columns font-medium-5"></i></span>
+                                                    <span class="favorite-1"><i
+                                                            class="fa-regular fa-trash-can font-medium-5"></i></span>
+                                                </div>
                                             </div>
                                         </header>
                                     </div>
@@ -592,7 +593,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script>
         $(document).ready(function() {
             // Function to add class based on screen size
