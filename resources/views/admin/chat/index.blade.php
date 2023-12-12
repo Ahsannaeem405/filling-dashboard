@@ -17,7 +17,7 @@
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
             }
 
             .chat-application .chat-app-form {
@@ -47,13 +47,14 @@
             }
 
             .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 22rem) !important;
+                height: calc(var(--vh, 1vh) * 100 - 24rem) !important;
             }
         </style>
     @endif
     <style>
         html body .content.app-content .content-area-wrapper {
-            height: calc(100% - 0rem);
+            height: calc(100% - 2rem);
+            overflow: hidden;
         }
 
         .scrol-custom::-webkit-scrollbar {
