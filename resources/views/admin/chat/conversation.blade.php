@@ -16,7 +16,7 @@
     
 </style>
 @foreach ($data['conversations'] as $data)
-    <li class="messages" data-user-id="{{ $data['userIdSeller'] }}" data-refresh-token="{{ $refreshToken }}" data-conv-id="{{ $data['id'] }}">
+    <li class="messages" data-id="{{ $id }}" data-conv-id="{{ $data['id'] }}">
         <div class="pr-1">
             <span class="initials">{{ $data['buyerInitials'] }}</span>
         </div>

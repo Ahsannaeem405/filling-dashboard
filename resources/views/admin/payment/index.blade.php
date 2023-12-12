@@ -99,7 +99,7 @@
         }
 
         .avatar-blue {
-            background-color: #2a456a  !important;
+            background-color: #2a456a !important;
             color: #467fcf;
         }
 
@@ -201,7 +201,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-                      left:unset !important; */
+                          left:unset !important; */
             left: -2px !important;
         }
 
@@ -309,23 +309,30 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
         }
-        .line-div3{
+
+        .line-div3 {
             visibility: hidden;
         }
-        @media screen and (max-device-width:300px), screen and (max-width:768px){
-            .line-div{
+
+        @media screen and (max-device-width:300px),
+        screen and (max-width:768px) {
+            .line-div {
                 display: none;
             }
+
             .top {
                 display: grid;
                 justify-items: start;
             }
         }
-        @media screen and (max-device-width:768), screen and (max-width:991px){
-            .card-main-content{
+
+        @media screen and (max-device-width:768),
+        screen and (max-width:991px) {
+            .card-main-content {
                 margin-bottom: 12px;
             }
-            .status-select{
+
+            .status-select {
                 right: 40px;
             }
         }
@@ -383,9 +390,9 @@
             <div class='status-select'>
                 <select class='status-selection' id="statusFilter">
                     <option selected>Select Status</option>
-                    <option value="paid">Paid</option>
-                    <option value="unpaid">Unpaid</option>
-                    <option value="pending">Pending</option>
+                    <option value="paid">Ausgezahlt</option>
+                    <option value="reject">Abgelehnt</option>
+                    <option value="pending">Ausstehend</option>
                 </select>
             </div>
             <table id="example" class="table data-list-view dataTable no-footer dt-checkboxes-select" style="width:100%">
@@ -425,14 +432,21 @@
                                 </a>
                             </td>
                             <td>{{ $payment->price }}€</td>
-                            <td>{{ $payment->created_at->format('d M Y') }}</td>
+                            <td>{{ $payment->created_at->format('d M Y H:s') }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"
                                         style='@if ($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
-                                        @elseif($payment->status === 'unpaid') background-color: #a72727; color: #f3aaaa;
-                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
-                                        {{ $payment->status }}</div>
+                                            @elseif($payment->status === 'reject') background-color: #a72727; color: #f3aaaa;
+                                            @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
+                                        @if ($payment->status === 'paid')
+                                            Ausgezahlt
+                                        @elseif($payment->status === 'reject')
+                                            Abgelehnt
+                                        @elseif($payment->status === 'pending')
+                                            Ausstehend
+                                        @endif
+                                    </div>
                                 @else
                                     <div class="badge badge-success badge-success-alt"
                                         style='background-color: #093e3c; color: #668f95;'>waiting for approval</div>
@@ -540,18 +554,18 @@
             $('.open-modal-btn').on('click', function() {
                 var id = $(this).attr('id');
                 $.ajax({
-                        url: "{{ route('payment.view') }}",
-                        method: 'GET',
-                        data: {
-                            id: id
-                        },
-                        success: function(response) {
-                            $('.modal-body').empty().append(response.component);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
+                    url: "{{ route('payment.view') }}",
+                    method: 'GET',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        $('.modal-body').empty().append(response.component);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
                 $('#customModal').modal('show');
             });
         });

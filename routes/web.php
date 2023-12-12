@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payment/edit/{id}', [PaymentsController::class, 'EditPayment'])->name('edit.payment');
     Route::post('payment/update/{id}', [PaymentsController::class, 'UpdatePayment'])->name('update.payment');
     Route::delete('payment/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
+    Route::get('payment/remove', [PaymentsController::class, 'RemovePayment'])->name('remove.payment');
     Route::get('payment/chat/{id}', [PaymentsController::class, 'Chat'])->name('chat.view');
     Route::get('payment/view', [PaymentsController::class, 'PaymentView'])->name('payment.view');
 

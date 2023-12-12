@@ -32,16 +32,16 @@
                                                         {{ old('status', $payment->status) === 'paid' ? 'checked' : '' }}
                                                         style="cursor: pointer">
                                                     <label class="form-check-label" for="paid">
-                                                        Paid
+                                                        Ausgezahlt
                                                     </label>
                                                 </div>
                                                 <div class="form-check mr-3">
                                                     <input class="form-check-input" type="radio" name="status"
-                                                        id="unpaid" value="unpaid"
-                                                        {{ old('status', $payment->status) === 'unpaid' ? 'checked' : '' }}
+                                                        id="reject" value="reject"
+                                                        {{ old('status', $payment->status) === 'reject' ? 'checked' : '' }}
                                                         style="cursor: pointer">
-                                                    <label class="form-check-label" for="unpaid">
-                                                        Unpaid
+                                                    <label class="form-check-label" for="reject">
+                                                        Abgelehnt
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
@@ -50,10 +50,22 @@
                                                         {{ old('status', $payment->status) === 'pending' ? 'checked' : '' }}
                                                         style="cursor: pointer">
                                                     <label class="form-check-label" for="pending">
-                                                        Pending
+                                                        Ausstehend
                                                     </label>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" id="pendingField" style="display: none;">
+                                        <div class="form-group">
+                                            <label>Reason for Ausstehend</label>
+                                            <input type="text" name="pendingReason" class="form-control" value="{{ old('pendingReason', ($payment->status === 'pending') ? $payment->reason : '') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12" id="rejectField" style="display: none;">
+                                        <div class="form-group">
+                                            <label>Reason for Abgelehnt</label>
+                                            <input type="text" name="rejectReason" class="form-control" value="{{ old('rejectReason', ($payment->status === 'reject') ? $payment->reason : '') }}">
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -68,4 +80,31 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+                var val = $('input[name="status"]:checked').val();
+                if (val === 'pending') {
+                    $('#rejectField').hide();
+                    $('#pendingField').show();
+                } else if (val === 'reject') {
+                    $('#pendingField').hide();
+                    $('#rejectField').show();
+                }else{
+                    $('#rejectField').hide();
+                    $('#pendingField').hide();  
+                }
+            $('input[name="status"]').change(function () {
+                if ($(this).val() === 'pending') {
+                    $('#rejectField').hide();
+                    $('#pendingField').show();
+                } else if ($(this).val() === 'reject') {
+                    $('#pendingField').hide();
+                    $('#rejectField').show();
+                }else{
+                    $('#rejectField').hide();
+                    $('#pendingField').hide();  
+                }
+            });
+        });
+    </script>
 @endsection

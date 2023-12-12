@@ -291,7 +291,8 @@
         .chat-application .sidebar-content .chat-user-list li .contact-info {
             width: calc(100vw - (100vw - 100%) - 1rem - -10px);
         }
-        .emojionearea .emojionearea-picker.emojionearea-picker-position-top{
+
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top {
             right: 32px !important;
         }
 
@@ -300,9 +301,9 @@
             cursor: pointer;
         }
 
-        .favorite-1:hover {
+        /* .favorite-1:hover {
             color: goldenrod;
-        }
+        } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -336,6 +337,7 @@
         body.dark-layout .avatar {
             background-color: transparent !important;
         }
+
         .ellipsis {
             width: 100px;
             margin-right: 10px;
@@ -343,50 +345,65 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        @media screen and (max-device-width:768px), screen and (max-width:991px){
+
+        @media screen and (max-device-width:768px),
+        screen and (max-width:991px) {
             html body .content.app-content .content-area-wrapper {
                 height: calc(100% - 0rem);
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
+
             .chat-application .sidebar-content {
                 -webkit-transform: translateX(0%);
                 -ms-transform: translateX(0%);
                 transform: translateX(0%);
                 width: 100% !important;
             }
-            .AcountsDetail, .chat-application .sidebar-content .chat-user-list{
+
+            .AcountsDetail,
+            .chat-application .sidebar-content .chat-user-list {
                 width: 100% !important;
             }
+
             .chat-application .chat-app-window .user-chats {
                 height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
             }
         }
-        @media screen and (max-device-width:300px), screen and (max-width:768px){
+
+        @media screen and (max-device-width:300px),
+        screen and (max-width:768px) {
             .chat-application .sidebar-content {
                 -webkit-transform: translateX(0%);
                 -ms-transform: translateX(0%);
                 transform: translateX(0%);
                 width: 100% !important;
             }
-            .AcountsDetail, .chat-application .sidebar-content .chat-user-list{
+
+            .AcountsDetail,
+            .chat-application .sidebar-content .chat-user-list {
                 width: 100% !important;
             }
+
             html body .content.app-content .content-area-wrapper {
                 height: calc(100% - 0rem);
                 display: grid;
                 grid-template: none;
             }
+
             .chat-application .chat-app-window .user-chats {
                 height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
             }
-            .special_class{
+
+            .special_class {
                 display: none;
             }
-            .chat-application .sidebar-content .chat-user-list ul{
+
+            .chat-application .sidebar-content .chat-user-list ul {
                 max-height: 170px;
                 overflow-y: scroll;
             }
+
             .chat-application .sidebar-content {
                 height: calc(var(--vh, 1vh) * 100 - 15.5rem) !important;
             }
@@ -415,8 +432,7 @@
                         <ul>
                             @if (isset($accounts))
                                 @foreach ($accounts as $account)
-                                    <li class="list-style ToggleBtn" data-refresh="{{ $account->refreshToken }}"
-                                        data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
+                                    <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
                                         <div class="avatar  mr-1">
                                             <img class="adPic" src="{{ $account->adPic }}" alt="">
                                             @if ($account->adStatus == 'ACTIVE')
@@ -469,8 +485,10 @@
                                 </div>
                             </div> --}}
                             <div id="users-list" class="chat-user-list list-group position-relative">
-                                <div style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
-                                    <i class="feather icon-arrow-left BackArr" style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
+                                <div
+                                    style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
+                                    <i class="feather icon-arrow-left BackArr"
+                                        style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
                                     <h3 class="primary p-1 mb-0">Chats</h3>
                                     <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
                                 </div>
@@ -490,7 +508,7 @@
                         <div class="content-body">
                             <div class="chat-overlay"></div>
                             <section class="chat-app-window">
-                                <div class="start-chat-area" data-conv-id="" data-user-id="" data-refresh-token="">
+                                <div class="start-chat-area" data-conv-id="" data-id="">
                                     <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
                                             width="100px"></span>
                                     {{-- <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4> --}}
@@ -503,7 +521,6 @@
                                                         class="feather icon-menu font-large-1"></i></div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
                                                     <img class="adImage buyerInitials" src="" alt="">
-                                                    {{-- <span class="avatar-status-busy"></span> --}}
                                                 </div>
                                                 <span class='account-prof'>
                                                     <h6 class="mb-0 buyerName" style="max-width:150px"></h6>
@@ -514,7 +531,7 @@
                                             <div class="mt-2">
                                                 <span class="favorite-1"><i
                                                         class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
-                                                <span class="favorite-1 paypal"><i
+                                                <span class="favorite-1 paypal" data-id=""><i
                                                         class="fa-brands fa-paypal font-medium-5"></i></span>
                                                 <span class="favorite-1"><i
                                                         class="fa-solid fa-building-columns font-medium-5"></i></span>
@@ -576,47 +593,46 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-       $(document).ready(function(){
-    // Function to add class based on screen size
-    function addClassBasedOnSize() {
-        var screenWidth = $(window).width();
+        $(document).ready(function() {
+            // Function to add class based on screen size
+            function addClassBasedOnSize() {
+                var screenWidth = $(window).width();
 
-        if (screenWidth >= 300 && screenWidth <= 768) {
-            $('.sidebar-left, .content-right').addClass('special_class');
-        } else {
-            $('.sidebar-left, .content-right').removeClass('special_class');
-        }
-    }
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.sidebar-left, .content-right').addClass('special_class');
+                } else {
+                    $('.sidebar-left, .content-right').removeClass('special_class');
+                }
+            }
 
-    // Function to handle click event
-    $(document).on('click', '.ToggleBtn', function(){
-        var screenWidth = $(window).width();
+            // Function to handle click event
+            $(document).on('click', '.ToggleBtn', function() {
+                var screenWidth = $(window).width();
 
-        if (screenWidth >= 300 && screenWidth <= 768) {
-            $('.special_class').css('display','block');
-            $('.AcountsDetail').css('display','none');
-        } else {
-            $('.special_class').css('display','none');
-            $('.AcountsDetail').css('display','block');
-        }
-    });
-    $(document).on('click', '.BackArr', function(){
-        var screenWidth = $(window).width();
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.special_class').css('display', 'block');
+                    $('.AcountsDetail').css('display', 'none');
+                } else {
+                    $('.special_class').css('display', 'none');
+                    $('.AcountsDetail').css('display', 'block');
+                }
+            });
+            $(document).on('click', '.BackArr', function() {
+                var screenWidth = $(window).width();
 
-        if (screenWidth >= 300 && screenWidth <= 768) {
-            $('.special_class').css('display','none');
-            $('.AcountsDetail').css('display','block');
-        } else {
-            $('.special_class').css('display','block');
-            $('.AcountsDetail').css('display','none');
-        }
-    });
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.special_class').css('display', 'none');
+                    $('.AcountsDetail').css('display', 'block');
+                } else {
+                    $('.special_class').css('display', 'block');
+                    $('.AcountsDetail').css('display', 'none');
+                }
+            });
 
-    // Call the function on document ready and on window resize
-    addClassBasedOnSize();
-    $(window).resize(addClassBasedOnSize);
-});
-
+            // Call the function on document ready and on window resize
+            addClassBasedOnSize();
+            $(window).resize(addClassBasedOnSize);
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -792,17 +808,13 @@
                 $('.chat-btn').removeClass('d-none');
 
                 var spanValue = $(this).find('span').text();
-                var refreshToken = $(this).attr('data-refresh');
                 var id = $(this).attr('data-id');
-                var user_id = $(this).attr('data-user-id');
 
                 $.ajax({
                     type: 'get',
                     url: '{{ route('conversation') }}',
                     data: {
                         id: id,
-                        user_id: user_id,
-                        refreshToken: refreshToken
                     },
                     success: function(response) {
 
@@ -844,16 +856,15 @@
                 $(this).addClass("active");
                 $(this).find('.pr-1 .initials').css('background-color', '#10163A');
 
-                var user_id = $(this).attr('data-user-id');
+                var id = $(this).attr('data-id');
                 var conv_id = $(this).attr('data-conv-id');
-                var refreshToken = $(this).attr('data-refresh-token');
+
                 $.ajax({
                     type: 'get',
                     url: '{{ route('messages') }}',
                     data: {
-                        user_id: user_id,
+                        id: id,
                         conv_id: conv_id,
-                        refreshToken: refreshToken,
                     },
                     success: function(response) {
 
@@ -876,10 +887,9 @@
                             $('.pop-up-initials').attr('src', response.adImage);
                             $('.pop-up-name').text(response.adTitle);
                             $('.price').text(response.adPrice);
+                            $('.paypal').attr('data-id',response.client_id);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
-                            $('.start-chat-area').attr('data-user-id', response.user_id);
-                            $('.start-chat-area').attr('data-refresh-token', response
-                                .refreshToken);
+                            $('.start-chat-area').attr('data-id', response.account_id);
                         }
 
                     },
@@ -893,23 +903,32 @@
     </script>
     <script>
         $(document).on('click', '.paypal', function() {
-            $(this).css('color', 'goldenrod');
-            var user_id = $('.start-chat-area').attr('data-user-id');
+            var currentColor = $(this).css('color');
+            if (currentColor === 'rgb(218, 165, 32)') { 
+                deletePaymentEntry();
+                $(this).css('color', '');    
+            } else {
+                uploadPayment();
+                $(this).css('color','goldenrod');
+            }
+        });
+
+        function uploadPayment() {
+            var user_id = $('.start-chat-area').attr('data-id');
             var conv_id = $('.start-chat-area').attr('data-conv-id');
-            var refreshToken = $('.start-chat-area').attr('data-refresh-token');
 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
             $.ajax({
                 type: 'post',
                 url: '{{ route('upload.payment') }}',
                 data: {
-                    user_id: user_id,
-                    conv_id: conv_id,
-                    refreshToken: refreshToken,
+                    id: id,
+                    conv_id: conv_id
                 },
                 success: function(response) {
                     if (response.success) {
@@ -936,23 +955,56 @@
                     toastr.error(error);
                 }
             });
-        });
+        }
+
+        function deletePaymentEntry() {
+            var id = $('.paypal').attr('data-id');
+            $.ajax({
+                type: 'get',
+                url: '{{ route('remove.payment') }}',
+                data: {
+                    id:id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.success, '', {
+                            onShown: function() {
+                                $('.toast-success').css({
+                                    'background-color': '#4CAF50',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    } else if (response.error) {
+                        toastr.error(response.error, '', {
+                            onShown: function() {
+                                $('.toast-error').css({
+                                    'background-color': 'rgb(163, 23, 23)',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    }
+                },
+                error: function(error) {
+                    toastr.error(error);
+                }
+            });
+        }
     </script>
     <script>
         $(document).ready(function() {
             function refresh() {
                 if ($('.start-chat-area').hasClass('d-none')) {
-                    var user_id = $('.start-chat-area').attr('data-user-id');
+                    var user_id = $('.start-chat-area').attr('data-id');
                     var conv_id = $('.start-chat-area').attr('data-conv-id');
-                    var refreshToken = $('.start-chat-area').attr('data-refresh-token');
 
                     $.ajax({
                         type: 'get',
                         url: '{{ route('messages') }}',
                         data: {
-                            user_id: user_id,
+                            account_id: account_id,
                             conv_id: conv_id,
-                            refreshToken: refreshToken,
                         },
                         success: function(response) {
                             $('.append-chat').empty().append(response.component);
@@ -964,15 +1016,8 @@
                     });
                 }
             }
-            setInterval(refresh, 10000);
+            // setInterval(refresh, 10000);
         })
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
-    <script>
-        $('#iconLeft4-1').emojioneArea({
-            pickerPosition: 'top'
-        });
-    </script>
-    
 @endsection

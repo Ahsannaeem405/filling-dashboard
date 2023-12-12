@@ -65,6 +65,11 @@
             width: calc(100vw - (100vw - 100%) - 0px) !important;
             float: right;
         }
+        .fa-arrow-left{
+            color: white;
+            cursor: pointer;
+            font-size: 22px;
+        }
     </style>
 
     <div class="row">
@@ -93,6 +98,7 @@
                                                     <p><span class="price">{{ $payment->price }}</span> € VB</p>
                                                 </span>
                                             </div>
+                                            <a href="{{ route('user.payment') }}"><i class="fa fa-arrow-left"></i></a>
                                         </header>
                                     </div>
                                     <div class="user-chats">

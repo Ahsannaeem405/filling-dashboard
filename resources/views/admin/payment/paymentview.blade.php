@@ -6,7 +6,8 @@
         color: white
     }
 
-    .custom-th, .custom-td {
+    .custom-th,
+    .custom-td {
         padding: 10px;
         border: 1px solid #ddd;
     }
@@ -28,11 +29,25 @@
     <tr>
         <th class="custom-th">Status</th>
         @if ($payment->status)
-            <td class="custom-td">{{ $payment->status }}</td>
+            <td class="custom-td">
+                @if ($payment->status === 'paid')
+                    Ausgezahlt
+                @elseif($payment->status === 'reject')
+                    Abgelehnt
+                @elseif($payment->status === 'pending')
+                    Ausstehend
+                @endif
+            </td>
         @else
             <td class="custom-td">waiting for approval</td>
         @endif
     </tr>
+    @if ($payment->status === 'reject')
+        <tr>
+            <th class="custom-th">Reason</th>
+            <td class="custom-td">{{ $payment->reason }}</td>
+        </tr>
+    @endif
     <tr>
         <th class="custom-th">Issue Date</th>
         <td class="custom-td">{{ $payment->created_at->format('d M Y') }}</td>

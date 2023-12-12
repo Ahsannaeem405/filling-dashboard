@@ -98,7 +98,7 @@
         }
 
         .avatar-blue {
-            background-color: #2a456a  !important;
+            background-color: #2a456a !important;
             color: #467fcf;
         }
 
@@ -200,7 +200,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-          left:unset !important; */
+              left:unset !important; */
             left: -2px !important;
         }
 
@@ -299,6 +299,7 @@
         th.sorting:after {
             margin-left: -10px !important
         }
+
         .overlay {
             display: none;
             position: fixed;
@@ -330,6 +331,7 @@
         .message-box p {
             margin: 0 !important;
         }
+
         body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
             z-index: 1050;
         }
@@ -398,9 +400,9 @@
             <div class='status-select'>
                 <select class='status-selection' id="statusFilter">
                     <option selected>Select Status</option>
-                    <option value="paid">Paid</option>
-                    <option value="unpaid">Unpaid</option>
-                    <option value="pending">Pending</option>
+                    <option value="paid">Ausgezahlt</option>
+                    <option value="reject">Abgelehnt</option>
+                    <option value="pending">Ausstehend</option>
                 </select>
             </div>
             <table id="example" class="display nowrap" style="width:100%">
@@ -434,20 +436,28 @@
                                         <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name, 0, 1) }}</div>
 
                                         <div class="">
+                                            <p class="font-weight-bold mb-0">{{ substr($payment->ad_title, 0,60)  }}</p>
                                             <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
                                         </div>
                                     </div>
                                 </a>
                             </td>
                             <td>{{ $payment->price }}€</td>
-                            <td>{{ $payment->created_at->format('d M Y') }}</td>
+                            <td>{{ $payment->created_at->format('d M Y H:s') }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"
                                         style='@if ($payment->status === 'paid') background-color: #1d5541; color: #00ab00; 
-                                        @elseif($payment->status === 'unpaid') background-color: #a72727; color: #f3aaaa;
-                                        @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
-                                        {{ $payment->status }}</div>
+                                            @elseif($payment->status === 'reject') background-color: #a72727; color: #f3aaaa;
+                                            @elseif($payment->status === 'pending') background-color: #4c3918; color: #aab190; @endif'>
+                                        @if ($payment->status === 'paid')
+                                            Ausgezahlt
+                                        @elseif($payment->status === 'reject')
+                                            Abgelehnt
+                                        @elseif($payment->status === 'pending')
+                                            Ausstehend
+                                        @endif
+                                    </div>
                                 @else
                                     <div class="badge badge-success badge-success-alt"
                                         style='background-color: #093e3c; color: #668f95;'>waiting for approval</div>
@@ -458,21 +468,8 @@
                                         class="bx bxs-envelope mr-1"></i></a>
                                 <a class="open-modal-btn" id="{{ $payment->id }}" style="color: white" data-toggle="modal"
                                     data-target="#customModal">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                <div class="dropdown" style='display:inline-block'>
-                                    <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical" data-toggle="tooltip" data-placement="top"
-                                            title="Actions"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <a class="dropdown-item">
-                                            Edit Status</a>
-                                        <a class="dropdown-item text-danger">
-                                            Remove</a>
-                                    </div>
-                                </div>
+                                    <i class="fa fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -549,18 +546,18 @@
             $('.open-modal-btn').on('click', function() {
                 var id = $(this).attr('id');
                 $.ajax({
-                        url: "{{ route('user.payment.view') }}",
-                        method: 'GET',
-                        data: {
-                            id: id
-                        },
-                        success: function(response) {
-                            $('.modal-body').empty().append(response.component);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
+                    url: "{{ route('user.payment.view') }}",
+                    method: 'GET',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        $('.modal-body').empty().append(response.component);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
                 $('#customModal').modal('show');
             });
         });

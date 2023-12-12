@@ -26,15 +26,6 @@ class PaymentsController extends Controller
             return view('admin.payment.user_side.index', compact('payment','count','paidAmount','unpaidAmount'));
         }
     }
-    private function refreshAccessToken($refreshToken, $accessTokenApi)
-    {
-        $response = Http::withHeaders(['User-Agent' => ''])->post("{$accessTokenApi}", [
-            'refreshToken' => $refreshToken,
-        ]);
-        return [
-            'accessToken' => $response['accessToken'],
-        ];
-    }
     public function UploadPayment(Request $request)
     {
         $setting = Setting::first();
@@ -51,9 +42,10 @@ class PaymentsController extends Controller
         $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
             ->get("{$conv_msg_api}");
 
-        $payment = Payment::where('client_id', $data['userIdBuyer'])->first();
+        $payment = Payment::where('user_id',Auth::user()->id)->where('client_id', $data['userIdBuyer'])->first();
         if ($payment) {
             $payment->user_id = Auth::user()->id;
+            $payment->ad_title = $data['adTitle'];
             $payment->client_id = $data['userIdBuyer'];
             $payment->client_name = $data['buyerName'];
             $payment->seller_name = $data['sellerName'];
@@ -63,6 +55,7 @@ class PaymentsController extends Controller
         } else {
             $new = new Payment();
             $new->user_id = Auth::user()->id;
+            $new->ad_title = $data['adTitle'];
             $new->client_id = $data['userIdBuyer'];
             $new->client_name = $data['buyerName'];
             $new->seller_name = $data['sellerName'];
@@ -71,7 +64,7 @@ class PaymentsController extends Controller
             $new->save();
         }
 
-        return response()->json(['success' => 'Chat data saved successfully']);
+        return response()->json(['success' => 'Payment wurde angefordert.']);
     }
     public function EditPayment($id)
     {
@@ -82,6 +75,11 @@ class PaymentsController extends Controller
     {
         $payment = Payment::find($id);
         $payment->status = $request->status;
+        if($request->status == 'pending'){
+            $payment->reason = $request->pendingReason;
+        }else{
+            $payment->reason = $request->rejectReason;
+        }
         $payment->save();
         return redirect()->route('payment')->with('success', 'Status updated successfully');
     }
@@ -100,6 +98,18 @@ class PaymentsController extends Controller
         Payment::find($id)->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
+    public function RemovePayment(Request $request)
+    {
+        $payment = Payment::where('user_id', Auth::user()->id)->where('client_id', $request->id)->first();
+    
+        if ($payment) {
+            $payment->delete();
+            return response()->json(['success' => 'Payment Removed Successfully']);
+        } else {
+            return response()->json(['error' => 'Payment not found'], 404);
+        }
+    }
+    
     public function PaymentView(Request $request)
     {
         $payment = Payment::find($request->id);

@@ -29,9 +29,13 @@ class ChatsController extends Controller
             $setting = Setting::first();
             $accessTokenApi = $setting->accessToken_api;
             $getUserConvAPi = $setting->getUserConv_api;
-            $refreshToken = $request->refreshToken;
 
-            $conversation_api = str_replace('{USERID}', $request->user_id, $getUserConvAPi);
+            $account = Account::find($request->id);
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
+            $id = $account->id;
+
+            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
 
             $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
 
@@ -39,7 +43,7 @@ class ChatsController extends Controller
                 ->get("{$conversation_api}");
 
             return response()->json([
-                'component' => view('admin.chat.conversation', compact('data', 'refreshToken'))->render(),
+                'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
@@ -52,9 +56,13 @@ class ChatsController extends Controller
             $setting = Setting::first();
             $accessTokenApi = $setting->accessToken_api;
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
-            $refreshToken = $request->refreshToken;
+
+
+            $account = Account::find($request->id);
+            $id = $account->id;
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
             $conv_id = $request->conv_id;
-            $user_id = $request->user_id;
 
             $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
 
@@ -69,6 +77,7 @@ class ChatsController extends Controller
             $adTitle = $account->adTitle;
             $adImage = $account->adPic;
             $adPrice = $account->adPrice;
+            $client_id = $data['userIdBuyer'];
 
             return response()->json([
                 'component' => view('admin.chat.messages', compact('data', 'refreshToken'))->render(),
@@ -76,8 +85,8 @@ class ChatsController extends Controller
                 'adImage' => $adImage,
                 'adPrice' => $adPrice,
                 'conv_id' => $conv_id,
-                'user_id' => $user_id,
-                'refreshToken' => $refreshToken
+                'account_id' => $id,
+                'client_id' => $client_id,
 
             ]);
         } catch (\Exception $e) {
@@ -92,11 +101,16 @@ class ChatsController extends Controller
             $accessTokenApi = $setting->accessToken_api;
             $sendMsgAPi = $setting->postMsg_api;
 
-            $msg_api = str_replace('{USERID}', $request->user_id, $sendMsgAPi);
+            $account = Account::find($request->id);
+            $user_id = $account->account_id;
+            $refreshToken = $account->refreshToken;
+            $conv_id = $request->conv_id;
 
-            $send_msg_api = str_replace('{CONVERSATIONID}', $request->conv_id, $msg_api);
+            $msg_api = str_replace('{USERID}', $user_id, $sendMsgAPi);
 
-            $accessToken = refreshAccessToken($request->refreshToken, $accessTokenApi);
+            $send_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+
+            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
 
             if ($request->image === 'undefined') {
 

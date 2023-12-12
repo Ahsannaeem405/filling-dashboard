@@ -155,7 +155,7 @@ class AccountController extends Controller
                 'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-            
+            // dd($data->json());
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
 
             $price = $adData['price']['amount']['value'];

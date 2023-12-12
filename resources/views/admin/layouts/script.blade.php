@@ -139,3 +139,9 @@
         }
     }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+<script>
+    $('#iconLeft4-1').emojioneArea({
+        pickerPosition: 'top'
+    });
+</script>
