@@ -905,6 +905,7 @@
 
                 var id = $(this).attr('data-id');
                 var conv_id = $(this).attr('data-conv-id');
+                // var chatContainer = $('.append-chat')[0];
 
                 $.ajax({
                     type: 'get',
@@ -939,16 +940,16 @@
                             $('.paypal').attr('data-id', response.client_id);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
                             $('.start-chat-area').attr('data-id', response.account_id);
-
-                            // var $lastChat = $('.user-chats .chats .chat').last();
-                            // $('html, body').animate({
-                            //     scrollTop: $lastChat.offset().top
-                            // }, 'slow');
+                           
+                            // var $lastChat = $('.append-chat .message').last();
+                            setTimeout(function() {
+                                var chatContainer = $('.user-chats')[0];
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 100); 
                         }
 
                     },
                     error: function(error) {
-
                         console.error(error);
                     }
                 });
