@@ -307,7 +307,7 @@
                     <div class="card StepsCount_WrapCard">
                         <div class="card-header d-flex flex-column align-items-start pb-0">
                             <div class="TopHeading">
-                                <h4 class="m-0">Uberblink Rang</h4>
+                                <h4 class="m-0">Überblink Rang</h4>
                                 <p class="m-0">Aktueller Rang: {{ Auth::user()->rank }}</p>
                             </div>
                         </div>

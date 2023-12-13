@@ -31,7 +31,6 @@ class PaymentsController extends Controller
     {
         try{
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
     
             $account = Account::find($request->id);
@@ -43,7 +42,7 @@ class PaymentsController extends Controller
     
             $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
     
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
     
     
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
@@ -102,7 +101,6 @@ class PaymentsController extends Controller
             $conv_id = $payment->conv_id;
 
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
 
             $account = Account::find($payment->account_id);
@@ -114,7 +112,7 @@ class PaymentsController extends Controller
 
             $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conv_msg_api}");

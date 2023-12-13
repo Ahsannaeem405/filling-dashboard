@@ -26,7 +26,6 @@ class ChatsController extends Controller
         try {
 
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserConvAPi = $setting->getUserConv_api;
 
             $account = Account::find($request->id);
@@ -36,11 +35,11 @@ class ChatsController extends Controller
 
             $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
 
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-
+            
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
@@ -53,7 +52,6 @@ class ChatsController extends Controller
     {
         try {
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
 
 
@@ -67,7 +65,7 @@ class ChatsController extends Controller
 
             $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
 
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
@@ -77,6 +75,7 @@ class ChatsController extends Controller
             $adImage = $account->adPic;
             $adPrice = $account->adPrice;
             $client_id = $data['userIdBuyer'];
+            $adLink = $account->adLink;
 
             return response()->json([
                 'component' => view('admin.chat.messages', compact('data', 'account'))->render(),
@@ -86,6 +85,7 @@ class ChatsController extends Controller
                 'conv_id' => $conv_id,
                 'account_id' => $id,
                 'client_id' => $client_id,
+                'adLink' => $adLink,
 
             ]);
         } catch (\Exception $e) {
@@ -97,7 +97,6 @@ class ChatsController extends Controller
     {
         try {
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $sendMsgAPi = $setting->postMsg_api;
 
             $account = Account::find($request->id);
@@ -109,7 +108,7 @@ class ChatsController extends Controller
 
             $send_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
 
             if ($request->image === 'undefined') {
 
@@ -154,9 +153,8 @@ class ChatsController extends Controller
         try {
 
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getDeleteApi = $setting->delete_api;
-// dd($getDeleteApi);
+
             $account = Account::find($request->id);
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
@@ -165,7 +163,7 @@ class ChatsController extends Controller
             $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
             $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
 
-            $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+            $accessToken = refreshAccessToken($refreshToken);
 
             Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->delete("{$deleteApi}");
@@ -216,7 +214,7 @@ class ChatsController extends Controller
         }
         if ($accounts_reload) {
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
+            $authorization = $setting->getUser_header_api;
             $getUserApi = $setting->getUser_api;
 
             foreach ($accounts_reload as $account) {
@@ -227,11 +225,11 @@ class ChatsController extends Controller
 
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
 
-                $accessToken = refreshAccessToken($account->refreshToken, $accessTokenApi);
+                $accessToken = refreshAccessToken($account->refreshToke);
 
                 $data = Http::withHeaders([
                     'User-Agent' => '',
-                    'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
+                    'Authorization' => $authorization,
                     'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
                 ])->get("{$getUser_api}");
 

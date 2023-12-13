@@ -8,6 +8,19 @@
 @section('content')
     @if (Auth::user()->role == 'user')
         <style>
+            .account-btn1 {
+                margin: 1px 15px;
+                border: none;
+                outline: none;
+                color: white;
+                background: #27ce72;
+                border-radius: 5px;
+                padding: 6px;
+                font-size: 11px;
+                width: 87px;
+                margin-bottom: 20px;
+            }
+
             .chat-application .sidebar-content {
                 height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
             }
@@ -38,6 +51,19 @@
         </style>
     @else
         <style>
+            .account-btn1 {
+                margin: 1px 1px;
+                border: none;
+                outline: none;
+                color: white;
+                background: #27ce72;
+                border-radius: 5px;
+                padding: 6px;
+                font-size: 11px;
+                width: 87px;
+                margin-bottom: 20px;
+            }
+
             .chat-application .sidebar-content {
                 height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
             }
@@ -58,10 +84,6 @@
 
         .chat-application .chat-app-window .start-chat-area {
             height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
-        }
-
-        .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 22rem) !important;
         }
 
         html body .content.app-content .content-area-wrapper {
@@ -151,18 +173,6 @@
         }
 
         /*  */
-        .account-btn1 {
-            margin: 1px 1px;
-            border: none;
-            outline: none;
-            color: white;
-            background: #27ce72;
-            border-radius: 5px;
-            padding: 6px;
-            font-size: 11px;
-            width: 87px;
-            margin-bottom: 20px;
-        }
 
         .account-btn2 {
             margin: 1px 1px;
@@ -315,8 +325,8 @@
         }
 
         /* .favorite-1:hover {
-                        color: goldenrod;
-                    } */
+                                    color: goldenrod;
+                                } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -562,13 +572,16 @@
                                                         <img class="adImage buyerInitials" src="" alt="">
                                                     </div>
                                                     <span class='account-prof'>
-                                                        <h6 class="mb-0 buyerName" style="max-width:60px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h6>
+                                                        <h6 class="mb-0 buyerName"
+                                                            style="max-width:60px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        </h6>
                                                         <p><span class="price"></span> € VB</p>
                                                     </span>
                                                 </div>
                                                 <div class="">
-                                                    <span class="favorite-1"><i
-                                                            class="fa-solid fa-rectangle-ad font-medium-5"></i></span>
+                                                    <a href="" target="_blank" class="ad-link"> <span class="favorite-1"><i
+                                                        class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
+                                                   
                                                     <span class="favorite-1 paypal" data-id=""><i
                                                             class="fa-brands fa-paypal font-medium-5"></i></span>
                                                     <span class="favorite-1"><i
@@ -916,7 +929,9 @@
                             $('.active-chat').removeClass('d-none');
                             $('.start-chat-area').addClass('d-none');
                             $('.append-chat').empty().append(response.component);
-                            $('.buyerInitials').attr('src', response.adImage);;
+
+                            $('.buyerInitials').attr('src', response.adImage);
+                            $('.ad-link').attr('href', response.adLink);
                             $('.buyerName').text(response.adTitle);
                             $('.pop-up-initials').attr('src', response.adImage);
                             $('.pop-up-name').text(response.adTitle);
@@ -924,6 +939,11 @@
                             $('.paypal').attr('data-id', response.client_id);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
                             $('.start-chat-area').attr('data-id', response.account_id);
+
+                            // var $lastChat = $('.user-chats .chats .chat').last();
+                            // $('html, body').animate({
+                            //     scrollTop: $lastChat.offset().top
+                            // }, 'slow');
                         }
 
                     },
@@ -1099,6 +1119,5 @@
             // setInterval(refresh, 20000);
         })
     </script>
-
 
 @endsection

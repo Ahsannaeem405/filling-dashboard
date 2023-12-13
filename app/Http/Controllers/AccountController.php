@@ -32,7 +32,7 @@ class AccountController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        try{
+        try {
             $data = $request->description;
 
             $refreshToken = null;
@@ -46,61 +46,70 @@ class AccountController extends Controller
                     }
                 }
             }
-    
+
             $account_id = null;
             $userIdPattern = '/:(\d+):/';
             if (preg_match($userIdPattern, $data, $userIdMatches)) {
                 $account_id = $userIdMatches[1];
             }
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserApi = $setting->getUser_api;
-    
+            $authorization = $setting->getUser_header_api;
+
             $parts = explode(':', $data);
             $email = $parts[0];
-    
+
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
-            $response = refreshAccessToken($refreshToken, $accessTokenApi);
-    
+            $response = refreshAccessToken($refreshToken);
+
             $accessToken = $response['accessToken'];
-    
+
             $data = Http::withHeaders([
                 'User-Agent' => '',
-                'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
+                'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-            
+
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
-    
+
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
             $reloadDate = $adData['last-user-edit-date']['value'];
             $status = $adData['ad-status']['value'];
-    
-    
+
+            $linkArray = $adData['link'];
+
+            $link = null;
+            foreach ($linkArray as $link) {
+                if (isset($link['rel']) && $link['rel'] === 'self-public-website') {
+                    $link = $link['href'];
+                    break;
+                }
+            }
+            
+
             $pictureLink = null;
             if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                 $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
             }
-    
+
             $account = new Account();
             $account->description = $request->description;
             $account->refreshToken = $refreshToken;
             $account->accessToken = $accessToken;
             $account->account_id = $account_id;
             $account->adPic = $pictureLink;
+            $account->adLink = $link;
             $account->adTitle = $title;
             $account->adPrice = $price;
             $account->adStatus = $status;
             $account->reloadDate = $reloadDate;
-    
+
             $account->save();
             return redirect()->route('accounts')->with('success', 'Account Created Successfully');
-        } catch(\exception $e){
-            return back()->with('error','Invalid Account');
+        } catch (\exception $e) {
+            return back()->with('error', 'Invalid Account');
         }
-        
-        
     }
     public function EditAccount($id)
     {
@@ -137,32 +146,41 @@ class AccountController extends Controller
                 $account_id = $userIdMatches[1];
             }
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserApi = $setting->getUser_api;
+            $authorization = $setting->getUser_header_api;
 
             $parts = explode(':', $data);
             $email = $parts[0];
-            
+
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
 
-            $response = refreshAccessToken($refreshToken, $accessTokenApi);
+            $response = refreshAccessToken($refreshToken);
 
             $accessToken = $response['accessToken'];
-           
+
 
             $data = Http::withHeaders([
                 'User-Agent' => '',
-                'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
+                'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-            // dd($data->json());
+
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
 
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
             $reloadDate = $adData['last-user-edit-date']['value'];
             $status = $adData['ad-status']['value'];
+            
+            $linkArray = $adData['link'];
 
+            $link = null;
+            foreach ($linkArray as $link) {
+                if (isset($link['rel']) && $link['rel'] === 'self-public-website') {
+                    $link = $link['href'];
+                    break;
+                }
+            }
 
             $pictureLink = null;
             if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
@@ -173,6 +191,7 @@ class AccountController extends Controller
             $account->refreshToken = $refreshToken;
             $account->account_id = $account_id;
             $account->adPic = $pictureLink;
+            $account->adLink = $link;
             $account->adTitle = $title;
             $account->adPrice = $price;
             $account->adStatus = $status;
@@ -182,7 +201,7 @@ class AccountController extends Controller
 
             return redirect()->route('accounts')->with('success', 'Account Updated Successfully.');
         } catch (\Exception $e) {
-            return back()->with('error','Invalid Account');
+            return back()->with('error', 'Invalid Account');
         }
     }
     public function DeleteAccount($id)

@@ -31,10 +31,9 @@ class UserController extends Controller
         $user = User::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'telegram' => 'required|string|max:255',
-            'status' => 'required',
-            // 'rank' => 'required',
-            'limit' => 'required|numeric|min:0',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'message' => 'required|numeric|min:0',
         ]);
     
         if ($validator->fails()) {

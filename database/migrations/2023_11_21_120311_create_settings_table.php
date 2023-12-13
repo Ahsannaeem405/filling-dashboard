@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->text('accessToken_api')->nullable();
+            $table->text('accessToken_header_api')->nullable();
             $table->text('getUser_api')->nullable();
+            $table->text('getUser_header_api')->nullable();
             $table->text('getUserConv_api')->nullable();
             $table->text('getUserConvMsg_api')->nullable();
+            $table->text('getUserConvImg_api')->nullable();
+            $table->text('image_header_api')->nullable();
             $table->text('postMsg_api')->nullable();
             $table->text('delete_api')->nullable();
             $table->timestamps();

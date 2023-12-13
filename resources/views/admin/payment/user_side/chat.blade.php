@@ -112,7 +112,8 @@
                                                     <span class="initials buyerInitials">{{ $data['buyerInitials'] }}</span>
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName" data-conv-id="{{ $data['id'] }}"  data-id="{{ $account->id }}">{{ $data['buyerName'] }}</h6>
+                                                    <h6 class="mb-0 buyerName" data-conv-id="{{ $data['id'] }}"
+                                                        data-id="{{ $account->id }}">{{ $data['buyerName'] }}</h6>
                                                     <p><span class="price">{{ $account->adPrice }}</span> € VB</p>
                                                 </span>
                                             </div>
@@ -121,50 +122,105 @@
                                     </div>
                                     <div class="user-chats">
                                         <div class="chats append-chat">
-                                            @foreach ($data['messages'] as $chat)
-                                                @php
-                                                    $carbonDate = \Carbon\Carbon::parse($chat['receivedDate']);
-                                                @endphp
-
-                                                @if ($chat['boundness'] === 'OUTBOUND')
-                                                    <div class="chat">
-                                                        <div class="chat-avatar">
-                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
-                                                                data-placement="right" title=""
-                                                                data-original-title="">
-                                                                <span
-                                                                    class="initials">{{ $data['sellerInitials'] }}</span>
-                                                            </a>
-                                                        </div>
-                                                        <div class="chat-body">
-                                                            <div class="chat-content">
-                                                                <p>{{ $chat['textShort'] }}</p>
-                                                                <p>
+                                            @php
+                                                use Carbon\Carbon;
+                                            @endphp
+                                            @foreach ($data['messages'] as $message)
+                                                @if (!empty($message['textShort']))
+                                                    @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
+                                                        @php
+                                                            $carbonDate = Carbon::parse($message['receivedDate']);
+                                                        @endphp
+                                                        <div class="chat">
+                                                            <div class="chat-avatar">
+                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                    data-placement="right" title=""
+                                                                    data-original-title="">
                                                                     <span
-                                                                        class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                                                                </p>
+                                                                        class="initials">{{ $data['sellerInitials'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="chat-body">
+                                                                <div class="chat-content">
+                                                                    @if (!empty($message['attachments']))
+                                                                        @php
+                                                                            $url = $message['attachments'][0]['url'];
+                                                                            $id = $account->id;
+                                                                            $src = showImage($url, $id);
+                                                                        @endphp
+                                                                        <img src="{{ $src }}" width="185px"
+                                                                            class="selected-image">
+                                                                        <p>{{ $message['textShort'] }}</p>
+                                                                    @else
+                                                                        <p>{{ $message['textShort'] }}</p>
+                                                                    @endif
+                                                                    <p>
+                                                                        <span
+                                                                            class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @elseif($chat['boundness'] === 'INBOUND')
-                                                    <div class="chat chat-left">
-                                                        <div class="chat-avatar">
-                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
-                                                                data-placement="left" title="" data-original-title="">
-                                                                <span
-                                                                    class="initials">{{ $data['buyerInitials'] }}</span>
-                                                            </a>
-                                                        </div>
-                                                        <div class="chat-body">
-                                                            <div class="chat-content">
-                                                                <p>{{ $chat['textShort'] }}</p>
-                                                                <p>
+                                                    @elseif(isset($message['boundness']) && $message['boundness'] === 'INBOUND')
+                                                        @php
+                                                            $carbonDate = Carbon::parse($message['receivedDate']);
+                                                        @endphp
+                                                        <div class="chat chat-left">
+                                                            <div class="chat-avatar">
+                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                    data-placement="left" title=""
+                                                                    data-original-title="">
                                                                     <span
-                                                                        class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                                                                </p>
+                                                                        class="initials">{{ $data['buyerInitials'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="chat-body">
+                                                                <div class="chat-content">
+                                                                    @if (!empty($message['attachments']))
+                                                                        @php
+                                                                            $url = $message['attachments'][0]['url'];
+                                                                            $id = $account->id;
+                                                                            $src = showImage($url, $id);
+                                                                        @endphp
+                                                                        <img src="{{ $src }}" width="185px"
+                                                                            class="selected-image">
+                                                                        <p>{{ $message['textShort'] }}</p>
+                                                                    @else
+                                                                        <p>{{ $message['textShort'] }}</p>
+                                                                    @endif
+                                                                    <p>
+                                                                        <span
+                                                                            class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @elseif(isset($message['paymentAndShippingMessageType']))
+                                                        @php
+                                                            $carbonDate = Carbon::parse($message['receivedDate']);
+                                                        @endphp
+                                                        <div class="chat chat-left">
+                                                            <div class="chat-avatar">
+                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                    data-placement="left" title=""
+                                                                    data-original-title="">
+                                                                    <span class="initials"
+                                                                        style="font-size: 13px">Offer</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="chat-body">
+                                                                <div class="chat-content">
+                                                                    <p>Title: {{ $message['title'] }}</p>
+                                                                    <p>{{ isset($message['itemPriceInEuroCent']) ? 'Price: ' . $message['itemPriceInEuroCent'] / 100 . '€' : '' }}
+                                                                    </p>
+                                                                    <p>
+                                                                        <span
+                                                                            class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                         </div>

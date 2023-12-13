@@ -5,9 +5,13 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
 
-function refreshAccessToken($refreshToken, $accessTokenApi)
+function refreshAccessToken($refreshToken)
 {
     $account = Account::where('refreshToken', $refreshToken)->first();
+
+    $setting = Setting::first();
+    $accessTokenApi = $setting->accessToken_api;
+    $authorization = $setting->accessToken_header_api;
 
     if ($account) {
         $currentTime = now();
@@ -20,7 +24,10 @@ function refreshAccessToken($refreshToken, $accessTokenApi)
         }
     }
     try {
-        $response = Http::withHeaders(['User-Agent' => ''])->post($accessTokenApi, [
+        $response = Http::withHeaders([
+            'User-Agent' => '',
+            'Authorization' => $authorization,
+            ])->post($accessTokenApi, [
             'refreshToken' => $refreshToken,
         ]);
 
@@ -42,7 +49,7 @@ function refreshAccessToken($refreshToken, $accessTokenApi)
 function showImage($url,$id){
 
     $setting = Setting::first();
-    $accessTokenApi = $setting->accessToken_api;
+    $authorization = $setting->image_header_api;
 
     $account = Account::find($id);
     $refreshToken = $account->refreshToken;
@@ -50,11 +57,11 @@ function showImage($url,$id){
     $parts = explode(':', $data);
     $email = $parts[0];
 
-    $accessToken = refreshAccessToken($refreshToken, $accessTokenApi);
+    $accessToken = refreshAccessToken($refreshToken);
 
     $response = Http::withHeaders([
         'User-Agent' => '',
-        'Authorization' => 'Basic aXBob25lOmc0Wmk5cTEw',
+        'Authorization' => $authorization,
         'X-ECG-Authorization-User' => 'email="' . $email . '", access="'. $accessToken['accessToken'] .'"'
     ])->get($url);  
 
