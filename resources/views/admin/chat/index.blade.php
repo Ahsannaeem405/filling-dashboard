@@ -22,32 +22,32 @@
             }
 
             /* .chat-application .sidebar-content {
-                    height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-                }
+                        height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+                    }
 
-                .chat-application .chat-app-window .start-chat-area {
-                    height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-                }
+                    .chat-application .chat-app-window .start-chat-area {
+                        height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+                    }
 
-                .chat-application .chat-app-window .user-chats {
-                    height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
-                }
+                    .chat-application .chat-app-window .user-chats {
+                        height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
+                    }
 
-                .chat-application .chat-app-form {
-                    padding: 12px 10px !important;
-                }
+                    .chat-application .chat-app-form {
+                        padding: 12px 10px !important;
+                    }
 
-                .chat-application .sidebar-content .chat-user-list {
-                    width: 365px !important;
-                }
+                    .chat-application .sidebar-content .chat-user-list {
+                        width: 365px !important;
+                    }
 
-                .chat-application .sidebar-content {
-                    width: 365px !important;
-                }
+                    .chat-application .sidebar-content {
+                        width: 365px !important;
+                    }
 
-                .new-user {
-                    width: 190px !important;
-                } */
+                    .new-user {
+                        width: 190px !important;
+                    } */
         </style>
     @else
         <style>
@@ -67,8 +67,8 @@
     @endif
     <style>
         /* .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-            } */
+                    height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
+                } */
 
         .chat-application .chat-app-window .start-chat-area {
             height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
@@ -88,7 +88,7 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 23rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
         }
 
         .scrol-custom::-webkit-scrollbar {
@@ -209,7 +209,7 @@
 
         .type-icon {
             position: absolute;
-            right: 3%;
+            right: 5%;
             top: 7px;
             cursor: pointer;
         }
@@ -325,8 +325,8 @@
         }
 
         /* .favorite-1:hover {
-                                        color: goldenrod;
-                                    } */
+                                            color: goldenrod;
+                                        } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -455,8 +455,13 @@
         .chat {
             margin-top: 20px
         }
-        .chat-application .chat-app-form{
+
+        .chat-application .chat-app-form {
             padding: 7px 10px !important;
+        }
+        .emojionearea .emojionearea-editor{
+            min-height: 2em;
+            max-height: 8em;
         }
     </style>
     @if (Auth::user()->status == 'in-active')
@@ -558,7 +563,7 @@
                                                     </div>
                                                     <span class='account-prof'>
                                                         <h6 class="mb-0 buyerName"
-                                                            style="max-width:60px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            style="max-width:200px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         </h6>
                                                         <p><span class="price"></span> € VB</p>
                                                     </span>
@@ -586,16 +591,15 @@
                                         <form class="chat-app-input d-flex justify-content-between position-relative"
                                             onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
                                             <div class='position-relative'style='width: 70%;'>
-                                                <textarea class="form-control message mr-1 ml-50 msg"
-                                                id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                                 {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
                                                     id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
-                                            <button type="button" class="btn btn-primary send"
-                                                onclick="enter_chat();" style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                                            <button type="button" class="btn btn-primary send" onclick="enter_chat();"
+                                                style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -1050,12 +1054,6 @@
                     id: id,
                 },
                 success: function(response) {
-                    $('.start-chat-area').removeClass('d-none');
-                    $('.active-chat').addClass('d-none');
-                    $('.list-style').removeClass('active');
-                    $('.append-chat').empty();
-                    $('.media-list').empty();
-                    $('.chat-btn').addClass('d-none');
 
                     if (response.success) {
                         toastr.success(response.success, '', {
@@ -1066,6 +1064,11 @@
                                 });
                             }
                         });
+                        $('.start-chat-area').removeClass('d-none');
+                        $('.active-chat').addClass('d-none');
+                        $('.append-chat').empty();
+                        $('.media-list').empty().append(response.component);
+
                     } else if (response.error) {
                         toastr.error(response.error, '', {
                             onShown: function() {

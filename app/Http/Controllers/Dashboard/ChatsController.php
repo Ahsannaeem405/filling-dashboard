@@ -159,11 +159,12 @@ class ChatsController extends Controller
 
             $setting = Setting::first();
             $getDeleteApi = $setting->delete_api;
+            $getUserConvAPi = $setting->getUserConv_api;
 
             $account = Account::find($request->id);
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
- 
+            $id = $account->id; 
 
             $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
             $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
@@ -173,7 +174,15 @@ class ChatsController extends Controller
             Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->delete("{$deleteApi}");
 
-            return response()->json(['success' => 'Chat deleted Successfully.']);
+            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
+                
+            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                ->get("{$conversation_api}");
+                
+            return response()->json([
+                'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
+                'success' => 'Chat deleted Successfully.'
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
         }
@@ -231,32 +240,38 @@ class ChatsController extends Controller
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
 
                 $accessToken = refreshAccessToken($account->refreshToken);
-
-                $data = Http::withHeaders([
-                    'User-Agent' => '',
-                    'Authorization' => $authorization,
-                    'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
-                ])->get("{$getUser_api}");
-
-                $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
-
-                $adPrice = $adData['price']['amount']['value'];
-                $adTitle = $adData['title']['value'];
-                $reloadDate = $adData['last-user-edit-date']['value'];
-                $status = $adData['ad-status']['value'];
-
-                $pictureLink = null;
-                if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
-                    $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
-                }
-
-                $account = Account::find($account->id);
-                $account->adTitle = $adTitle;
-                $account->adPic = $pictureLink;
-                $account->adPrice = $adPrice;
-                $account->adStatus = $status;
-                $account->reloadDate = $reloadDate;
-                $account->save();
+   
+                if($accessToken['accessToken'] != null){
+                    $data = Http::withHeaders([
+                        'User-Agent' => '',
+                        'Authorization' => $authorization,
+                        'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
+                    ])->get("{$getUser_api}");
+    
+                    $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+    
+                    $adPrice = $adData['price']['amount']['value'];
+                    $adTitle = $adData['title']['value'];
+                    $reloadDate = $adData['last-user-edit-date']['value'];
+                    $status = $adData['ad-status']['value'];
+    
+                    $pictureLink = null;
+                    if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
+                        $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
+                    }
+    
+                    $account = Account::find($account->id);
+                    $account->adTitle = $adTitle;
+                    $account->adPic = $pictureLink;
+                    $account->adPrice = $adPrice;
+                    $account->adStatus = $status;
+                    $account->reloadDate = $reloadDate;
+                    $account->save();
+                }else{
+                    $account = Account::find($account->id);
+                    $account->adStatus = '';
+                    $account->save();
+                }                
             }
             if (Auth::user()->role == 'admin') {
                 $accounts = Account::all();

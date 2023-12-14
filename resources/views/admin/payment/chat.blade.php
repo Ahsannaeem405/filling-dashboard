@@ -63,7 +63,7 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 31rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
         }
 
         .content-right {
@@ -88,7 +88,7 @@
 
         .type-icon {
             position: absolute;
-            right: 1%;
+            right: 2%;
             top: 7px;
             cursor: pointer;
         }
@@ -156,7 +156,7 @@
         }
 
         .chat-app-form {
-            height: 145px;
+            height: 80px;
         }
 
         .chat-app-input {
@@ -164,7 +164,11 @@
         }
 
         .chat-application .chat-app-form {
-            padding: 5px 10px !important;
+            padding: 7px 10px !important;
+        }
+        .emojionearea .emojionearea-editor{
+            min-height: 2em;
+            max-height: 8em;
         }
     </style>
 
@@ -308,7 +312,7 @@
                                                     alt="user_avatar">
                                             </div>
                                             <button type="button" class="btn btn-primary send"
-                                                onclick="enter_chat();" style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                                                onclick="enter_chat();" style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
