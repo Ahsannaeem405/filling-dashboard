@@ -43,12 +43,12 @@
                                         <input type="text" id="telegram-id-vertical" class="form-control" value="{{ $user->telegram }}" name="telegram" required placeholder="Enter Your Telegram">
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                {{-- <div class="col-12">
                                     <div class="form-group">
                                         <label for="rank-id-vertical">Rank</label>
                                         <input type="text" id="rank-id-vertical" class="form-control" value="{{ $user->rank }}" name="rank" required placeholder="Enter Your Rank">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="password">Old Password</label>

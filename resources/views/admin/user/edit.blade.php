@@ -57,7 +57,14 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="rank">Set Rank</label>
-                                        <input type="text" min="0"  id="rank" class="form-control @error('rank') is-invalid @enderror" value="{{ old('rank',$user->rank) }}" name="rank" placeholder="Rank of user">
+                                        <select id="rank" name="rank" class="form-control @error('rank') is-invalid @enderror">
+                                            <option value="beginner" @if(old('rank',$user->rank) === 'beginner') selected @endif>Beginner</option>
+                                            <option value="advanced" @if(old('rank',$user->rank) === 'advanced') selected @endif>Advanced</option>
+                                            <option value="pro" @if(old('rank',$user->rank) === 'pro') selected @endif>Pro</option>
+                                            <option value="legend" @if(old('rank',$user->rank) === 'legend') selected @endif>Legend</option>
+                                            <option value="vip" @if(old('rank',$user->rank) === 'vip') selected @endif>Vip</option>
+                                        </select>
+                                        {{-- <input type="text" min="0"  id="rank" class="form-control @error('rank') is-invalid @enderror" value="{{ old('rank',$user->rank) }}" name="rank" placeholder="Rank of user"> --}}
                                         @error('rank')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

@@ -23,7 +23,7 @@ class HomeController extends Controller
             $count = $accounts->count();
         }
         
-        $users = User::whereNot('id', Auth::user()->id)->whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(5)->get();
+        $users = User:: whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(7)->get();
         $users = $users->sortByDesc('rank');
 
         $totalChat = 0;
@@ -32,21 +32,21 @@ class HomeController extends Controller
 
         try{    
             $setting = Setting::first();
-            $accessTokenApi = $setting->accessToken_api;
             $getUserConvAPi = $setting->getUserConv_api;
     
             foreach ($accounts as $account) {
 
                 $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
-                $accessToken = refreshAccessToken($account->refreshToken, $accessTokenApi);
+                $accessToken = refreshAccessToken($account->refreshToken);
 
                 $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
     
-                $totalChat += $data['_meta']['numFound'];
+                $totalChat += count($data['conversations']);
                 $totalUnread += $data['_meta']['numUnread'];
             }
+            
             $completeChat = $totalChat - $totalUnread;
     
             return view('admin.index', compact('totalChat', 'users','totalUnread','completeChat'));

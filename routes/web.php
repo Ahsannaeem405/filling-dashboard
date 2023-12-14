@@ -30,55 +30,58 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
-    // Users Routes
-    Route::get('user/create', [UserController::class, 'create']);
-    Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('edit');
-    Route::post('user/update/{id}', [UserController::class, 'update'])->name('update');
-    Route::delete('user/delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::middleware(['checkStatus'])->group(function () {
+        // Users Routes
+        Route::get('user/create', [UserController::class, 'create']);
+        Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('edit');
+        Route::post('user/update/{id}', [UserController::class, 'update'])->name('update');
+        Route::delete('user/delete/{id}', [UserController::class, 'delete'])->name('delete');
 
-    Route::get('user/account-detail', [UserController::class, 'index']);
-    Route::get('user-list', [UserlistController::class, 'index'])->name('users.list');
-    Route::get('chat', [ChatsController::class, 'index'])->name('chat');
+        Route::get('user/account-detail', [UserController::class, 'index']);
+        Route::get('user-list', [UserlistController::class, 'index'])->name('users.list');
 
-    // Edit Profile
-    Route::get('profile', [UserController::class, 'EditProfile'])->name('edit.profile');
-    Route::post('profile/update', [UserController::class, 'UpdateProfile'])->name('update.profile');
+        Route::get('chat', [ChatsController::class, 'index'])->name('chat');
 
-    // API's
-    Route::get('conversation', [ChatsController::class, 'Conversation'])->name('conversation');
-    Route::get('conversation/messages', [ChatsController::class, 'ConversationMessages'])->name('messages');
-    Route::post('conversation/messages/send-message', [ChatsController::class, 'SendMessages'])->name('send.messages');
-    Route::get('delete/conversation', [ChatsController::class, 'DeleteConversation'])->name('delete.conversation');
+        // Edit Profile
+        Route::get('profile', [UserController::class, 'EditProfile'])->name('edit.profile');
+        Route::post('profile/update', [UserController::class, 'UpdateProfile'])->name('update.profile');
 
-    // Accounts
-    Route::get('accounts', [AccountController::class, 'Account'])->name('accounts');
-    Route::get('accounts/create', [AccountController::class, 'CreateAccount'])->name('create.accounts');
-    Route::post('accounts/store', [AccountController::class, 'StoreAccount'])->name('store.accounts');
-    Route::get('accounts/edit/{id}', [AccountController::class, 'EditAccount'])->name('edit.accounts');
-    Route::post('accounts/update/{id}', [AccountController::class, 'UpdateAccount'])->name('update.accounts');
-    Route::delete('accounts/delete/{id}', [AccountController::class, 'DeleteAccount'])->name('delete.accounts');
-    Route::post('accounts/import', [AccountController::class, 'Import'])->name('import.accounts');
+        // API's
+        Route::get('conversation', [ChatsController::class, 'Conversation'])->name('conversation');
+        Route::get('conversation/messages', [ChatsController::class, 'ConversationMessages'])->name('messages');
+        Route::post('conversation/messages/send-message', [ChatsController::class, 'SendMessages'])->name('send.messages');
+        Route::get('delete/conversation', [ChatsController::class, 'DeleteConversation'])->name('delete.conversation');
 
-    // Settings
-    Route::get('settings', [SettingController::class, 'Setting'])->name('setting');
-    Route::post('settings/store', [SettingController::class, 'StoreSetting'])->name('store.setting');
+        // Accounts
+        Route::get('accounts', [AccountController::class, 'Account'])->name('accounts');
+        Route::get('accounts/create', [AccountController::class, 'CreateAccount'])->name('create.accounts');
+        Route::post('accounts/store', [AccountController::class, 'StoreAccount'])->name('store.accounts');
+        Route::get('accounts/edit/{id}', [AccountController::class, 'EditAccount'])->name('edit.accounts');
+        Route::post('accounts/update/{id}', [AccountController::class, 'UpdateAccount'])->name('update.accounts');
+        Route::delete('accounts/delete/{id}', [AccountController::class, 'DeleteAccount'])->name('delete.accounts');
+        Route::post('accounts/import', [AccountController::class, 'Import'])->name('import.accounts');
 
-    // Payment
-    Route::get('payment', [PaymentsController::class, 'index'])->name('payment');
-    Route::post('upload/payment', [PaymentsController::class, 'UploadPayment'])->name('upload.payment');
-    Route::get('payment/edit/{id}', [PaymentsController::class, 'EditPayment'])->name('edit.payment');
-    Route::post('payment/update/{id}', [PaymentsController::class, 'UpdatePayment'])->name('update.payment');
-    Route::delete('payment/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
-    Route::get('payment/remove', [PaymentsController::class, 'RemovePayment'])->name('remove.payment');
-    Route::get('payment/chat/{id}', [PaymentsController::class, 'Chat'])->name('chat.view');
-    Route::get('payment/view', [PaymentsController::class, 'PaymentView'])->name('payment.view');
+        // Settings
+        Route::get('settings', [SettingController::class, 'Setting'])->name('setting');
+        Route::post('settings/store', [SettingController::class, 'StoreSetting'])->name('store.setting');
 
-    // Einnahmen
-    Route::get('einnahmen', [PaymentsController::class, 'index'])->name('user.payment');
-    Route::get('einnahmen/view', [PaymentsController::class, 'PaymentView'])->name('user.payment.view');
-    Route::get('einnahmen/chat/{id}', [PaymentsController::class, 'Chat'])->name('user.chat.view');
+        // Payment
+        Route::get('payment', [PaymentsController::class, 'index'])->name('payment');
+        Route::post('upload/payment', [PaymentsController::class, 'UploadPayment'])->name('upload.payment');
+        Route::get('payment/edit/{id}', [PaymentsController::class, 'EditPayment'])->name('edit.payment');
+        Route::post('payment/update/{id}', [PaymentsController::class, 'UpdatePayment'])->name('update.payment');
+        Route::delete('payment/delete/{id}', [PaymentsController::class, 'DeletePayment'])->name('delete.payment');
+        Route::get('payment/remove', [PaymentsController::class, 'RemovePayment'])->name('remove.payment');
+        Route::get('payment/chat/{id}', [PaymentsController::class, 'Chat'])->name('chat.view');
+        Route::get('payment/view', [PaymentsController::class, 'PaymentView'])->name('payment.view');
 
-    // Assign Accounts
-    Route::get('assign-account', [ChatsController::class, 'AssignAccount'])->name('assign');
-    Route::get('reload-account', [ChatsController::class, 'ReloadAccount'])->name('reload');
+        // Einnahmen
+        Route::get('einnahmen', [PaymentsController::class, 'index'])->name('user.payment');
+        Route::get('einnahmen/view', [PaymentsController::class, 'PaymentView'])->name('user.payment.view');
+        Route::get('einnahmen/chat/{id}', [PaymentsController::class, 'Chat'])->name('user.chat.view');
+
+        // Assign Accounts
+        Route::get('assign-account', [ChatsController::class, 'AssignAccount'])->name('assign');
+        Route::get('reload-account', [ChatsController::class, 'ReloadAccount'])->name('reload');
+    });
 });

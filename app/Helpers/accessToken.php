@@ -7,27 +7,27 @@ use Illuminate\Support\Facades\Response;
 
 function refreshAccessToken($refreshToken)
 {
-    $account = Account::where('refreshToken', $refreshToken)->first();
-
-    $setting = Setting::first();
-    $accessTokenApi = $setting->accessToken_api;
-    $authorization = $setting->accessToken_header_api;
-
-    if ($account) {
-        $currentTime = now();
-        $tokenCreationTime = $account->created_at;
-
-        if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 30) {
-            return [
-                'accessToken' => $account->accessToken,
-            ];
-        }
-    }
     try {
+        $account = Account::where('refreshToken', $refreshToken)->first();
+
+        $setting = Setting::first();
+        $accessTokenApi = $setting->accessToken_api;
+        $authorization = $setting->accessToken_header_api;
+
+        if ($account) {
+            $currentTime = now();
+            $tokenCreationTime = $account->created_at;
+
+            if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 30) {
+                return [
+                    'accessToken' => $account->accessToken,
+                ];
+            }
+        }
         $response = Http::withHeaders([
             'User-Agent' => '',
             'Authorization' => $authorization,
-            ])->post($accessTokenApi, [
+        ])->post($accessTokenApi, [
             'refreshToken' => $refreshToken,
         ]);
 
@@ -46,7 +46,8 @@ function refreshAccessToken($refreshToken)
         ];
     }
 }
-function showImage($url,$id){
+function showImage($url, $id)
+{
 
     $setting = Setting::first();
     $authorization = $setting->image_header_api;
@@ -62,8 +63,8 @@ function showImage($url,$id){
     $response = Http::withHeaders([
         'User-Agent' => '',
         'Authorization' => $authorization,
-        'X-ECG-Authorization-User' => 'email="' . $email . '", access="'. $accessToken['accessToken'] .'"'
-    ])->get($url);  
+        'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
+    ])->get($url);
 
     if ($response->successful()) {
         $imageContents = $response->body();
@@ -74,5 +75,3 @@ function showImage($url,$id){
         throw new \Exception("API request failed for URL: $url with status code: {$response->status()}. Body: {$response->body()}");
     }
 }
-
-?>

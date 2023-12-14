@@ -21,33 +21,33 @@
                 margin-bottom: 20px;
             }
 
-            .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-            }
+            /* .chat-application .sidebar-content {
+                    height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+                }
 
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-            }
+                .chat-application .chat-app-window .start-chat-area {
+                    height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
+                }
 
-            .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
-            }
+                .chat-application .chat-app-window .user-chats {
+                    height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
+                }
 
-            .chat-application .chat-app-form {
-                padding: 12px 10px !important;
-            }
+                .chat-application .chat-app-form {
+                    padding: 12px 10px !important;
+                }
 
-            .chat-application .sidebar-content .chat-user-list {
-                width: 365px !important;
-            }
+                .chat-application .sidebar-content .chat-user-list {
+                    width: 365px !important;
+                }
 
-            .chat-application .sidebar-content {
-                width: 365px !important;
-            }
+                .chat-application .sidebar-content {
+                    width: 365px !important;
+                }
 
-            .new-user {
-                width: 190px !important;
-            }
+                .new-user {
+                    width: 190px !important;
+                } */
         </style>
     @else
         <style>
@@ -63,24 +63,12 @@
                 width: 87px;
                 margin-bottom: 20px;
             }
-
-            .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-            }
-
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
-            }
-
-            .chat-application .chat-app-window .user-chats {
-                height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
-            }
         </style>
     @endif
     <style>
-        .chat-application .sidebar-content {
-            height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-        }
+        /* .chat-application .sidebar-content {
+                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
+            } */
 
         .chat-application .chat-app-window .start-chat-area {
             height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
@@ -89,6 +77,18 @@
         html body .content.app-content .content-area-wrapper {
             height: calc(100% - 2rem);
             overflow: hidden;
+        }
+
+        .chat-application .sidebar-content {
+            height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
+        }
+
+        .chat-application .chat-app-window .start-chat-area {
+            height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
+        }
+
+        .chat-application .chat-app-window .user-chats {
+            height: calc(var(--vh, 1vh) * 100 - 23rem) !important;
         }
 
         .scrol-custom::-webkit-scrollbar {
@@ -325,8 +325,8 @@
         }
 
         /* .favorite-1:hover {
-                                    color: goldenrod;
-                                } */
+                                        color: goldenrod;
+                                    } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -455,6 +455,9 @@
         .chat {
             margin-top: 20px
         }
+        .chat-application .chat-app-form{
+            padding: 7px 10px !important;
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -515,23 +518,6 @@
                             <span class="sidebar-close-icon">
                                 <i class="feather icon-x"></i>
                             </span>
-                            {{-- <div class="chat-fixed-search">
-                                <div class="d-flex align-items-center">
-                                    <div class="sidebar-profile-toggle position-relative d-inline-flex">
-                                        <div class=" profile-avatar">
-
-                                        </div>
-                                        <div class="bullet-success bullet-sm position-absolute"></div>
-                                    </div>
-                                    <fieldset class="form-group position-relative has-icon-left mx-1 my-0 w-100">
-                                        <input type="text" class="form-control round" id="chat-search"
-                                            placeholder="Search or start a new chat">
-                                        <div class="form-control-position">
-                                            <i class="feather icon-search"></i>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div> --}}
                             <div id="users-list" class="chat-user-list list-group position-relative">
                                 <div
                                     style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
@@ -540,7 +526,7 @@
                                     <h3 class="primary p-1 mb-0">Chats</h3>
                                     <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
                                 </div>
-                                <ul class="chat-users-list-wrapper media-list">
+                                <ul class="chat-users-list-wrapper media-list" style="margin-bottom: 30px">
 
                                 </ul>
                             </div>
@@ -559,7 +545,6 @@
                                 <div class="start-chat-area" data-conv-id="" data-id="">
                                     <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
                                             width="100px"></span>
-                                    {{-- <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Start Conversation</h4> --}}
                                 </div>
                                 <div class="active-chat">
                                     <div class="chat_navbar">
@@ -579,9 +564,9 @@
                                                     </span>
                                                 </div>
                                                 <div class="">
-                                                    <a href="" target="_blank" class="ad-link"> <span class="favorite-1"><i
-                                                        class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
-                                                   
+                                                    <a href="" target="_blank" class="ad-link"> <span
+                                                            class="favorite-1"><i
+                                                                class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
                                                     <span class="favorite-1 paypal" data-id=""><i
                                                             class="fa-brands fa-paypal font-medium-5"></i></span>
                                                     <span class="favorite-1"><i
@@ -601,14 +586,16 @@
                                         <form class="chat-app-input d-flex justify-content-between position-relative"
                                             onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
                                             <div class='position-relative'style='width: 70%;'>
-                                                <input type="text" class="form-control message mr-1 ml-50 msg"
-                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht">
+                                                <textarea class="form-control message mr-1 ml-50 msg"
+                                                id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
+                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
-                                            <button type="button" class="btn btn-primary send" onclick="enter_chat(); "><i
-                                                    class="fa fa-paper-plane-o"></i>
+                                            <button type="button" class="btn btn-primary send"
+                                                onclick="enter_chat();" style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -800,7 +787,7 @@
 
                 localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
 
-                var id = $('.list-style').attr('data-id');
+                var id = $('.list-style.active').attr('data-id');
 
                 $.ajax({
                     type: 'get',
@@ -940,12 +927,16 @@
                             $('.paypal').attr('data-id', response.client_id);
                             $('.start-chat-area').attr('data-conv-id', response.conv_id);
                             $('.start-chat-area').attr('data-id', response.account_id);
-                           
+                            if (response.available == true) {
+                                $('.paypal').css('color', 'goldenrod');
+                            } else {
+                                $('.paypal').css('color', '');
+                            }
                             // var $lastChat = $('.append-chat .message').last();
                             setTimeout(function() {
                                 var chatContainer = $('.user-chats')[0];
                                 chatContainer.scrollTop = chatContainer.scrollHeight;
-                            }, 100); 
+                            }, 100);
                         }
 
                     },
@@ -1109,6 +1100,10 @@
                         },
                         success: function(response) {
                             $('.append-chat').empty().append(response.component);
+                            setTimeout(function() {
+                                var chatContainer = $('.user-chats')[0];
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 100);
                         },
                         error: function(error) {
 

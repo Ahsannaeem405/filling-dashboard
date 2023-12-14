@@ -140,7 +140,7 @@ class PaymentsController extends Controller
     
         if ($payment) {
             $payment->delete();
-            return response()->json(['success' => 'Payment Removed Successfully']);
+            return response()->json(['success' => 'Payment wurde entfernt.']);
         } else {
             return response()->json(['error' => 'Payment not found'], 404);
         }

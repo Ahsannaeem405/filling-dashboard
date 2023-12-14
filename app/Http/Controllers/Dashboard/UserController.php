@@ -31,9 +31,10 @@ class UserController extends Controller
         $user = User::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'subject' => 'required',
-            'message' => 'required|numeric|min:0',
+            'telegram' => 'required|string|max:255',
+            'rank' => 'required',
+            'limit' => 'required|numeric|min:0',
+            'status' => 'required',
         ]);
     
         if ($validator->fails()) {
@@ -98,7 +99,6 @@ class UserController extends Controller
                 $user->telegram = $request->input('telegram');
                 $user->password = bcrypt($request->input('newpassword'));
                 $user->image = $fileName;
-                $user->rank = $request->input('rank');
                 $user->save();
 
                 return redirect()->route('dashboard')->with('success', 'Profile and password updated.');
@@ -111,7 +111,6 @@ class UserController extends Controller
             $user->name = $request->input('name');
             $user->telegram = $request->input('telegram');
             $user->image = $fileName;
-            $user->rank = $request->input('rank');
             $user->save();
 
             return redirect()->route('dashboard')->with('success', 'Profile updated successfully');

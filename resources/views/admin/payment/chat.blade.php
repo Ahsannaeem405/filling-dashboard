@@ -63,7 +63,7 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 31rem) !important;
         }
 
         .content-right {
@@ -156,7 +156,7 @@
         }
 
         .chat-app-form {
-            height: 100px;
+            height: 145px;
         }
 
         .chat-app-input {
@@ -203,101 +203,94 @@
                                                 use Carbon\Carbon;
                                             @endphp
                                             @foreach ($data['messages'] as $message)
-                                                @if (!empty($message['textShort']))
-                                                    @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
-                                                        @php
-                                                            $carbonDate = Carbon::parse($message['receivedDate']);
-                                                        @endphp
-                                                        <div class="chat">
-                                                            <div class="chat-avatar">
-                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
-                                                                    data-placement="right" title=""
-                                                                    data-original-title="">
+                                                @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
+                                                    @php
+                                                        $carbonDate = Carbon::parse($message['receivedDate']);
+                                                    @endphp
+                                                    <div class="chat">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                data-placement="right" title=""
+                                                                data-original-title="">
+                                                                <span class="initials">{{ $data['sellerInitials'] }}</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                @if (!empty($message['attachments']))
+                                                                    @php
+                                                                        $url = $message['attachments'][0]['url'];
+                                                                        $id = $account->id;
+                                                                        $src = showImage($url, $id);
+                                                                    @endphp
+                                                                    <img src="{{ $src }}" width="185px"
+                                                                        class="selected-image">
+                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                @else
+                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                @endif
+                                                                <p>
                                                                     <span
-                                                                        class="initials">{{ $data['sellerInitials'] }}</span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="chat-body">
-                                                                <div class="chat-content">
-                                                                    @if (!empty($message['attachments']))
-                                                                        @php
-                                                                            $url = $message['attachments'][0]['url'];
-                                                                            $id = $account->id;
-                                                                            $src = showImage($url, $id);
-                                                                        @endphp
-                                                                        <img src="{{ $src }}" width="185px"
-                                                                            class="selected-image">
-                                                                        <p>{{ $message['textShort'] }}</p>
-                                                                    @else
-                                                                        <p>{{ $message['textShort'] }}</p>
-                                                                    @endif
-                                                                    <p>
-                                                                        <span
-                                                                            class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                                                                    </p>
-                                                                </div>
+                                                                        class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                </p>
                                                             </div>
                                                         </div>
-                                                    @elseif(isset($message['boundness']) && $message['boundness'] === 'INBOUND')
-                                                        @php
-                                                            $carbonDate = Carbon::parse($message['receivedDate']);
-                                                        @endphp
-                                                        <div class="chat chat-left">
-                                                            <div class="chat-avatar">
-                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
-                                                                    data-placement="left" title=""
-                                                                    data-original-title="">
+                                                    </div>
+                                                @elseif(isset($message['boundness']) && $message['boundness'] === 'INBOUND')
+                                                    @php
+                                                        $carbonDate = Carbon::parse($message['receivedDate']);
+                                                    @endphp
+                                                    <div class="chat chat-left">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                data-placement="left" title="" data-original-title="">
+                                                                <span class="initials">{{ $data['buyerInitials'] }}</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                @if (!empty($message['attachments']))
+                                                                    @php
+                                                                        $url = $message['attachments'][0]['url'];
+                                                                        $id = $account->id;
+                                                                        $src = showImage($url, $id);
+                                                                    @endphp
+                                                                    <img src="{{ $src }}" width="185px"
+                                                                        class="selected-image">
+                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                @else
+                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                @endif
+                                                                <p>
                                                                     <span
-                                                                        class="initials">{{ $data['buyerInitials'] }}</span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="chat-body">
-                                                                <div class="chat-content">
-                                                                    @if (!empty($message['attachments']))
-                                                                        @php
-                                                                            $url = $message['attachments'][0]['url'];
-                                                                            $id = $account->id;
-                                                                            $src = showImage($url, $id);
-                                                                        @endphp
-                                                                        <img src="{{ $src }}" width="185px"
-                                                                            class="selected-image">
-                                                                        <p>{{ $message['textShort'] }}</p>
-                                                                    @else
-                                                                        <p>{{ $message['textShort'] }}</p>
-                                                                    @endif
-                                                                    <p>
-                                                                        <span
-                                                                            class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                                                                    </p>
-                                                                </div>
+                                                                        class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                </p>
                                                             </div>
                                                         </div>
-                                                    @elseif(isset($message['paymentAndShippingMessageType']))
-                                                        @php
-                                                            $carbonDate = Carbon::parse($message['receivedDate']);
-                                                        @endphp
-                                                        <div class="chat chat-left">
-                                                            <div class="chat-avatar">
-                                                                <a class="avatar m-0" data-toggle="tooltip" href="#"
-                                                                    data-placement="left" title=""
-                                                                    data-original-title="">
-                                                                    <span class="initials"
-                                                                        style="font-size: 13px">Offer</span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="chat-body">
-                                                                <div class="chat-content">
-                                                                    <p>Title: {{ $message['title'] }}</p>
-                                                                    <p>{{ isset($message['itemPriceInEuroCent']) ? 'Price: ' . $message['itemPriceInEuroCent'] / 100 . '€' : '' }}
-                                                                    </p>
-                                                                    <p>
-                                                                        <span
-                                                                            class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                                                                    </p>
-                                                                </div>
+                                                    </div>
+                                                @elseif(isset($message['paymentAndShippingMessageType']))
+                                                    @php
+                                                        $carbonDate = Carbon::parse($message['receivedDate']);
+                                                    @endphp
+                                                    <div class="chat chat-left">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                data-placement="left" title="" data-original-title="">
+                                                                <span class="initials" style="font-size: 13px">Offer</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                <p>Title: {{ $message['title'] }}</p>
+                                                                <p>{{ isset($message['itemPriceInEuroCent']) ? 'Price: ' . $message['itemPriceInEuroCent'] / 100 . '€' : '' }}
+                                                                </p>
+                                                                <p>
+                                                                    <span
+                                                                        class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                                                                </p>
                                                             </div>
                                                         </div>
-                                                    @endif
+                                                    </div>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -306,14 +299,16 @@
                                         <form class="chat-app-input d-flex justify-content-between position-relative"
                                             onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
                                             <div class='position-relative'style='width: 70%;'>
-                                                <input type="text" class="form-control message mr-1 ml-50 msg"
-                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht">
+                                                <textarea class="form-control message mr-1 ml-50 msg"
+                                                id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
+                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
-                                            <button type="button" class="btn btn-primary send" onclick="enter_chat(); "><i
-                                                    class="fa fa-paper-plane-o"></i>
+                                            <button type="button" class="btn btn-primary send"
+                                                onclick="enter_chat();" style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -344,8 +339,8 @@
 
         function enter_chat(image) {
             var message = $(".message").val();
-            var id = $('.buyerName').attr('data-id');
-            var conv_id = $('.buyerName').attr('data-conv-id');
+            var id = $('.new').attr('data-id');
+            var conv_id = $('.new').attr('data-conv-id');
 
             var formData = new FormData();
 
@@ -378,8 +373,63 @@
                     '" width="185px" class="selected-image">' : '';
 
                 var messageHtml = '<div class="chat-content">' +
-                    "<p>" + imageHtml + "</p>" +
-                    message +
+                    "<p>" + message + "</p>" +
+                    imageHtml +
+                    "<p>" + timeHtml + "</p>" +
+                    "</div>";
+
+
+                var combinedHtml = '<div class="chat">' +
+                    avatarHtml +
+                    '<div class="chat-body">' +
+                    messageHtml +
+                    '</div>' +
+                    '</div>';
+
+                $(".user-chats > .chats").append(combinedHtml);
+                $(".message").val("");
+                $(".user-chats").scrollTop($(".user-chats > .chats").height());
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('send.messages') }}',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            } else {
+                var now = new Date();
+                var timestamp =
+                    ('0' + now.getDate()).slice(-2) + '.' +
+                    ('0' + (now.getMonth() + 1)).slice(-2) + '.' +
+                    ('' + now.getFullYear()).slice(-2) + ', ' +
+                    ('0' + now.getHours()).slice(-2) + ':' +
+                    ('0' + now.getMinutes()).slice(-2);
+
+                var avatarHtml = '<div class="chat-avatar">' +
+                    '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
+                    '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
+                    '</a>' +
+                    '</div>';
+
+
+                var timeHtml = '<span class="time-left">' + timestamp + '</span>';
+
+                var imageHtml = image ? '<img src="' + URL.createObjectURL(image) +
+                    '" width="185px" class="selected-image">' : '';
+
+                var messageHtml = '<div class="chat-content">' +
+                    "<p>" + message + "</p>" +
+                    imageHtml +
                     "<p>" + timeHtml + "</p>" +
                     "</div>";
 

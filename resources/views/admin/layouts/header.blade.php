@@ -16,7 +16,7 @@
                                 @if (Auth::user()->image)
                                     <img class="round" src="{{asset('app-assets/images/profile/'.Auth()->user()->image)}}" alt="avatar" height="40" width="40">
                                 @else
-                                    <img class="round" src="{{asset('app-assets/images/profile/profile-logo.png')}}" alt="avatar" height="40" width="40">
+                                    <img class="round" src="{{asset('app-assets/images/logo/logo-main.png')}}" alt="avatar" height="40" width="40">
                                 @endif
                             </span>
                         </a>

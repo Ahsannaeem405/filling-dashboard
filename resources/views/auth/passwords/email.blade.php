@@ -224,7 +224,7 @@
                                             <p class="login-para">
                                                 Melde dich bitte mit deinem Telegram Konto, dass du bei der
                                                 Registrierung angegeben hast, bei
-                                                @NULLZFINLLING</p>
+                                                @NULLZSEC</p>
                                                 {{-- <form method="POST" action="{{ route('password.email') }}">
                                                     @csrf
                                                     <div class="form-label-group">

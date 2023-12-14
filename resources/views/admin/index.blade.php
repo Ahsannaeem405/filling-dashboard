@@ -9,6 +9,7 @@
     <style>
         body.dark-layout .card {
             height: 100%;
+            margin-bottom: 0px;
         }
 
         .ChatsCard .headingMain h4 {
@@ -266,16 +267,26 @@
         .dark-layout .header-navbar {
             z-index: 1000;
         }
-        @media screen and (min-device-width:300px), screen and (max-width:768px){
+
+        @media screen and (min-device-width:300px),
+        screen and (max-width:768px) {
             .StepsCount {
                 padding-top: 15px;
             }
-            .StepsCount .col{
+
+            .StepsCount .col {
                 margin-bottom: 12px;
             }
-            .ChatsCard, .PriceTotal_WrapCard{
+
+            .ChatsCard,
+            .PriceTotal_WrapCard {
                 height: auto !important;
             }
+        }
+        .avg-sessions{
+            border: 1px solid #BABFC7;
+            border-radius: 5px;
+            margin: 0px;
         }
     </style>
     <div class="content-header row"></div>
@@ -289,209 +300,414 @@
                     </div>
                 </div>
             @endif
+            @if (Auth::user()->status == 'in-active')
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 mb-2">
+                        <div class="card LoginText_Wrap">
+                            <div class="card-header" style="display: block; flex:unset">
+                                <h4 class="">Hallo, $username</h4>
+                                <div class="">
+                                    <p class="m-0">Letzter Login : $lastlogin<span></span></p>
+                                    <p class="m-0">Registriert seit : $registerdate <span></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-6 col-12 mb-2">
+                        <div class="card StepsCount_WrapCard">
+                            <div class="card-header d-flex flex-column align-items-start pb-0">
+                                <div class="TopHeading">
+                                    <h4 class="m-0">Überblink Rang</h4>
+                                    <p class="m-0">Aktueller Rang: Warte auf Friegabe</p>
+                                </div>
+                            </div>
+                            <div class="card-content StepsCount">
+                                <div class="col Beg_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Beginner</span></p>
+                                    <div class="">
+                                        <span>0 €</span>
+                                        <span>0% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Adv_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Advanced</span></p>
+                                    <div class="">
+                                        <span>0 €</span>
+                                        <span>0% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Pro_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Pro</span></p>
+                                    <div class="">
+                                        <span>0 €</span>
+                                        <span>0% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Leg_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Legend</span></p>
+                                    <div class="">
+                                        <span>0 €</span>
+                                        <span>0% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Vip_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>VIP</span></p>
+                                    <div class="">
+                                        <span>0 €</span>
+                                        <span>0% Einnahmen</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Column Chart -->
+                    <div class="col-lg-3 col-md-12">
+                        <div class="card">
+                            <div class="ChatsCard">
+                                <div class="card-header">
+                                    <h5 class="card-title">Chats</h5>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="headingMain">
+                                            <h4>0</h4>
+                                            <p class="m-0 highlight-color">Chats insgesamt</p>
+                                        </div>
+                                        <ul class="list-unstyled mt-3">
+                                            <li class="UncompletedChats">
+                                                <i class="fa fa-ticket"></i>
+                                                <h6>Offene chats <span>0</span></h6>
+                                            </li>
+                                            <li class="CompletedChats">
+                                                <i class="fa fa-ticke">
+                                                    <img style='width: 20px;'
+                                                        src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
+                                                        alt="">
+                                                </i>
+                                                <h6>Bearbeitete chats <span>0</span></h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-12 mb-2">
-                    <div class="card LoginText_Wrap">
-                        <div class="card-header" style="display: block; flex:unset">
-                            <h4 class="">Hallo, {{ Auth::user()->name }}</h4>
-                            <div class="">
-                                <p class="m-0">Letzter : <span>{{ Auth::user()->last_login }}</span></p>
-                                <p class="m-0">Register : <span>{{ Auth::user()->created_at->format('Y-m-d') }}</span>
-                                </p>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <div class="col-lg-9 col-md-6 col-12 mb-2">
-                    <div class="card StepsCount_WrapCard">
-                        <div class="card-header d-flex flex-column align-items-start pb-0">
-                            <div class="TopHeading">
-                                <h4 class="m-0">Überblink Rang</h4>
-                                <p class="m-0">Aktueller Rang: {{ Auth::user()->rank }}</p>
-                            </div>
-                        </div>
-                        <div class="card-content StepsCount">
-                            <div class="col Beg_CS">
-                                <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Beginner</span></p>
-                                <div class="">
-                                    <span>0-3.499 €</span>
-                                    <span>40% Einnahmen</span>
-                                </div>
-                            </div>
-                            <div class="col Adv_CS">
-                                <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Advanced</span></p>
-                                <div class="">
-                                    <span>3.500-5.999 €</span>
-                                    <span>45% Einnahmen</span>
-                                </div>
-                            </div>
-                            <div class="col Pro_CS">
-                                <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Pro</span></p>
-                                <div class="">
-                                    <span>6.000-9.999 €</span>
-                                    <span>50% Einnahmen</span>
-                                </div>
-                            </div>
-                            <div class="col Leg_CS">
-                                <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Legend</span></p>
-                                <div class="">
-                                    <span>0-3.499 €</span>
-                                    <span>55% Einnahmen</span>
-                                </div>
-                            </div>
-                            <div class="col Vip_CS">
-                                <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>VIP</span></p>
-                                <div class="">
-                                    <span>20.000 €</span>
-                                    <span>60% Einnahmen</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- Column Chart -->
-                <div class="col-lg-3 col-md-12">
-                    <div class="card ChatsCard">
-                        <div class="card-header">
-                            <h5 class="card-title">Chats</h5>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="headingMain">
-                                    <h4>{{ $totalChat }}</h4>
-                                    <p class="m-0 highlight-color">Chats insgesamt</p>
-                                </div>
-                                <ul class="list-unstyled mt-3">
-                                    <li class="UncompletedChats">
-                                        <i class="fa fa-ticket"></i>
-                                        <h6>Offene chats <span>{{ $totalUnread }}</span></h6>
-                                    </li>
-                                    <li class="CompletedChats">
-                                        <i class="fa fa-ticke">
-                                            <img style='width: 20px;'
-                                                src="{{ asset('app-assets/images/logo/dash-tick.png') }}" alt="">
-                                        </i>
-                                        <h6>Bearbeitete chats <span>{{ $completeChat }}</span></h6>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-6 col-12">
-                    <div class="card PriceTotal_WrapCard">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="row pb-50">
-                                    <div
-                                        class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
-                                        <div class="PriceTotal_Heading">
-                                            <h4 class="text-bold-700 mb-25">Einnahmen</h4>
-                                            <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview</p>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="PriceTotal_WrapCard">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="row pb-50">
+                                            <div
+                                                class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
+                                                <div class="PriceTotal_Heading">
+                                                    <h4 class="text-bold-700 mb-25">Einnahmen</h4>
+                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview</p>
+                                                </div>
+                                                <div class="PriceTotal">
+                                                    <h3 class="">$0 <span>+0%</span></h3>
+                                                    <p class="highlight-color">You informed of this week compared to last week
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
+                                                <div id="avg-session-chart"></div>
+                                                <div class="weekday">
+                                                    <span>Mo</span>
+                                                    <span>Tu</span>
+                                                    <span>We</span>
+                                                    <span>Th</span>
+                                                    <span>Fr</span>
+                                                    <span>Sa</span>
+                                                    <span>Su</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="PriceTotal">
-                                            <h3 class="">$468 <span>+ 4.2%</span></h3>
-                                            <p class="highlight-color">You informed of this week compared to last week</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
-                                        <div id="avg-session-chart"></div>
-                                        <div class="weekday">
-                                            <span>Mo</span>
-                                            <span>Tu</span>
-                                            <span>We</span>
-                                            <span>Th</span>
-                                            <span>Fr</span>
-                                            <span>Sa</span>
-                                            <span>Su</span>
+                                        <hr />
+                                        <div class="row avg-sessions pt-50">
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="EarningBox">
+                                                    <i class="bx bx-dollar-sign">$</i>
+                                                    <h6 class="text-bold-700 mb-0">Earning</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$0</h4>
+                                                </div>
+                                                <div class="progress progress-bar-primary mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50"
+                                                        aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="ProfitBox">
+                                                    <i class="fa fa-ticke">
+                                                        <img style='width: 20px;'
+                                                            src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
+                                                            alt="">
+                                                    </i>
+                                                    <h6 class="text-bold-700 mb-0">Profit</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$0</h4>
+                                                </div>
+                                                <div class="progress progress-bar-warning mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                                                        aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="GebBox">
+                                                    <i class="fa fa-ticket"></i>
+                                                    <h6 class="text-bold-700 mb-0">Gebuhren</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$0</h4>
+                                                </div>
+                                                <div class="progress progress-bar-danger mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                        aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <hr />
-                                <div class="row avg-sessions pt-50">
-                                    <div class="col-12 col-md-6 col-sm-4">
-                                        <div class="EarningBox">
-                                            <i class="bx bx-dollar-sign">$</i>
-                                            <h6 class="text-bold-700 mb-0">Earning</h6>
-                                        </div>
-                                        <div class="TotalAmount">
-                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
-                                        </div>
-                                        <div class="progress progress-bar-primary mt-25">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                                aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
-                                        </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Global Ranking</h4>
+                            </div>
+                            <div><span style='padding: 0 20px; color: #cccccc73'>Rangliste</span></div>
+                            <div class="card-content">
+                                <div class="card-body pt-2" style="position: relative;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 mb-2">
+                        <div class="card LoginText_Wrap">
+                            <div class="card-header" style="display: block; flex:unset">
+                                <h4 class="">Hallo, {{ Auth::user()->name }}</h4>
+                                <div class="">
+                                    <p class="m-0">Letzter Login : <span>{{ Auth::user()->last_login }}</span></p>
+                                    <p class="m-0">Registriert seit :
+                                        <span>{{ Auth::user()->created_at->format('d-m-Y') }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-6 col-12 mb-2">
+                        <div class="card StepsCount_WrapCard">
+                            <div class="card-header d-flex flex-column align-items-start pb-0">
+                                <div class="TopHeading">
+                                    <h4 class="m-0">Überblink Rang</h4>
+                                    <p class="m-0">Aktueller Rang: {{ ucfirst(Auth::user()->rank) }}</p>
+                                </div>
+                            </div>
+                            <div class="card-content StepsCount">
+                                <div class="col Beg_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Beginner</span></p>
+                                    <div class="">
+                                        <span>0 - 9.999 €</span>
+                                        <span>40% Einnahmen</span>
                                     </div>
-                                    <div class="col-12 col-md-6 col-sm-4">
-                                        <div class="ProfitBox">
-                                            <i class="fa fa-ticke">
-                                                <img style='width: 20px;'
-                                                    src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
-                                                    alt="">
-                                            </i>
-                                            <h6 class="text-bold-700 mb-0">Profit</h6>
-                                        </div>
-                                        <div class="TotalAmount">
-                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
-                                        </div>
-                                        <div class="progress progress-bar-warning mt-25">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="60"
-                                                aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
-                                        </div>
+                                </div>
+                                <div class="col Adv_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Advanced</span></p>
+                                    <div class="">
+                                        <span>10.000 - 14.999 €</span>
+                                        <span>45% Einnahmen</span>
                                     </div>
-                                    <div class="col-12 col-md-6 col-sm-4">
-                                        <div class="GebBox">
-                                            <i class="fa fa-ticket"></i>
-                                            <h6 class="text-bold-700 mb-0">Gebuhren</h6>
-                                        </div>
-                                        <div class="TotalAmount">
-                                            <h4 class="text-bold-700 mb-0">$545.69</h4>
-                                        </div>
-                                        <div class="progress progress-bar-danger mt-25">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                                                aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
-                                        </div>
+                                </div>
+                                <div class="col Pro_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Pro</span></p>
+                                    <div class="">
+                                        <span>15.000 - 24.999 €</span>
+                                        <span>50% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Leg_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>Legend</span></p>
+                                    <div class="">
+                                        <span>25.000 - 49.999 €</span>
+                                        <span>55% Einnahmen</span>
+                                    </div>
+                                </div>
+                                <div class="col Vip_CS">
+                                    <p class="m-0"><i class="feather icon-arrow-up-left"></i><span>VIP</span></p>
+                                    <div class="">
+                                        <span>50.000 €</span>
+                                        <span>60% Einnahmen</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Global Ranking</h4>
-                        </div>
-                        <div><span style='padding: 0 20px; color: #cccccc73'>Rangliste</span></div>
-                        <div class="card-content">
-                            <div class="card-body pt-2" style="position: relative;">
-                                @foreach ($users as $user)
-                                    <div
-                                        class="chart-info chart-info-flag d-flex justify-content-between align-items-center mb-1">
-                                        <div class="series-info d-flex align-items-center">
-                                            @if ($user->image)
-                                                <img src="{{ asset('app-assets/images/profile/' . $user->image) }}"
-                                                    alt="">
-                                            @else
-                                                <img src="{{ asset('app-assets/images/profile/profile-logo.png') }}"
-                                                    alt="">
-                                            @endif
-                                            <span class="text-bold-600 mx-50">{{ substr($user->name, 0, 13) }}</span>
+                <div class="row">
+                    <!-- Column Chart -->
+                    <div class="col-lg-3 col-md-12">
+                        <div class="card">
+                            <div class="ChatsCard">
+                                <div class="card-header">
+                                    <h5 class="card-title">Chats</h5>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="headingMain">
+                                            <h4>{{ $totalChat }}</h4>
+                                            <p class="m-0 highlight-color">Chats insgesamt</p>
                                         </div>
-                                        <div class="series-result">
-                                            <span>49.487€</span>
+                                        <ul class="list-unstyled mt-3">
+                                            <li class="UncompletedChats">
+                                                <i class="fa fa-ticket"></i>
+                                                <h6>Offene chats <span>{{ $totalUnread }}</span></h6>
+                                            </li>
+                                            <li class="CompletedChats">
+                                                <i class="fa fa-ticke">
+                                                    <img style='width: 20px;'
+                                                        src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
+                                                        alt="">
+                                                </i>
+                                                <h6>Bearbeitete chats <span>{{ $completeChat }}</span></h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="PriceTotal_WrapCard">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="row pb-50">
+                                            <div
+                                                class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
+                                                <div class="PriceTotal_Heading">
+                                                    <h4 class="text-bold-700 mb-25">Einnahmen</h4>
+                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview</p>
+                                                </div>
+                                                <div class="PriceTotal">
+                                                    <h3 class="">$468 <span>+ 4.2%</span></h3>
+                                                    <p class="highlight-color">You informed of this week compared to last week
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
+                                                <div id="avg-session-chart"></div>
+                                                <div class="weekday">
+                                                    <span>Mo</span>
+                                                    <span>Tu</span>
+                                                    <span>We</span>
+                                                    <span>Th</span>
+                                                    <span>Fr</span>
+                                                    <span>Sa</span>
+                                                    <span>Su</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row avg-sessions pt-50">
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="EarningBox">
+                                                    <i class="bx bx-dollar-sign">$</i>
+                                                    <h6 class="text-bold-700 mb-0">Earning</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$545.69</h4>
+                                                </div>
+                                                <div class="progress progress-bar-primary mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50"
+                                                        aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="ProfitBox">
+                                                    <i class="fa fa-ticke">
+                                                        <img style='width: 20px;'
+                                                            src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
+                                                            alt="">
+                                                    </i>
+                                                    <h6 class="text-bold-700 mb-0">Profit</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$545.69</h4>
+                                                </div>
+                                                <div class="progress progress-bar-warning mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                                                        aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-sm-6 mt-1 mb-1">
+                                                <div class="GebBox">
+                                                    <i class="fa fa-ticket"></i>
+                                                    <h6 class="text-bold-700 mb-0">Gebuhren</h6>
+                                                </div>
+                                                <div class="TotalAmount">
+                                                    <h4 class="text-bold-700 mb-0">$545.69</h4>
+                                                </div>
+                                                <div class="progress progress-bar-danger mt-25">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                        aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Global Ranking</h4>
+                            </div>
+                            <div><span style='padding: 0 20px; color: #cccccc73'>Rangliste</span></div>
+                            <div class="card-content">
+                                <div class="card-body pt-2" style="position: relative;">
+                                    @foreach ($users as $user)
+                                        <div
+                                            class="chart-info chart-info-flag d-flex justify-content-between align-items-center mb-1">
+                                            <div class="series-info d-flex align-items-center">
+                                                @if ($user->image)
+                                                    <img src="{{ asset('app-assets/images/profile/' . $user->image) }}"
+                                                        alt="">
+                                                @else
+                                                    <img src="{{ asset('app-assets/images/logo/logo-main.png') }}"
+                                                        alt="">
+                                                @endif
+                                                <span class="text-bold-600 mx-50">{{ substr($user->name, 0, 13) }}</span>
+                                            </div>
+                                            <div class="series-result">
+                                                <span>49.487€</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
+            
         </section>
     </div>
 @endsection

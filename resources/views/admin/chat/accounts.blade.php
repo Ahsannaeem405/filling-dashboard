@@ -1,8 +1,7 @@
 <ul>
     @if (isset($accounts))
         @foreach ($accounts as $account)
-            <li class="list-style" data-refresh="{{ $account->refreshToken }}"
-                data-user-id="{{ $account->account_id }}" data-id="{{ $account->id }}">
+            <li class="list-style" data-id="{{ $account->id }}">
                 <div class="avatar user-profile-toggle mr-1">
                     <img class="adPic" src="{{ $account->adPic }}" alt="">
                     @if ($account->adStatus == 'ACTIVE')

@@ -3,7 +3,7 @@
 @endphp
 @foreach ($data['messages'] as $message)
 
-    @if (!empty($message['textShort']))
+    {{-- @if (!empty($message['textShort'])) --}}
         @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
             @php
                 $carbonDate = Carbon::parse($message['receivedDate']);
@@ -87,7 +87,7 @@
                 </div>
             </div>
         @endif
-    @endif
+    {{-- @endif --}}
 @endforeach
 <input type="hidden" class="new" data-id="{{ $account->id }}" data-conv-id="{{ $data['id'] }}">
 <input type="file" id="imageInput" style="display:none" accept="image/jpeg">
@@ -122,6 +122,61 @@
         if (message != "") {
             $(".emojionearea-editor").empty();
 
+            var now = new Date();
+            var timestamp =
+                ('0' + now.getDate()).slice(-2) + '.' +
+                ('0' + (now.getMonth() + 1)).slice(-2) + '.' +
+                ('' + now.getFullYear()).slice(-2) + ', ' +
+                ('0' + now.getHours()).slice(-2) + ':' +
+                ('0' + now.getMinutes()).slice(-2);
+
+            var avatarHtml = '<div class="chat-avatar">' +
+                '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
+                '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
+                '</a>' +
+                '</div>';
+
+
+            var timeHtml = '<span class="time-left">' + timestamp + '</span>';
+
+            var imageHtml = image ? '<img src="' + URL.createObjectURL(image) +
+                '" width="185px" class="selected-image">' : '';
+
+            var messageHtml = '<div class="chat-content">' +
+                "<p>" + message + "</p>" +
+                imageHtml +
+                "<p>" + timeHtml + "</p>" +
+                "</div>";
+
+
+            var combinedHtml = '<div class="chat">' +
+                avatarHtml +
+                '<div class="chat-body">' +
+                messageHtml +
+                '</div>' +
+                '</div>';
+
+            $(".user-chats > .chats").append(combinedHtml);
+            $(".message").val("");
+            $(".user-chats").scrollTop($(".user-chats > .chats").height());
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('send.messages') }}',
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }else{
             var now = new Date();
             var timestamp =
                 ('0' + now.getDate()).slice(-2) + '.' +
