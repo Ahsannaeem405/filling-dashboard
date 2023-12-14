@@ -1,53 +1,25 @@
 @extends('admin.layouts.master')
 @section('title')
-<title>Chat</title>
+    <title>Chat</title>
 @endsection
 @section('chat')
-active
+    active
 @endsection
 @section('content')
-@if (Auth::user()->role == 'user')
-<style>
-    .account-btn1 {
-        margin: 1px 15px;
-        border: none;
-        outline: none;
-        color: white;
-        background: #27ce72;
-        border-radius: 5px;
-        padding: 6px;
-        font-size: 11px;
-        width: 87px;
-        margin-bottom: 20px;
-    }
-
-            /* .chat-application .sidebar-content {
-                        height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-                    }
-
-                    .chat-application .chat-app-window .start-chat-area {
-                        height: calc(var(--vh, 1vh) * 100 - 3rem) !important;
-                    }
-
-                    .chat-application .chat-app-window .user-chats {
-                        height: calc(var(--vh, 1vh) * 100 - 18rem) !important;
-                    }
-
-                    .chat-application .chat-app-form {
-                        padding: 12px 10px !important;
-                    }
-
-                    .chat-application .sidebar-content .chat-user-list {
-                        width: 365px !important;
-                    }
-
-                    .chat-application .sidebar-content {
-                        width: 365px !important;
-                    }
-
-                    .new-user {
-                        width: 190px !important;
-                    } */
+    @if (Auth::user()->role == 'user')
+        <style>
+            .account-btn1 {
+                margin: 1px 15px;
+                border: none;
+                outline: none;
+                color: white;
+                background: #27ce72;
+                border-radius: 5px;
+                padding: 6px;
+                font-size: 11px;
+                width: 87px;
+                margin-bottom: 20px;
+            }
         </style>
     @else
         <style>
@@ -66,146 +38,143 @@ active
         </style>
     @endif
     <style>
-        /* .chat-application .sidebar-content {
-                    height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-                } */
 
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
-            }
+        .chat-application .chat-app-window .start-chat-area {
+            height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
+        }
 
-            html body .content.app-content .content-area-wrapper {
-                height: calc(100% - 2rem);
-                overflow: hidden;
-            }
+        html body .content.app-content .content-area-wrapper {
+            height: calc(100% - 2rem);
+            overflow: hidden;
+        }
 
-            .chat-application .sidebar-content {
-                height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
-            }
+        .chat-application .sidebar-content {
+            height: calc(var(--vh, 1vh) * 100 - 6.5rem) !important;
+        }
 
-            .chat-application .chat-app-window .start-chat-area {
-                height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
-            }
+        .chat-application .chat-app-window .start-chat-area {
+            height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
+        }
 
         .chat-application .chat-app-window .user-chats {
             height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
         }
 
-            .scrol-custom::-webkit-scrollbar {
-                width: 6px;
-            }
+        .scrol-custom::-webkit-scrollbar {
+            width: 6px;
+        }
 
-            .scrol-custom::-webkit-scrollbar-track {
-                background-color: transparent;
-            }
+        .scrol-custom::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
 
-            .scrol-custom::-webkit-scrollbar-thumb {
-                background-color: #999;
-                border-radius: 8px;
-            }
+        .scrol-custom::-webkit-scrollbar-thumb {
+            background-color: #999;
+            border-radius: 8px;
+        }
 
-            .scrol-custom {
-                height: calc(var(--vh, 1vh) * 100 - 13rem);
-                overflow: auto;
-            }
+        .scrol-custom {
+            height: calc(var(--vh, 1vh) * 100 - 13rem);
+            overflow: auto;
+        }
 
-            .AcountsDetail {
-                width: 40%;
-                background-color: #262c49;
-                padding: 12px;
-                border-right: 1px solid #414561;
-            }
+        .AcountsDetail {
+            width: 40%;
+            background-color: #262c49;
+            padding: 12px;
+            border-right: 1px solid #414561;
+        }
 
-            .AcountsDetail h3 {
-                color: #7367f0 !important;
-                margin-bottom: 16px;
-            }
+        .AcountsDetail h3 {
+            color: #7367f0 !important;
+            margin-bottom: 16px;
+        }
 
-            .AcountsDetail ul {
-                padding: 0;
-                margin: 0;
-                list-style: none;
-            }
+        .AcountsDetail ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
 
-            .AcountsDetail ul li.active {
-                background-color: #7367f0;
-            }
+        .AcountsDetail ul li.active {
+            background-color: #7367f0;
+        }
 
-            .AcountsDetail ul li {
-                border-radius: 5px;
-                padding: 4px;
-                margin-bottom: 5px;
-                display: flex;
-                align-items: center;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: inherit;
-                color: #fff;
-            }
+        .AcountsDetail ul li {
+            border-radius: 5px;
+            padding: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: inherit;
+            color: #fff;
+        }
 
-            .AcountsDetail ul li img {
-                border-radius: 50%;
-                width: 46px;
-                height: 46px;
-                margin-right: 6px;
-            }
+        .AcountsDetail ul li img {
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-right: 6px;
+        }
 
-            .AcountsDetail ul li span {
-                padding: 11px 15px;
-                border-radius: 50%;
-                color: #7367f0;
-                font-weight: 700;
-                width: 40px;
-                font-size: 16px;
-                height: 40px;
-                margin-right: 0px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        .AcountsDetail ul li span {
+            padding: 11px 15px;
+            border-radius: 50%;
+            color: #7367f0;
+            font-weight: 700;
+            width: 40px;
+            font-size: 16px;
+            height: 40px;
+            margin-right: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            .list-style {
-                cursor: pointer;
-            }
+        .list-style {
+            cursor: pointer;
+        }
 
-            .initials .active {
-                background-color: red;
-            }
+        .initials .active {
+            background-color: red;
+        }
 
-            /*  */
+        /*  */
 
-            .account-btn2 {
-                margin: 1px 1px;
-                border: none;
-                outline: none;
-                color: white;
-                background: #7367f0;
-                border-radius: 5px;
-                padding: 6px;
-                font-size: 11px;
-                width: 85px;
-                margin-bottom: 20px;
-            }
+        .account-btn2 {
+            margin: 1px 1px;
+            border: none;
+            outline: none;
+            color: white;
+            background: #7367f0;
+            border-radius: 5px;
+            padding: 6px;
+            font-size: 11px;
+            width: 85px;
+            margin-bottom: 20px;
+        }
 
-            .chat-btn {
-                margin: 10px 10px 10px;
-            }
+        .chat-btn {
+            margin: 10px 10px 10px;
+        }
 
-            .account-prof {
-                padding: 0px !important;
-                background-color: transparent !important;
-            }
+        .account-prof {
+            padding: 0px !important;
+            background-color: transparent !important;
+        }
 
-            .account-prof p {
-                margin: 0;
-                font-size: 12px;
-            }
+        .account-prof p {
+            margin: 0;
+            font-size: 12px;
+        }
 
-            .fa-image:before {
-                content: "\f03e";
-                font-size: 20px;
-                color: #C2C6DC;
-            }
+        .fa-image:before {
+            content: "\f03e";
+            font-size: 20px;
+            color: #C2C6DC;
+        }
 
         .type-icon {
             position: absolute;
@@ -214,243 +183,243 @@ active
             cursor: pointer;
         }
 
-            img.type-icon {
-                width: 22px;
-                right: 45px;
-            }
+        img.type-icon {
+            width: 22px;
+            right: 45px;
+        }
 
-            .chat-time-right p {
-                text-align: right;
-                margin-right: 60px;
-                margin-bottom: 30px;
-            }
+        .chat-time-right p {
+            text-align: right;
+            margin-right: 60px;
+            margin-bottom: 30px;
+        }
 
-            .chat-time-left p {
-                text-align: left;
-                margin-left: 60px;
-                margin-bottom: 30px;
-            }
+        .chat-time-left p {
+            text-align: left;
+            margin-left: 60px;
+            margin-bottom: 30px;
+        }
 
-            .send {
-                display: flex;
-                width: 25%;
-                padding: 5px !important;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-            }
+        .send {
+            display: flex;
+            width: 25%;
+            padding: 5px !important;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
 
-            .initials {
-                background-color: #8a82dd75;
-                padding: 11px;
-                border-radius: 50%;
-                color: #7367f0;
-                font-weight: 700;
-                font-size: 16px;
-                margin-right: 0px;
-            }
+        .initials {
+            background-color: #8a82dd75;
+            padding: 11px;
+            border-radius: 50%;
+            color: #7367f0;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 0px;
+        }
 
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 999;
-            }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
 
-            .message-box {
-                position: absolute;
-                background-color: #10163A;
-                padding: 20px;
-                border-radius: 6px;
-                text-align: center;
-                width: 80%;
-                max-width: 100%;
-                font-size: 17px;
-                font-weight: 600;
-                right: 20px;
-            }
+        .message-box {
+            position: absolute;
+            background-color: #10163A;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%;
+            max-width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+            right: 20px;
+        }
 
-            .message-box p {
-                margin: 0 !important;
-            }
+        .message-box p {
+            margin: 0 !important;
+        }
 
-            body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
-                z-index: 1050;
-            }
+        body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
+            z-index: 1050;
+        }
 
-            body.dark-layout .header-navbar {
-                z-index: 1000;
-            }
+        body.dark-layout .header-navbar {
+            z-index: 1000;
+        }
 
-            .emojionearea-editor {
-                color: white !important;
-            }
+        .emojionearea-editor {
+            color: white !important;
+        }
 
-            .emojionearea.emojionearea-inline.emojionearea-button {
-                opacity: 0 !important;
-                top: 8px !important;
-            }
+        .emojionearea.emojionearea-inline.emojionearea-button {
+            opacity: 0 !important;
+            top: 8px !important;
+        }
 
-            .emojionearea .emojionearea-button {
-                position: absolute !important;
-                right: 50px !important;
-                top: 6px !important;
-                opacity: 0 !important;
-            }
+        .emojionearea .emojionearea-button {
+            position: absolute !important;
+            right: 50px !important;
+            top: 6px !important;
+            opacity: 0 !important;
+        }
 
-            .chat-application .sidebar-content .chat-user-list {
-                margin-top: 0 !important;
-                height: calc(100% - 0rem);
-            }
+        .chat-application .sidebar-content .chat-user-list {
+            margin-top: 0 !important;
+            height: calc(100% - 0rem);
+        }
 
-            .chat-application .sidebar-content .chat-user-list li .contact-info {
-                width: calc(100vw - (100vw - 100%) - 1rem - -10px);
-            }
+        .chat-application .sidebar-content .chat-user-list li .contact-info {
+            width: calc(100vw - (100vw - 100%) - 1rem - -10px);
+        }
 
-            .emojionearea .emojionearea-picker.emojionearea-picker-position-top {
-                right: 32px !important;
-            }
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top {
+            right: 32px !important;
+        }
 
-            .favorite-1 {
-                margin: 7px;
-                cursor: pointer;
-            }
+        .favorite-1 {
+            margin: 7px;
+            cursor: pointer;
+        }
 
         /* .favorite-1:hover {
-                                            color: goldenrod;
-                                        } */
+                                                color: goldenrod;
+                                            } */
 
-                                    .custom-success-toast {
-                                        background-color: #4CAF50;
-                                        color: #ffffff;
-                                    }
+        .custom-success-toast {
+            background-color: #4CAF50;
+            color: #ffffff;
+        }
 
-                                    .custom-warning-toast {
-                                        background-color: rgb(163, 23, 23);
-                                        color: #ffffff;
-                                    }
+        .custom-warning-toast {
+            background-color: rgb(163, 23, 23);
+            color: #ffffff;
+        }
 
-                                    .avatar-status-busy {
-                                        width: 13px !important;
-                                        height: 13px !important;
-                                        bottom: -5px !important;
-                                    }
+        .avatar-status-busy {
+            width: 13px !important;
+            height: 13px !important;
+            bottom: -5px !important;
+        }
 
-                                    .avatar-status-online {
-                                        width: 13px !important;
-                                        height: 13px !important;
-                                        bottom: -5px !important;
-                                    }
+        .avatar-status-online {
+            width: 13px !important;
+            height: 13px !important;
+            bottom: -5px !important;
+        }
 
-                                    .adImage {
-                                        border-radius: 50%;
-                                        width: 46px;
-                                        height: 46px;
-                                        margin-right: 6px;
-                                    }
+        .adImage {
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-right: 6px;
+        }
 
-                                    body.dark-layout .avatar {
-                                        background-color: transparent !important;
-                                    }
+        body.dark-layout .avatar {
+            background-color: transparent !important;
+        }
 
-                                    .ellipsis {
-                                        width: 100px;
-                                        margin-right: 10px;
-                                        white-space: nowrap;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                    }
+        .ellipsis {
+            width: 100px;
+            margin-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-                                    @media screen and (max-device-width:768px),
-                                    screen and (max-width:991px) {
-                                        html body .content.app-content .content-area-wrapper {
-                                            height: calc(100% - 0rem);
-                                            display: grid;
-                                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                                        }
+        @media screen and (max-device-width:768px),
+        screen and (max-width:991px) {
+            html body .content.app-content .content-area-wrapper {
+                height: calc(100% - 0rem);
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
 
-                                        .chat-application .sidebar-content {
-                                            -webkit-transform: translateX(0%);
-                                            -ms-transform: translateX(0%);
-                                            transform: translateX(0%);
-                                            width: 100% !important;
-                                        }
+            .chat-application .sidebar-content {
+                -webkit-transform: translateX(0%);
+                -ms-transform: translateX(0%);
+                transform: translateX(0%);
+                width: 100% !important;
+            }
 
-                                        .AcountsDetail,
-                                        .chat-application .sidebar-content .chat-user-list {
-                                            width: 100% !important;
-                                        }
+            .AcountsDetail,
+            .chat-application .sidebar-content .chat-user-list {
+                width: 100% !important;
+            }
 
-                                        .chat-application .chat-app-window .user-chats {
-                                            height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
-                                        }
-                                    }
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
+            }
+        }
 
-                                    @media screen and (max-device-width:300px),
-                                    screen and (max-width:768px) {
-                                        .chat-application .sidebar-content {
-                                            -webkit-transform: translateX(0%);
-                                            -ms-transform: translateX(0%);
-                                            transform: translateX(0%);
-                                            width: 100% !important;
-                                        }
+        @media screen and (max-device-width:300px),
+        screen and (max-width:768px) {
+            .chat-application .sidebar-content {
+                -webkit-transform: translateX(0%);
+                -ms-transform: translateX(0%);
+                transform: translateX(0%);
+                width: 100% !important;
+            }
 
-                                        .AcountsDetail,
-                                        .chat-application .sidebar-content .chat-user-list {
-                                            width: 100% !important;
-                                        }
+            .AcountsDetail,
+            .chat-application .sidebar-content .chat-user-list {
+                width: 100% !important;
+            }
 
-                                        html body .content.app-content .content-area-wrapper {
-                                            height: calc(100% - 0rem);
-                                            display: grid;
-                                            grid-template: none;
-                                        }
+            html body .content.app-content .content-area-wrapper {
+                height: calc(100% - 0rem);
+                display: grid;
+                grid-template: none;
+            }
 
-                                        .chat-application .chat-app-window .user-chats {
-                                            height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
-                                        }
+            .chat-application .chat-app-window .user-chats {
+                height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
+            }
 
-                                        .special_class {
-                                            display: none;
-                                        }
+            .special_class {
+                display: none;
+            }
 
-                                        .chat-application .sidebar-content .chat-user-list ul {
-                                            max-height: 170px;
-                                            overflow-y: scroll;
-                                        }
+            .chat-application .sidebar-content .chat-user-list ul {
+                max-height: 170px;
+                overflow-y: scroll;
+            }
 
-                                        .chat-application .sidebar-content {
-                                            height: calc(var(--vh, 1vh) * 100 - 15.5rem) !important;
-                                        }
-                                    }
+            .chat-application .sidebar-content {
+                height: calc(var(--vh, 1vh) * 100 - 15.5rem) !important;
+            }
+        }
 
-                                    .time-right {
-                                        font-size: 12px;
-                                        margin-top: 12px;
-                                        position: absolute;
-                                    }
+        .time-right {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+        }
 
-                                    .time-left {
-                                        font-size: 12px;
-                                        margin-top: 12px;
-                                        position: absolute;
-                                        right: 95px
-                                    }
+        .time-left {
+            font-size: 12px;
+            margin-top: 12px;
+            position: absolute;
+            right: 95px
+        }
 
-                                    .time-left-append {
-                                        font-size: 12px;
-                                        margin-top: 45px;
-                                        position: absolute;
-                                        right: 95px;
-                                    }
+        .time-left-append {
+            font-size: 12px;
+            margin-top: 45px;
+            position: absolute;
+            right: 95px;
+        }
 
         .chat {
             margin-top: 20px
@@ -459,7 +428,8 @@ active
         .chat-application .chat-app-form {
             padding: 7px 10px !important;
         }
-        .emojionearea .emojionearea-editor{
+
+        .emojionearea .emojionearea-editor {
             min-height: 2em;
             max-height: 8em;
         }
@@ -483,57 +453,89 @@ active
                         @endif
                         <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
 
+                    </div>
+                    <div class="scrol-custom">
+                        <ul>
+                            @if (isset($accounts))
+                                @foreach ($accounts as $account)
+                                    <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
+                                        <div class="avatar  mr-1">
+                                            <img class="adPic" src="{{ $account->adPic }}" alt="">
+                                            @if ($account->adStatus == 'ACTIVE')
+                                                <p class="avatar-status-online"></p>
+                                            @else
+                                                <p class="avatar-status-busy"></p>
+                                            @endif
+                                        </div>
+                                        <div class="user-chat-info new-user">
+                                            <div class="contact-info">
+                                                <div style="display: flex; justify-content:space-between">
+                                                    <h5 class="font-weight-bold mb-0 ellipsis">{{ $account->adTitle }}
+                                                        &nbsp;&nbsp;&nbsp;
+                                                    </h5>
+                                                    <p style="margin-bottom: 0px">
+                                                        {{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y') }}
+                                                    </p>
                                                 </div>
-                                                <div class="scrol-custom">
-                                                    <ul>
-                                                        @if (isset($accounts))
-                                                        @foreach ($accounts as $account)
-                                                        <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
-                                                            <div class="avatar  mr-1">
-                                                                <img class="adPic" src="{{ $account->adPic }}" alt="">
-                                                                @if ($account->adStatus == 'ACTIVE')
-                                                                <p class="avatar-status-online"></p>
-                                                                @else
-                                                                <p class="avatar-status-busy"></p>
-                                                                @endif
-                                                            </div>
-                                                            <div class="user-chat-info new-user">
-                                                                <div class="contact-info">
-                                                                    <div style="display: flex; justify-content:space-between">
-                                                                        <h5 class="font-weight-bold mb-0 ellipsis">{{ $account->adTitle }}
-                                                                            &nbsp;&nbsp;&nbsp;
-                                                                        </h5>
-                                                                        <p style="margin-bottom: 0px">
-                                                                            {{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y') }}
-                                                                        </p>
-                                                                    </div>
-                                                                    <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        @endforeach
-                                                        @endif
-                                                    </ul>
-                                                </div>
+                                                <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
                                             </div>
-                                            <div class="sidebar-left">
-                                                <div class="sidebar">
-                                                    <!-- Chat Sidebar area -->
-                                                    <div class="sidebar-content card">
-                                                        <span class="sidebar-close-icon">
-                                                            <i class="feather icon-x"></i>
-                                                        </span>
-                                                        <div id="users-list" class="chat-user-list list-group position-relative">
-                                                            <div
-                                                            style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
-                                                            <i class="feather icon-arrow-left BackArr"
-                                                            style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
-                                                            <h3 class="primary p-1 mb-0">Chats</h3>
-                                                            <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
-                                                        </div>
-                                                        <ul class="chat-users-list-wrapper media-list" style="margin-bottom: 30px">
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+                <div class="sidebar-left">
+                    <div class="sidebar">
+                        <!-- Chat Sidebar area -->
+                        <div class="sidebar-content card">
+                            <span class="sidebar-close-icon">
+                                <i class="feather icon-x"></i>
+                            </span>
+                            <div id="users-list" class="chat-user-list list-group position-relative">
+                                <div
+                                    style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
+                                    <i class="feather icon-arrow-left BackArr"
+                                        style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
+                                    <h3 class="primary p-1 mb-0">Chats</h3>
+                                    <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button>
+                                </div>
+                                <ul class="chat-users-list-wrapper media-list" style="margin-bottom: 30px">
 
-                                                        </ul>
+                                </ul>
+                            </div>
+                            {{-- <span class='account-prof'>
+                                <h6 class="mb-0 "
+                                    style="max-width:200px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                </h6>
+                                <p><span class="price"></span> € VB</p>
+                            </span> --}}
+                        </div>
+                        <!--/ Chat Sidebar area -->
+
+                    </div>
+                </div>
+                <div class="content-right">
+                    <div class="content-wrapper">
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+                            <div class="chat-overlay"></div>
+                            <section class="chat-app-window">
+                                <div class="start-chat-area" data-conv-id="" data-id="">
+                                    <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
+                                            width="100px"></span>
+                                </div>
+                                <div class="active-chat">
+                                    <div class="chat_navbar">
+                                        <header class="chat_header d-grid p-1">
+                                            <div class="vs-con-items d-flex align-items-center justify-content-between">
+                                                <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
+                                                        class="feather icon-menu font-large-1"></i></div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar user-profile-toggle m-0 m-0">
+                                                        <img class="adImage buyerInitials" src="" alt="">
                                                     </div>
                                                     <span class='account-prof'>
                                                         <h6 class="mb-0 buyerName"
@@ -542,102 +544,22 @@ active
                                                         <p><span class="price"></span> € VB</p>
                                                     </span>
                                                 </div>
-                                                <!--/ Chat Sidebar area -->
-
-                                            </div>
-                                        </div>
-                                        <div class="content-right">
-                                            <div class="content-wrapper">
-                                                <div class="content-header row">
-                                                </div>
-                                                <div class="content-body">
-                                                    <div class="chat-overlay"></div>
-                                                    <section class="chat-app-window">
-                                                        <div class="start-chat-area" data-conv-id="" data-id="">
-                                                            <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
-                                                                width="100px"></span>
-                                                            </div>
-                                                            <div class="active-chat">
-                                                                <div class="chat_navbar">
-                                                                    <header class="chat_header d-grid p-1">
-                                                                        <div class="vs-con-items d-flex align-items-center justify-content-between">
-                                                                            <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
-                                                                                class="feather icon-menu font-large-1"></i></div>
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div class="avatar user-profile-toggle m-0 m-0">
-                                                                                        <img class="adImage buyerInitials" src="" alt="">
-                                                                                    </div>
-                                                                                    <span class='account-prof'>
-                                                                                        <h6 class="mb-0 buyerName"
-                                                                                        style="max-width:60px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                                                    </h6>
-                                                                                    <p><span class="price"></span> € VB</p>
-                                                                                </span>
-                                                                            </div>
-                                                                            <div class="">
-                                                                                <a href="" target="_blank" class="ad-link"> <span
-                                                                                    class="favorite-1"><i
-                                                                                    class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
-                                                                                    <span class="favorite-1 paypal" data-id=""><i
-                                                                                        class="fa-brands fa-paypal font-medium-5"></i></span>
-                                                                                        <span class="favorite-1"><i
-                                                                                            class="fa-solid fa-building-columns font-medium-5"></i></span>
-                                                                                            <span class="favorite-1 delete-chat"><i
-                                                                                                class="fa-regular fa-trash-can font-medium-5"></i></span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </header>
-                                                                                </div>
-                                                                                <div class="user-chats">
-                                                                                    <div class="chats append-chat">
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="chat-app-form">
-                                                                                    <form class="chat-app-input d-flex justify-content-between position-relative"
-                                                                                    onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
-                                                                                    <div class='position-relative'style='width: 70%;'>
-                                                                                        <textarea class="form-control message mr-1 ml-50 msg"
-                                                                                        id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
-                                                                                        {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
-                                                                                        id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
-                                                                                        <i class="type-icon fa fa-image" onclick="selectImage()"></i>
-                                                                                        <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
-                                                                                        alt="user_avatar">
-                                                                                    </div>
-                                                                                    <button type="button" class="btn btn-primary send"
-                                                                                    onclick="enter_chat();" style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
-                                                                                    <span class="">Senden</span></button>
-                                                                                </form>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </section>
-                                                                    <!-- User Chat profile right area -->
-                                                                    <div class="user-profile-sidebar">
-                                                                        <header class="user-profile-header">
-                                                                            <span class="close-icon">
-                                                                                <i class="feather icon-x"></i>
-                                                                            </span>
-                                                                            <div class="header-profile-sidebar">
-                                                                                <div class="avatar">
-                                                                                    <img class="adImage pop-up-initials" src="" alt=""
-                                                                                    width="35px">
-                                                                                </div>
-                                                                                <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
-                                                                            </div>
-                                                                        </header>
-                                                                        <div class="user-profile-sidebar-area p-2">
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--/ User Chat profile right area -->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="">
+                                                    <a href="" target="_blank" class="ad-link"> <span
+                                                            class="favorite-1"><i
+                                                                class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
+                                                    <span class="favorite-1 paypal" data-id=""><i
+                                                            class="fa-brands fa-paypal font-medium-5"></i></span>
+                                                    <span class="favorite-1"><i
+                                                            class="fa-solid fa-building-columns font-medium-5"></i></span>
+                                                    <span class="favorite-1 delete-chat"><i
+                                                            class="fa-regular fa-trash-can font-medium-5"></i></span>
                                                 </div>
                                             </div>
+                                        </header>
+                                    </div>
+                                    <div class="user-chats">
+                                        <div class="chats append-chat">
 
                                         </div>
                                     </div>
@@ -647,13 +569,13 @@ active
                                             <div class='position-relative'style='width: 70%;'>
                                                 <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                                 {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
-                                                    id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
+                                                                                        id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
                                             <button type="button" class="btn btn-primary send" onclick="enter_chat();"
-                                                style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                                                style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -686,500 +608,433 @@ active
         </div>
     </div>
 
+    </div>
+    </div>
+    {{-- <div class="chat-app-form">
+        <form class="chat-app-input d-flex justify-content-between position-relative" onsubmit="enter_chat();"
+            id="myform" action="javascript:void(0);">
+            <div class='position-relative'style='width: 70%;'>
+                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                <i class="type-icon fa fa-image" onclick="selectImage()"></i>
+                <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}" alt="user_avatar">
+            </div>
+            <button type="button" class="btn btn-primary send" onclick="enter_chat();"
+                style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                <span class="">Senden</span></button>
+        </form>
+    </div> --}}
+
+    </div>
+    </section>
+    <!-- User Chat profile right area -->
+    <div class="user-profile-sidebar">
+        <header class="user-profile-header">
+            <span class="close-icon">
+                <i class="feather icon-x"></i>
+            </span>
+            <div class="header-profile-sidebar">
+                <div class="avatar">
+                    <img class="adImage pop-up-initials" src="" alt="" width="35px">
+                </div>
+                <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
+            </div>
+        </header>
+        <div class="user-profile-sidebar-area p-2">
+
+        </div>
+    </div>
+    <!--/ User Chat profile right area -->
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
             // Function to add class based on screen size
-                                                    function addClassBasedOnSize() {
-                                                        var screenWidth = $(window).width();
+            function addClassBasedOnSize() {
+                var screenWidth = $(window).width();
 
-                                                        if (screenWidth >= 300 && screenWidth <= 768) {
-                                                            $('.sidebar-left, .content-right').addClass('special_class');
-                                                        } else {
-                                                            $('.sidebar-left, .content-right').removeClass('special_class');
-                                                        }
-                                                    }
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.sidebar-left, .content-right').addClass('special_class');
+                } else {
+                    $('.sidebar-left, .content-right').removeClass('special_class');
+                }
+            }
 
             // Function to handle click event
-                                                    $(document).on('click', '.ToggleBtn', function() {
-                                                        var screenWidth = $(window).width();
+            $(document).on('click', '.ToggleBtn', function() {
+                var screenWidth = $(window).width();
 
-                                                        if (screenWidth >= 300 && screenWidth <= 768) {
-                                                            $('.special_class').css('display', 'block');
-                                                            $('.AcountsDetail').css('display', 'none');
-                                                        } else {
-                                                            $('.special_class').css('display', 'none');
-                                                            $('.AcountsDetail').css('display', 'block');
-                                                        }
-                                                    });
-                                                    $(document).on('click', '.BackArr', function() {
-                                                        var screenWidth = $(window).width();
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.special_class').css('display', 'block');
+                    $('.AcountsDetail').css('display', 'none');
+                } else {
+                    $('.special_class').css('display', 'none');
+                    $('.AcountsDetail').css('display', 'block');
+                }
+            });
+            $(document).on('click', '.BackArr', function() {
+                var screenWidth = $(window).width();
 
-                                                        if (screenWidth >= 300 && screenWidth <= 768) {
-                                                            $('.special_class').css('display', 'none');
-                                                            $('.AcountsDetail').css('display', 'block');
-                                                        } else {
-                                                            $('.special_class').css('display', 'block');
-                                                            $('.AcountsDetail').css('display', 'none');
-                                                        }
-                                                    });
+                if (screenWidth >= 300 && screenWidth <= 768) {
+                    $('.special_class').css('display', 'none');
+                    $('.AcountsDetail').css('display', 'block');
+                } else {
+                    $('.special_class').css('display', 'block');
+                    $('.AcountsDetail').css('display', 'none');
+                }
+            });
 
             // Call the function on document ready and on window resize
-                                                    addClassBasedOnSize();
-                                                    $(window).resize(addClassBasedOnSize);
-                                                });
-                                            </script>
-                                            <script>
-                                                $(document).ready(function() {
-                                                    var addAccountBtn = $('#addAccountBtn');
-                                                    var chatBtn = $('.chat-btn');
-                                                    var updateAccountBtn = $('#updateAccountBtn');
+            addClassBasedOnSize();
+            $(window).resize(addClassBasedOnSize);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var addAccountBtn = $('#addAccountBtn');
+            var chatBtn = $('.chat-btn');
+            var updateAccountBtn = $('#updateAccountBtn');
 
-                                                    var storedCountdown = localStorage.getItem('countdown');
-                                                    if (storedCountdown && new Date(storedCountdown) > new Date()) {
-                                                        var remainingSeconds = Math.floor((new Date(storedCountdown) - new Date()) / 1000);
-                                                        startCooldownTimer(remainingSeconds, addAccountBtn, function() {
-                                                            addAccountBtn.text('Neuen Account hinzufügen');
-                                                            addAccountBtn.prop('disabled', false);
-                                                            localStorage.removeItem('countdown');
-                                                        });
-                                                        addAccountBtn.prop('disabled', true);
-                                                    }
+            var storedCountdown = localStorage.getItem('countdown');
+            if (storedCountdown && new Date(storedCountdown) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, addAccountBtn, function() {
+                    addAccountBtn.text('Neuen Account hinzufügen');
+                    addAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown');
+                });
+                addAccountBtn.prop('disabled', true);
+            }
 
-                                                    $(document).on('click', '#addAccountBtn', function() {
-                                                       var text = $(this).text();
-                                                       var containsNumber = /\d/.test(text);
-                                                       if(containsNumber){
-                                                        return;
-                                                    }
-                                                    localStorage.setItem('countdown', new Date(Date.now() + 60000).toISOString());
+            $(document).on('click', '#addAccountBtn', function() {
+                var text = $(this).text();
+                var containsNumber = /\d/.test(text);
+                if (containsNumber) {
+                    return;
+                }
+                localStorage.setItem('countdown', new Date(Date.now() + 60000).toISOString());
 
-                                                    $.ajax({
-                                                        url: '{{ route('assign') }}',
-                                                        type: 'GET',
-                                                        success: function(data) {
-                                                            $('.scrol-custom').empty().append(data.component);
-                                                            if (data.success) {
+                $.ajax({
+                    url: '{{ route('assign') }}',
+                    type: 'GET',
+                    success: function(data) {
+                        $('.scrol-custom').empty().append(data.component);
+                        if (data.success) {
                             // toastr.success(data.success);
-                                                                toastr.success(data.success, '', {
-                                                                    onShown: function() {
-                                                                        $('.toast-success').css({
-                                                                            'background-color': '#4CAF50',
-                                                                            'color': '#ffffff'
-                                                                        });
-                                                                    }
-                                                                });
-                                                            } else if (data.error) {
-                                                                toastr.error(data.error, '', {
-                                                                    onShown: function() {
-                                                                        $('.toast-error').css({
-                                                                            'background-color': 'rgb(163, 23, 23)',
-                                                                            'color': '#ffffff'
-                                                                        });
-                                                                    }
-                                                                });
-                                                            }
-                                                        },
-                                                        error: function(error) {
-                                                            console.error(error);
-                                                        },
-                                                    });
+                            toastr.success(data.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else if (data.error) {
+                            toastr.error(data.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
 
-                                                    startCooldownTimer(60, addAccountBtn, function() {
-                                                        addAccountBtn.text('Neuen Account hinzufügen');
-                                                        addAccountBtn.prop('disabled', false);
-                                                        localStorage.removeItem('countdown');
-                                                    });
+                startCooldownTimer(60, addAccountBtn, function() {
+                    addAccountBtn.text('Neuen Account hinzufügen');
+                    addAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown');
+                });
 
-                                                    addAccountBtn.prop('disabled', true);
-                                                });
+                addAccountBtn.prop('disabled', true);
+            });
 
-                                                    var storedCountdown2 = localStorage.getItem('countdown2');
-                                                    if (storedCountdown2 && new Date(storedCountdown2) > new Date()) {
-                                                        var remainingSeconds = Math.floor((new Date(storedCountdown2) - new Date()) / 1000);
-                                                        startCooldownTimer(remainingSeconds, updateAccountBtn, function() {
-                                                            updateAccountBtn.text('Accounts aktualisieren');
-                                                            updateAccountBtn.prop('disabled', false);
-                                                            localStorage.removeItem('countdown2');
-                                                        });
-                                                        updateAccountBtn.prop('disabled', true);
-                                                    }
+            var storedCountdown2 = localStorage.getItem('countdown2');
+            if (storedCountdown2 && new Date(storedCountdown2) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown2) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, updateAccountBtn, function() {
+                    updateAccountBtn.text('Accounts aktualisieren');
+                    updateAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown2');
+                });
+                updateAccountBtn.prop('disabled', true);
+            }
 
-                                                    $(document).on('click', '#updateAccountBtn', function() {
-                                                        var text = $(this).text();
-                                                        var containsNumber = /\d/.test(text);
-                                                        if(containsNumber){
-                                                            return;
-                                                        }
-                                                        localStorage.setItem('countdown2', new Date(Date.now() + 60000).toISOString());
-                                                        $.ajax({
-                                                            url: '{{ route('reload') }}',
-                                                            type: 'GET',
-                                                            success: function(data) {
-                                                                $('.scrol-custom').empty().append(data.component);
-                                                                $('.start-chat-area').removeClass('d-none');
+            $(document).on('click', '#updateAccountBtn', function() {
+                var text = $(this).text();
+                var containsNumber = /\d/.test(text);
+                if (containsNumber) {
+                    return;
+                }
+                localStorage.setItem('countdown2', new Date(Date.now() + 60000).toISOString());
+                $.ajax({
+                    url: '{{ route('reload') }}',
+                    type: 'GET',
+                    success: function(data) {
+                        $('.scrol-custom').empty().append(data.component);
+                        $('.start-chat-area').removeClass('d-none');
                         // $('.list-style').addClass('d-none');
-                                                                $('.media-list').empty();
-                                                                $('.chat-btn').addClass('d-none');
-                                                            },
-                                                            error: function(error) {
-                                                                console.error(error);
-                                                            },
-                                                        });
-                                                        startCooldownTimer(60, updateAccountBtn, function() {
-                                                            updateAccountBtn.text('Accounts aktualisieren');
-                                                            updateAccountBtn.prop('disabled', false);
-                                                            localStorage.removeItem('countdown2');
-                                                        });
-                                                        updateAccountBtn.prop('disabled', true);
-                                                    });
+                        $('.media-list').empty();
+                        $('.chat-btn').addClass('d-none');
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+                startCooldownTimer(60, updateAccountBtn, function() {
+                    updateAccountBtn.text('Accounts aktualisieren');
+                    updateAccountBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown2');
+                });
+                updateAccountBtn.prop('disabled', true);
+            });
 
-                                                    var storedCountdown3 = localStorage.getItem('countdown3');
-                                                    if (storedCountdown3 && new Date(storedCountdown3) > new Date()) {
-                                                        var remainingSeconds = Math.floor((new Date(storedCountdown3) - new Date()) / 1000);
-                                                        startCooldownTimer(remainingSeconds, chatBtn, function() {
-                                                            chatBtn.text('Chats aktualisieren');
-                                                            chatBtn.prop('disabled', false);
-                                                            localStorage.removeItem('countdown3');
-                                                        });
-                                                        chatBtn.prop('disabled', true);
-                                                    }
+            var storedCountdown3 = localStorage.getItem('countdown3');
+            if (storedCountdown3 && new Date(storedCountdown3) > new Date()) {
+                var remainingSeconds = Math.floor((new Date(storedCountdown3) - new Date()) / 1000);
+                startCooldownTimer(remainingSeconds, chatBtn, function() {
+                    chatBtn.text('Chats aktualisieren');
+                    chatBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown3');
+                });
+                chatBtn.prop('disabled', true);
+            }
 
-                                                    $(document).on('click', '.chat-btn', function() {
-                                                     var text = $(this).text();
-                                                     var containsNumber = /\d/.test(text);
-                                                     if(containsNumber){
-                                                        return;
-                                                    }
-                                                    localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
+            $(document).on('click', '.chat-btn', function() {
+                var text = $(this).text();
+                var containsNumber = /\d/.test(text);
+                if (containsNumber) {
+                    return;
+                }
+                localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
 
-                                                    var id = $('.list-style.active').attr('data-id');
+                var id = $('.list-style.active').attr('data-id');
 
-                                                    $.ajax({
-                                                        type: 'get',
-                                                        url: '{{ route('conversation') }}',
-                                                        data: {
-                                                            id: id
-                                                        },
-                                                        success: function(response) {
-                                                            $('.media-list').empty().append(response.component);
-                                                            $('.start-chat-area').removeClass('d-none');
-                                                        },
-                                                        error: function(error) {
-                                                            console.error(error);
-                                                        }
-                                                    });
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('conversation') }}',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        $('.media-list').empty().append(response.component);
+                        $('.start-chat-area').removeClass('d-none');
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
 
-                                                    startCooldownTimer(60, chatBtn, function() {
-                                                        chatBtn.text('Chats aktualisieren');
-                                                        chatBtn.prop('disabled', false);
-                                                        localStorage.removeItem('countdown3');
-                                                    });
+                startCooldownTimer(60, chatBtn, function() {
+                    chatBtn.text('Chats aktualisieren');
+                    chatBtn.prop('disabled', false);
+                    localStorage.removeItem('countdown3');
+                });
 
-                                                    chatBtn.prop('disabled', true);
-                                                });
+                chatBtn.prop('disabled', true);
+            });
 
-                                                    function startCooldownTimer(seconds, button, callback) {
-                                                        var countdown = seconds;
+            function startCooldownTimer(seconds, button, callback) {
+                var countdown = seconds;
 
-                                                        var timer = setInterval(function() {
-                                                            if (countdown <= 0) {
-                                                                clearInterval(timer);
-                                                                callback();
-                                                            } else {
-                                                                button.text('Accounts aktualisieren ' + countdown + 's');
-                                                            }
-                                                            countdown--;
-                                                        }, 1000);
-                                                    }
-                                                });
-                                            </script>
+                var timer = setInterval(function() {
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        callback();
+                    } else {
+                        button.text('Accounts aktualisieren ' + countdown + 's');
+                    }
+                    countdown--;
+                }, 1000);
+            }
+        });
+    </script>
 
-                                            <script>
-                                                $(document).ready(function() {
-                                                    $(document).on('click', '.list-style', function() {
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.list-style', function() {
 
-                                                        $(".list-style").removeClass("active");
-                                                        $(".list-style .initials").css('background-color', '');
+                $(".list-style").removeClass("active");
+                $(".list-style .initials").css('background-color', '');
 
-                                                        $(this).addClass("active");
-                                                        $(this).children('.initials').css('background-color', '#10163A');
+                $(this).addClass("active");
+                $(this).children('.initials').css('background-color', '#10163A');
 
-                                                        $('.chat-btn').removeClass('d-none');
+                $('.chat-btn').removeClass('d-none');
 
-                                                        var spanValue = $(this).find('span').text();
-                                                        var id = $(this).attr('data-id');
+                var spanValue = $(this).find('span').text();
+                var id = $(this).attr('data-id');
 
-                                                        $.ajax({
-                                                            type: 'get',
-                                                            url: '{{ route('conversation') }}',
-                                                            data: {
-                                                                id: id,
-                                                            },
-                                                            success: function(response) {
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('conversation') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function(response) {
 
-                                                                if (response.hasOwnProperty('error')) {
+                        if (response.hasOwnProperty('error')) {
 
-                                                                    $('.start-chat-area').removeClass('d-none');
-                                                                    $('.active-chat').addClass('d-none');
-                                                                    $('.media-list').empty();
-                                                                    $('.chat-btn').addClass('d-none');
+                            $('.start-chat-area').removeClass('d-none');
+                            $('.active-chat').addClass('d-none');
+                            $('.media-list').empty();
+                            $('.chat-btn').addClass('d-none');
 
-                                                                    toastr.error(response.error, '', {
-                                                                        onShown: function() {
-                                                                            $('.toast-error').css({
-                                                                                'background-color': 'rgb(163, 23, 23)',
-                                                                                'color': '#ffffff'
-                                                                            });
-                                                                        }
-                                                                    });
-                                                                } else {
-                                                                    $('.start-chat-area').removeClass('d-none');
-                                                                    $('.active-chat').addClass('d-none');
-                                                                    $('.media-list').empty().append(response.component);
-                                                                }
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else {
+                            $('.start-chat-area').removeClass('d-none');
+                            $('.active-chat').addClass('d-none');
+                            $('.media-list').empty().append(response.component);
+                        }
 
-                                                            },
-                                                            error: function(error) {
+                    },
+                    error: function(error) {
 
-                                                                toastr.error('An error occurred. Please try again.');
-                                                                console.error(error);
-                                                            }
-                                                        });
-                                                    });
+                        toastr.error('An error occurred. Please try again.');
+                        console.error(error);
+                    }
+                });
+            });
 
-                                                    $(document).on('click', '.messages', function() {
-                                                        $(".messages").removeClass("active");
-                                                        $(".messages .initials").css('background-color', '');
+            $(document).on('click', '.messages', function() {
+                $(".messages").removeClass("active");
+                $(".messages .initials").css('background-color', '');
 
-                                                        $(this).addClass("active");
-                                                        $(this).find('.pr-1 .initials').css('background-color', '#10163A');
+                $(this).addClass("active");
+                $(this).find('.pr-1 .initials').css('background-color', '#10163A');
 
-                                                        var id = $(this).attr('data-id');
-                                                        var conv_id = $(this).attr('data-conv-id');
+                var id = $(this).attr('data-id');
+                var conv_id = $(this).attr('data-conv-id');
                 // var chatContainer = $('.append-chat')[0];
-                                                        $('.ps__rail-y').css({
-                                                            'top': '0px',
-                                                            'height': '0px',
-                                                            'right': '0px'
-                                                        });
-                                                        $.ajax({
-                                                            type: 'get',
-                                                            url: '{{ route('messages') }}',
-                                                            data: {
-                                                                id: id,
-                                                                conv_id: conv_id,
-                                                            },
-                                                            success: function(response) {
-
-                                                                if (response.hasOwnProperty('error')) {
-
-                                                                    toastr.error(response.error, '', {
-                                                                        onShown: function() {
-                                                                            $('.toast-error').css({
-                                                                                'background-color': 'rgb(163, 23, 23)',
-                                                                                'color': '#ffffff'
-                                                                            });
-                                                                        }
-                                                                    });
-                                                                } else {
-                                                                    $('.active-chat').removeClass('d-none');
-                                                                    $('.start-chat-area').addClass('d-none');
-                                                                    $('.append-chat').empty().append(response.component);
-
-                                                                    $('.buyerInitials').attr('src', response.adImage);
-                                                                    $('.ad-link').attr('href', response.adLink);
-                                                                    $('.buyerName').text(response.adTitle);
-                                                                    $('.pop-up-initials').attr('src', response.adImage);
-                                                                    $('.pop-up-name').text(response.adTitle);
-                                                                    $('.price').text(response.adPrice);
-                                                                    $('.paypal').attr('data-id', response.client_id);
-                                                                    $('.start-chat-area').attr('data-conv-id', response.conv_id);
-                                                                    $('.start-chat-area').attr('data-id', response.account_id);
-                                                                    if (response.available == true) {
-                                                                        $('.paypal').css('color', 'goldenrod');
-                                                                    } else {
-                                                                        $('.paypal').css('color', '');
-                                                                    }
-                                                                    setTimeout(function() {
-                                                                        var chatContainer = $('.user-chats')[0];
-                                                                        chatContainer.scrollTop = chatContainer.scrollHeight;
-                                                                    }, 100);
-                                                                }
-
-                                                            },
-                                                            error: function(error) {
-                                                                console.error(error);
-                                                            }
-                                                        });
-});
-});
-</script>
-<script>
-    $(document).on('click', '.paypal', function() {
-        var currentColor = $(this).css('color');
-        if (currentColor === 'rgb(218, 165, 32)') {
-            deletePaymentEntry();
-            $(this).css('color', '');
-        } else {
-            uploadPayment();
-            $(this).css('color', 'goldenrod');
-        }
-    });
-
-    function uploadPayment() {
-        var id = $('.start-chat-area').attr('data-id');
-        var conv_id = $('.start-chat-area').attr('data-conv-id');
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            type: 'post',
-            url: '{{ route('upload.payment') }}',
-            data: {
-                id: id,
-                conv_id: conv_id
-            },
-            success: function(response) {
-                if (response.success) {
-                    toastr.success(response.success, '', {
-                        onShown: function() {
-                            $('.toast-success').css({
-                                'background-color': '#4CAF50',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                } else if (response.error) {
-                    toastr.error(response.error, '', {
-                        onShown: function() {
-                            $('.toast-error').css({
-                                'background-color': 'rgb(163, 23, 23)',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                }
-            },
-            error: function(error) {
-                toastr.error(error);
-            }
-        });
-    }
-
-    function deletePaymentEntry() {
-        var id = $('.paypal').attr('data-id');
-        $.ajax({
-            type: 'get',
-            url: '{{ route('remove.payment') }}',
-            data: {
-                id: id
-            },
-            success: function(response) {
-                if (response.success) {
-                    toastr.success(response.success, '', {
-                        onShown: function() {
-                            $('.toast-success').css({
-                                'background-color': '#4CAF50',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                } else if (response.error) {
-                    toastr.error(response.error, '', {
-                        onShown: function() {
-                            $('.toast-error').css({
-                                'background-color': 'rgb(163, 23, 23)',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                }
-            },
-            error: function(error) {
-                toastr.error(error);
-            }
-        });
-    }
-</script>
-<script>
-    $(document).on('click', '.delete-chat', function() {
-        var id = $('.start-chat-area').attr('data-id');
-        var conv_id = $('.start-chat-area').attr('data-conv-id');
-        $.ajax({
-            type: 'get',
-            url: '{{ route('delete.conversation') }}',
-            data: {
-                conv_id: conv_id,
-                id: id,
-            },
-            success: function(response) {
-                $('.start-chat-area').removeClass('d-none');
-                $('.active-chat').addClass('d-none');
-                $('.list-style').removeClass('active');
-                $('.append-chat').empty();
-                $('.media-list').empty();
-                $('.chat-btn').addClass('d-none');
-
-                if (response.success) {
-                    toastr.success(response.success, '', {
-                        onShown: function() {
-                            $('.toast-success').css({
-                                'background-color': '#4CAF50',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                } else if (response.error) {
-                    toastr.error(response.error, '', {
-                        onShown: function() {
-                            $('.toast-error').css({
-                                'background-color': 'rgb(163, 23, 23)',
-                                'color': '#ffffff'
-                            });
-                        }
-                    });
-                }
-            },
-            error: function(error) {
-
-                console.error(error);
-            }
-        });
-    })
-</script>
-<script>
-    $(document).ready(function() {
-        function refresh() {
-            if ($('.start-chat-area').hasClass('d-none')) {
-                var id = $('.start-chat-area').attr('data-id');
-                var conv_id = $('.start-chat-area').attr('data-conv-id');
-
+                $('.ps__rail-y').css({
+                    'top': '0px',
+                    'height': '0px',
+                    'right': '0px'
+                });
                 $.ajax({
                     type: 'get',
                     url: '{{ route('messages') }}',
                     data: {
-                        conv_id: conv_id,
                         id: id,
+                        conv_id: conv_id,
                     },
                     success: function(response) {
-                        $('.append-chat').empty().append(response.component);
-                        setTimeout(function() {
-                            var chatContainer = $('.user-chats')[0];
-                            chatContainer.scrollTop = chatContainer.scrollHeight;
-                        }, 100);
+
+                        if (response.hasOwnProperty('error')) {
+
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else {
+                            $('.active-chat').removeClass('d-none');
+                            $('.start-chat-area').addClass('d-none');
+                            $('.append-chat').empty().append(response.component);
+
+                            $('.buyerInitials').attr('src', response.adImage);
+                            $('.ad-link').attr('href', response.adLink);
+                            $('.buyerName').text(response.adTitle);
+                            $('.pop-up-initials').attr('src', response.adImage);
+                            $('.pop-up-name').text(response.adTitle);
+                            $('.price').text(response.adPrice);
+                            $('.paypal').attr('data-id', response.client_id);
+                            $('.start-chat-area').attr('data-conv-id', response.conv_id);
+                            $('.start-chat-area').attr('data-id', response.account_id);
+                            if (response.available == true) {
+                                $('.paypal').css('color', 'goldenrod');
+                            } else {
+                                $('.paypal').css('color', '');
+                            }
+                            setTimeout(function() {
+                                var chatContainer = $('.user-chats')[0];
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 100);
+                        }
+
                     },
                     error: function(error) {
-
                         console.error(error);
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.paypal', function() {
+            var currentColor = $(this).css('color');
+            if (currentColor === 'rgb(218, 165, 32)') {
+                deletePaymentEntry();
+                $(this).css('color', '');
+            } else {
+                uploadPayment();
+                $(this).css('color', 'goldenrod');
             }
+        });
+
+        function uploadPayment() {
+            var id = $('.start-chat-area').attr('data-id');
+            var conv_id = $('.start-chat-area').attr('data-conv-id');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('upload.payment') }}',
+                data: {
+                    id: id,
+                    conv_id: conv_id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.success, '', {
+                            onShown: function() {
+                                $('.toast-success').css({
+                                    'background-color': '#4CAF50',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    } else if (response.error) {
+                        toastr.error(response.error, '', {
+                            onShown: function() {
+                                $('.toast-error').css({
+                                    'background-color': 'rgb(163, 23, 23)',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    }
+                },
+                error: function(error) {
+                    toastr.error(error);
+                }
+            });
         }
 
         function deletePaymentEntry() {
@@ -1216,7 +1071,117 @@ active
                 }
             });
         }
-    });
+    </script>
+    <script>
+        $(document).on('click', '.delete-chat', function() {
+            var id = $('.start-chat-area').attr('data-id');
+            var conv_id = $('.start-chat-area').attr('data-conv-id');
+            $.ajax({
+                type: 'get',
+                url: '{{ route('delete.conversation') }}',
+                data: {
+                    conv_id: conv_id,
+                    id: id,
+                },
+                success: function(response) {
+                    $('.start-chat-area').removeClass('d-none');
+                    $('.active-chat').addClass('d-none');
+                    $('.list-style').removeClass('active');
+                    $('.append-chat').empty();
+                    $('.media-list').empty();
+                    $('.chat-btn').addClass('d-none');
+
+                    if (response.success) {
+                        toastr.success(response.success, '', {
+                            onShown: function() {
+                                $('.toast-success').css({
+                                    'background-color': '#4CAF50',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    } else if (response.error) {
+                        toastr.error(response.error, '', {
+                            onShown: function() {
+                                $('.toast-error').css({
+                                    'background-color': 'rgb(163, 23, 23)',
+                                    'color': '#ffffff'
+                                });
+                            }
+                        });
+                    }
+                },
+                error: function(error) {
+
+                    console.error(error);
+                }
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            function refresh() {
+                if ($('.start-chat-area').hasClass('d-none')) {
+                    var id = $('.start-chat-area').attr('data-id');
+                    var conv_id = $('.start-chat-area').attr('data-conv-id');
+
+                    $.ajax({
+                        type: 'get',
+                        url: '{{ route('messages') }}',
+                        data: {
+                            conv_id: conv_id,
+                            id: id,
+                        },
+                        success: function(response) {
+                            $('.append-chat').empty().append(response.component);
+                            setTimeout(function() {
+                                var chatContainer = $('.user-chats')[0];
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 100);
+                        },
+                        error: function(error) {
+
+                            console.error(error);
+                        }
+                    });
+                }
+            }
+
+            function deletePaymentEntry() {
+                var id = $('.paypal').attr('data-id');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('remove.payment') }}',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else if (response.error) {
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        toastr.error(error);
+                    }
+                });
+            }
+        });
     </script>
     <script>
         $(document).on('click', '.delete-chat', function() {
@@ -1292,7 +1257,7 @@ active
                 }
             }
             // setInterval(refresh, 20000);
-    })
-</script>
+        })
+    </script>
 
 @endsection
