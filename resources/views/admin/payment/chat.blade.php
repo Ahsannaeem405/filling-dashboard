@@ -61,9 +61,11 @@
             position: absolute;
             right: 95px;
         }
-
+        .emojionearea-editor::-webkit-scrollbar {
+            width: 0px !important;
+        }
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 27rem) !important;
         }
 
         .content-right {
@@ -88,7 +90,7 @@
 
         .type-icon {
             position: absolute;
-            right: 2%;
+            right: 1%;
             top: 7px;
             cursor: pointer;
         }
@@ -156,7 +158,9 @@
         }
 
         .chat-app-form {
-            height: 80px;
+            height: 100%;
+            min-height: 10rem;
+            max-height: 10rem;
         }
 
         .chat-app-input {
@@ -166,9 +170,11 @@
         .chat-application .chat-app-form {
             padding: 7px 10px !important;
         }
-        .emojionearea .emojionearea-editor{
+
+        .emojionearea .emojionearea-editor {
             min-height: 2em;
-            max-height: 8em;
+            max-height: 5em;
+            width: 53em;
         }
     </style>
 
@@ -229,9 +235,17 @@
                                                                     @endphp
                                                                     <img src="{{ $src }}" width="185px"
                                                                         class="selected-image">
-                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                    @if (isset($message['textShort']))
+                                                                        @foreach (explode(PHP_EOL, $message['textShort']) as $line)
+                                                                            <p>{{ $line }}</p>
+                                                                        @endforeach
+                                                                    @endif
                                                                 @else
-                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                    @if (isset($message['textShort']))
+                                                                        @foreach (explode(PHP_EOL, $message['textShort']) as $line)
+                                                                            <p>{{ $line }}</p>
+                                                                        @endforeach
+                                                                    @endif
                                                                 @endif
                                                                 <p>
                                                                     <span
@@ -261,9 +275,17 @@
                                                                     @endphp
                                                                     <img src="{{ $src }}" width="185px"
                                                                         class="selected-image">
-                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                    @if (isset($message['textShort']))
+                                                                        @foreach (explode(PHP_EOL, $message['textShort']) as $line)
+                                                                            <p>{{ $line }}</p>
+                                                                        @endforeach
+                                                                    @endif
                                                                 @else
-                                                                    <p>{{ $message['textShort'] }}</p>
+                                                                    @if (isset($message['textShort']))
+                                                                        @foreach (explode(PHP_EOL, $message['textShort']) as $line)
+                                                                            <p>{{ $line }}</p>
+                                                                        @endforeach
+                                                                    @endif
                                                                 @endif
                                                                 <p>
                                                                     <span
@@ -303,16 +325,15 @@
                                         <form class="chat-app-input d-flex justify-content-between position-relative"
                                             onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
                                             <div class='position-relative'style='width: 70%;'>
-                                                <textarea class="form-control message mr-1 ml-50 msg"
-                                                id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                                 {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
                                                     id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                     alt="user_avatar">
                                             </div>
-                                            <button type="button" class="btn btn-primary send"
-                                                onclick="enter_chat();" style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                                            <button type="button" class="btn btn-primary send" onclick="enter_chat();"
+                                                style="height: 33px"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -376,9 +397,8 @@
                 var imageHtml = image ? '<img src="' + URL.createObjectURL(image) +
                     '" width="185px" class="selected-image">' : '';
 
-                var messageHtml = '<div class="chat-content">' +
-                    "<p>" + message + "</p>" +
-                    imageHtml +
+                var messageHtml = '<div class="chat-content">' + imageHtml +
+                    "<p>" + message.split('\n').join('</p><p>') + "</p>" +
                     "<p>" + timeHtml + "</p>" +
                     "</div>";
 

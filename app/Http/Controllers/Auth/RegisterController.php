@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'status' => 'in-active',
             'role' => 'user',
             'limit' => '20',
-            'last_login' => Carbon::now()->format('d-m-Y H:i')
+            'last_login' => Carbon::now()->format('d.m.Y, H:i')
         ]);
     }
 }

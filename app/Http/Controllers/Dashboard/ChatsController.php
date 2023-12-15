@@ -71,7 +71,7 @@ class ChatsController extends Controller
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conv_msg_api}");
-            
+            // dd($data->json());
             $adTitle = $account->adTitle;
             $adImage = $account->adPic;
             $adPrice = $account->adPrice;
@@ -100,6 +100,7 @@ class ChatsController extends Controller
 
     public function SendMessages(Request $request)
     {
+        dd(1);
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;

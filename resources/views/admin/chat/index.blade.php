@@ -38,7 +38,6 @@
         </style>
     @endif
     <style>
-
         .chat-application .chat-app-window .start-chat-area {
             height: calc(var(--vh, 1vh) * 100 - 5.5rem) !important;
         }
@@ -57,7 +56,7 @@
         }
 
         .chat-application .chat-app-window .user-chats {
-            height: calc(var(--vh, 1vh) * 100 - 17rem) !important;
+            height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
         }
 
         .scrol-custom::-webkit-scrollbar {
@@ -178,7 +177,7 @@
 
         .type-icon {
             position: absolute;
-            right: 5%;
+            right: 3%;
             top: 7px;
             cursor: pointer;
         }
@@ -292,10 +291,6 @@
             margin: 7px;
             cursor: pointer;
         }
-
-        /* .favorite-1:hover {
-                                                color: goldenrod;
-                                            } */
 
         .custom-success-toast {
             background-color: #4CAF50;
@@ -426,12 +421,30 @@
         }
 
         .chat-application .chat-app-form {
-            padding: 7px 10px !important;
+            padding: 18px 10px !important;
+        }
+
+        .chat-app-form {
+            height: 100%;
+            min-height: 10rem;
+            max-height: 10rem;
         }
 
         .emojionearea .emojionearea-editor {
             min-height: 2em;
-            max-height: 8em;
+            max-height: 5em;
+            width: 19em;
+        }
+
+        .emojionearea-editor::-webkit-scrollbar {
+            width: 0px !important;
+        }
+        .fa-rectangle-ad{
+            color: #C2C6DC;
+        }
+
+        .emojionearea-editor {
+            color: white !important;
         }
     </style>
     @if (Auth::user()->status == 'in-active')
@@ -455,7 +468,7 @@
 
                     </div>
                     <div class="scrol-custom">
-                        <ul>
+                        <ul style="margin-bottom: 20px">
                             @if (isset($accounts))
                                 @foreach ($accounts as $account)
                                     <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
@@ -545,9 +558,9 @@
                                                     </span>
                                                 </div>
                                                 <div class="">
-                                                    <a href="" target="_blank" class="ad-link"> <span
-                                                            class="favorite-1"><i
-                                                                class="fa-solid fa-rectangle-ad font-medium-5"></i></span></a>
+                                                    <span class="favorite-1 link-id" data-id="">
+                                                        <a href="" target="_blank" class="fa-solid fa-rectangle-ad font-medium-5"></a>
+                                                    </span>
                                                     <span class="favorite-1 paypal" data-id=""><i
                                                             class="fa-brands fa-paypal font-medium-5"></i></span>
                                                     <span class="favorite-1"><i
@@ -572,10 +585,10 @@
                                                                                         id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
                                                 <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
-                                                    alt="user_avatar">
+                                                    alt="user_avatar" for="emojionearea-button">
                                             </div>
                                             <button type="button" class="btn btn-primary send" onclick="enter_chat();"
-                                                style="height: 45px; margin:auto"><i class="fa fa-paper-plane-o"></i>
+                                                style="height: 33px"><i class="fa fa-paper-plane-o"></i>
                                                 <span class="">Senden</span></button>
                                         </form>
                                     </div>
@@ -610,19 +623,6 @@
 
     </div>
     </div>
-    {{-- <div class="chat-app-form">
-        <form class="chat-app-input d-flex justify-content-between position-relative" onsubmit="enter_chat();"
-            id="myform" action="javascript:void(0);">
-            <div class='position-relative'style='width: 70%;'>
-                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
-                <i class="type-icon fa fa-image" onclick="selectImage()"></i>
-                <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}" alt="user_avatar">
-            </div>
-            <button type="button" class="btn btn-primary send" onclick="enter_chat();"
-                style="height: 33px; margin:auto"><i class="fa fa-paper-plane-o"></i>
-                <span class="">Senden</span></button>
-        </form>
-    </div> --}}
 
     </div>
     </section>
@@ -853,7 +853,9 @@
                         clearInterval(timer);
                         callback();
                     } else {
-                        button.text('Accounts aktualisieren ' + countdown + 's');
+                        var text = button.text();
+                        var updatedText = text.replace(/\d+s\s*/, '');
+                        button.text(updatedText + ' ' + countdown + 's');
                     }
                     countdown--;
                 }, 1000);
@@ -954,7 +956,8 @@
                             $('.append-chat').empty().append(response.component);
 
                             $('.buyerInitials').attr('src', response.adImage);
-                            $('.ad-link').attr('href', response.adLink);
+                            $('.fa-rectangle-ad').attr('href', response.adLink);
+                            $('.link-id').attr('data-id', response.client_id);
                             $('.buyerName').text(response.adTitle);
                             $('.pop-up-initials').attr('src', response.adImage);
                             $('.pop-up-name').text(response.adTitle);
@@ -1256,7 +1259,7 @@
                     });
                 }
             }
-            // setInterval(refresh, 20000);
+            setInterval(refresh, 20000);
         })
     </script>
 
