@@ -56,6 +56,7 @@ class PaymentsController extends Controller
                 $payment->conv_id = $conv_id;
                 $payment->client_name = $data['buyerName'];
                 $payment->price = $data['adPriceInEuroCent'] / 100;
+                $payment->payment_method = $request->method;
                 $payment->save();
             } else {
                 $new = new Payment();
@@ -65,6 +66,7 @@ class PaymentsController extends Controller
                 $new->conv_id = $conv_id;
                 $new->client_name = $data['buyerName'];
                 $new->price = $data['adPriceInEuroCent'] / 100;
+                $new->payment_method = $request->method;
                 $new->save();
             }
     
@@ -118,11 +120,16 @@ class PaymentsController extends Controller
                 ->get("{$conv_msg_api}");
             $data = $data->json();
 
-            if (Auth::user()->role == 'admin') {
-                return view('admin.payment.chat', compact('data', 'account'));
-            } else {
-                return view('admin.payment.user_side.chat', compact('data', 'account'));
+            if(!empty($data)){
+                if (Auth::user()->role == 'admin') {
+                    return view('admin.payment.chat', compact('data', 'account'));
+                } else {
+                    return view('admin.payment.user_side.chat', compact('data', 'account'));
+                }
+            }else{
+                return back()->with('error','An error occurred. Please try again.');
             }
+            
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);

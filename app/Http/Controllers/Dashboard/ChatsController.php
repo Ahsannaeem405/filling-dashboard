@@ -40,7 +40,7 @@ class ChatsController extends Controller
             
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-    
+            
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
@@ -78,9 +78,13 @@ class ChatsController extends Controller
             $client_id = $data['userIdBuyer'];
             $adLink = $account->adLink;
             
-            $payment = Payment::pluck('conv_id');
-            if($payment){
-                $available = $payment->contains($data['id']);
+            $paypal = Payment::where('payment_method','paypal')->pluck('conv_id');
+            $bank = Payment::where('payment_method','bank')->pluck('conv_id');
+            if($paypal){
+                $paypal = $paypal->contains($data['id']);
+            }
+            if($bank){
+                $bank = $bank->contains($data['id']);
             }
             return response()->json([
                 'component' => view('admin.chat.messages', compact('data', 'account'))->render(),
@@ -91,7 +95,8 @@ class ChatsController extends Controller
                 'account_id' => $id,
                 'client_id' => $client_id,
                 'adLink' => $adLink,
-                'available' => $available,
+                'paypal' => $paypal,
+                'bank' => $bank,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
@@ -100,7 +105,6 @@ class ChatsController extends Controller
 
     public function SendMessages(Request $request)
     {
-        dd(1);
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;
@@ -241,16 +245,16 @@ class ChatsController extends Controller
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
 
                 $accessToken = refreshAccessToken($account->refreshToken);
-   
+                
                 if($accessToken['accessToken'] != null){
                     $data = Http::withHeaders([
                         'User-Agent' => '',
                         'Authorization' => $authorization,
                         'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
                     ])->get("{$getUser_api}");
-    
+                    
                     $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
-    
+                    
                     $adPrice = $adData['price']['amount']['value'];
                     $adTitle = $adData['title']['value'];
                     $reloadDate = $adData['last-user-edit-date']['value'];
@@ -285,6 +289,34 @@ class ChatsController extends Controller
         } else {
             return response()->json([
                 'error' => 'Account not found.',
+            ]);
+        }
+    }
+    public function DeleteInactive()
+    {
+        if (Auth::user()->role == 'admin') {
+            $inactive_accounts = Account::where('adStatus','')->get();
+        } else {
+            $inactive_accounts = Account::where('buy_id', Auth::user()->id)->where('adStatus','')->get();
+        }
+        if ($inactive_accounts->count() > 0) {
+            
+            foreach ($inactive_accounts as $account) {
+                $account->delete();
+            }
+
+            if (Auth::user()->role == 'admin') {
+                $accounts = Account::all();
+            } else {
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
+            }
+            return response()->json([
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'success' => 'Successfully deleted all invalid accounts.',
+            ]);
+        } else {
+            return response()->json([
+                'error' => 'There is no invalid account.',
             ]);
         }
     }

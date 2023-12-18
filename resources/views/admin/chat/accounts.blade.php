@@ -1,4 +1,4 @@
-<ul>
+<ul style="margin-bottom: 20px">
     @if (isset($accounts))
         @foreach ($accounts as $account)
             <li class="list-style" data-id="{{ $account->id }}">

@@ -503,7 +503,7 @@
                                 <div class="">
                                     <p class="m-0">Letzter Login : <span>{{ Auth::user()->last_login }}</span></p>
                                     <p class="m-0">Registriert seit :
-                                        <span>{{ Auth::user()->created_at->format('d-m-Y') }}</span>
+                                        <span>{{ Auth::user()->created_at->format('d.m.Y, H:s') }}</span>
                                     </p>
                                 </div>
                             </div>
