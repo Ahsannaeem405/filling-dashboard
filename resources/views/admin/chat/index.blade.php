@@ -465,8 +465,45 @@
             color: #C2C6DC;
         }
 
+        .emojionearea, .emojionearea.form-control{
+            height: 60px !important;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
         .emojionearea-editor {
             color: white !important;
+        }
+        @media screen and (min-width: 1143px) {
+            .ellipsis {
+                width: 100px; /* Change this width value to whatever is appropriate for your design */
+            }
+            .buyerName{
+                width: 100px;
+            }
+        }
+         @media screen and (min-width: 1319px) {
+            .ellipsis {
+                width: 240px; /* Change this width value to whatever is appropriate for your design */
+            }
+            .buyerName{
+                width: 160px;
+            }
+        }
+         @media screen and (min-width: 1635px) {
+            .ellipsis {
+                width: 160px; /* Change this width value to whatever is appropriate for your design */
+            }
+            .buyerName{
+                width: 350px;
+            }
+        }
+         @media screen and (min-width: 2266px) {
+            .ellipsis {
+                width: 600px; /* Change this width value to whatever is appropriate for your design */
+            }
+            .buyerName{
+                width: 600px;
+            }
         }
     </style>
     @if (Auth::user()->status == 'in-active')
