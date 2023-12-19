@@ -451,6 +451,20 @@
         .emojionearea-editor {
             color: white !important;
         }
+        .emojionearea::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Color for the scrollbar track */
+        }
+
+        /* Scrollbar Handle */
+        .emojionearea::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color for the scrollbar handle */
+        border-radius: 5px; /* Round corners for the scrollbar handle */
+        }
+
+        /* Optional: Increase width/thickness of scrollbar */
+        .emojionearea::-webkit-scrollbar {
+        width: 5px; /* Set scrollbar width */
+        }
         @media screen and (min-width: 1143px) {
             .ellipsis {
                 width: 100px; /* Change this width value to whatever is appropriate for your design */
@@ -482,6 +496,12 @@
             .buyerName{
                 width: 600px;
             }
+        }
+        body{
+            overflow: hidden;
+        }
+        footer{
+            display: none;
         }
     </style>
     @if (Auth::user()->status == 'in-active')
