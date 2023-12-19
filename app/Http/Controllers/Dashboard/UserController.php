@@ -71,17 +71,17 @@ class UserController extends Controller
                 ->withErrors($validatedData, 'passw_val')
                 ->withInput();
         }
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-            $fileName = $file->getClientOriginalName();
-            $destinationPath = public_path('app-assets/images/profile');
-            $file->move($destinationPath, $fileName);
+        // if ($request->hasFile('profile_image')) {
+        //     $file = $request->file('profile_image');
+        //     $fileName = $file->getClientOriginalName();
+        //     $destinationPath = public_path('app-assets/images/profile');
+        //     $file->move($destinationPath, $fileName);
 
-        } else {
+        // } else {
 
-            $fileName = $user->image;
+        //     $fileName = $user->image;
 
-        }
+        // }
         if ($request->oldpassword !== null) {
             $request->validate([
                 'oldpassword' => 'min:8',
@@ -98,7 +98,7 @@ class UserController extends Controller
                 $user->name = $request->input('name');
                 $user->telegram = $request->input('telegram');
                 $user->password = bcrypt($request->input('newpassword'));
-                $user->image = $fileName;
+                $user->wallet = $request->wallet;
                 $user->save();
 
                 return redirect()->route('dashboard')->with('success', 'Profile and password updated.');
@@ -110,7 +110,7 @@ class UserController extends Controller
         } else {
             $user->name = $request->input('name');
             $user->telegram = $request->input('telegram');
-            $user->image = $fileName;
+            $user->wallet = $request->wallet;
             $user->save();
 
             return redirect()->route('dashboard')->with('success', 'Profile updated successfully');

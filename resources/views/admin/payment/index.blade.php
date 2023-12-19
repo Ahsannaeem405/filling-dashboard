@@ -404,6 +404,7 @@
                         <th>CLIENT</th>
                         <th>TOTAL</th>
                         <th>ISSUED DATE</th>
+                        <th>Payment Type</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -433,6 +434,7 @@
                             </td>
                             <td>{{ $payment->price }}€</td>
                             <td>{{ $payment->created_at->format('d M Y H:s') }}</td>
+                            <td>{{ ucfirst($payment->payment_method) }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"

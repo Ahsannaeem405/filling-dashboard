@@ -43,12 +43,13 @@
                                         <input type="text" id="telegram-id-vertical" class="form-control" value="{{ $user->telegram }}" name="telegram" required placeholder="Enter Your Telegram">
                                     </div>
                                 </div>
-                                {{-- <div class="col-12">
+                                <div class="col-12">
                                     <div class="form-group">
-                                        <label for="rank-id-vertical">Rank</label>
-                                        <input type="text" id="rank-id-vertical" class="form-control" value="{{ $user->rank }}" name="rank" required placeholder="Enter Your Rank">
+                                        <label for="rank-id-vertical">BTC Wallet</label>
+                                        <textarea name="wallet" class="form-control" rows="7" placeholder="Enter your BitCoin wallet address here..">{{ isset($user->wallet) ? $user->wallet : '' }}</textarea>
+                                        {{-- <input type="text" id="rank-id-vertical" class="form-control" value="{{ $user->rank }}" name="rank" required placeholder="Enter Your Rank"> --}}
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="password">Old Password</label>
@@ -85,12 +86,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                {{-- <div class="col-12">
                                     <div class="form-group">
                                         <label for="profile_image">Profile Image</label>
                                         <input type="file" id="profile_image"  name="profile_image" accept="image/*" onchange="showImagePreview()">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Update</button>
                                 </div>

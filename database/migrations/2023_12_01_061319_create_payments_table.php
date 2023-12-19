@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('client_id')->nullable();
             $table->text('conv_id')->nullable();
             $table->text('client_name')->nullable();
+            $table->text('payment_method')->nullable();
             $table->text('price')->nullable();
             $table->text('status')->nullable();
             $table->text('reason')->nullable();

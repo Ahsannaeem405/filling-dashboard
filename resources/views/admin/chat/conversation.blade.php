@@ -13,7 +13,14 @@
         align-items: center;
         justify-content: center;
     }  
-    
+    .unread-msg{
+        border-radius: 50%;
+        background-color: goldenrod;
+        color: black;
+        height: 20px;
+        width: 20px;
+        text-align: center;
+    }
 </style>
 @foreach ($data['conversations'] as $data)
     <li class="messages" data-id="{{ $id }}" data-conv-id="{{ $data['id'] }}">
@@ -26,10 +33,16 @@
                     <h5 class="font-weight-bold mb-0">{{ $data['buyerName'] }}</h5>
                     <p style="margin-bottom: 0px">{{ \Carbon\Carbon::parse($data['receivedDate'])->format('d.m.y, H:i') }}</p>
                 </div>
-                <p class="truncate" style="max-width:75%">{{ $data['textShortTrimmed'] }}</p>
+                <div style="display: flex; justify-content:space-between">
+                    <p class="truncate" style="max-width:75%">{{ $data['textShortTrimmed'] }}</p>
+                    @if($data['unreadMessagesCount'] > 0)
+                        <span class="unread-msg">{{ $data['unreadMessagesCount'] }}</span>
+                    @endif
+                </div>
             </div>
             <div class="contact-meta">
-                <span class="float-right mb-25"></span>
+                
+                {{-- <span class="float-right mb-25">11</span> --}}
             </div>
         </div>
     </li>

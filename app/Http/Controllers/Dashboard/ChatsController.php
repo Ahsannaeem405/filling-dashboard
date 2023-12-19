@@ -40,7 +40,7 @@ class ChatsController extends Controller
             
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-    
+            
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
@@ -78,9 +78,13 @@ class ChatsController extends Controller
             $client_id = $data['userIdBuyer'];
             $adLink = $account->adLink;
             
-            $payment = Payment::pluck('conv_id');
-            if($payment){
-                $available = $payment->contains($data['id']);
+            $paypal = Payment::where('payment_method','paypal')->pluck('conv_id');
+            $bank = Payment::where('payment_method','bank')->pluck('conv_id');
+            if($paypal){
+                $paypal = $paypal->contains($data['id']);
+            }
+            if($bank){
+                $bank = $bank->contains($data['id']);
             }
             return response()->json([
                 'component' => view('admin.chat.messages', compact('data', 'account'))->render(),
@@ -91,7 +95,8 @@ class ChatsController extends Controller
                 'account_id' => $id,
                 'client_id' => $client_id,
                 'adLink' => $adLink,
-                'available' => $available,
+                'paypal' => $paypal,
+                'bank' => $bank,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
@@ -100,7 +105,6 @@ class ChatsController extends Controller
 
     public function SendMessages(Request $request)
     {
-        dd(1);
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;
@@ -220,6 +224,42 @@ class ChatsController extends Controller
             }
         }
     }
+    public function ReAssignAccount(Request $request)
+    {
+        Account::where('id',$request->id)->update([
+            'buy_id' => null,
+            'buy_date' => null,
+        ]);
+        $limit = Auth::user()->limit;
+
+        $count = Account::where('buy_id', Auth::user()->id)->where('buy_date', today())->count();
+        $accounts = Account::whereNot('id',$request->id)->where('buy_id', Auth::user()->id)->get();
+
+        if ($count >= $limit) {
+            return response()->json([
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'error' => 'Accounts limit are reached!',
+            ]);
+        } else {
+            $account = Account::whereNot('id',$request->id)->whereNull('buy_id')->first();
+
+            if ($account) {
+                $account->buy_id = Auth::user()->id;
+                $account->buy_date = now()->toDateString();;
+                $account->save();
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
+                return response()->json([
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'success' => 'Account assign Successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'error' => 'Account not found!',
+                ]);
+            }
+        }
+    }
     public function ReloadAccount()
     {
         if (Auth::user()->role == 'admin') {
@@ -230,7 +270,9 @@ class ChatsController extends Controller
         if ($accounts_reload) {
             $setting = Setting::first();
             $authorization = $setting->getUser_header_api;
+            $getUserConvAPi = $setting->getUserConv_api;
             $getUserApi = $setting->getUser_api;
+            $unreadCounts = [];
 
             foreach ($accounts_reload as $account) {
 
@@ -239,18 +281,25 @@ class ChatsController extends Controller
                 $email = $parts[0];
 
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
+                $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
                 $accessToken = refreshAccessToken($account->refreshToken);
-   
+                
                 if($accessToken['accessToken'] != null){
+
+                    $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                        ->get("{$conversation_api}");
+
+                    $unreadCounts[$account->id] = $data['numUnread'] ?? 0;
+                    
                     $data = Http::withHeaders([
                         'User-Agent' => '',
                         'Authorization' => $authorization,
                         'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
                     ])->get("{$getUser_api}");
-    
+                    
                     $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
-    
+                    
                     $adPrice = $adData['price']['amount']['value'];
                     $adTitle = $adData['title']['value'];
                     $reloadDate = $adData['last-user-edit-date']['value'];
@@ -280,11 +329,39 @@ class ChatsController extends Controller
                 $accounts = Account::where('buy_id', Auth::user()->id)->get();
             }
             return response()->json([
-                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'component' => view('admin.chat.accounts', compact('accounts','unreadCounts'))->render(),
             ]);
         } else {
             return response()->json([
                 'error' => 'Account not found.',
+            ]);
+        }
+    }
+    public function DeleteInactive()
+    {
+        if (Auth::user()->role == 'admin') {
+            $inactive_accounts = Account::where('adStatus','')->get();
+        } else {
+            $inactive_accounts = Account::where('buy_id', Auth::user()->id)->where('adStatus','')->get();
+        }
+        if ($inactive_accounts->count() > 0) {
+            
+            foreach ($inactive_accounts as $account) {
+                $account->delete();
+            }
+
+            if (Auth::user()->role == 'admin') {
+                $accounts = Account::all();
+            } else {
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
+            }
+            return response()->json([
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'success' => 'Successfully deleted all invalid accounts.',
+            ]);
+        } else {
+            return response()->json([
+                'error' => 'There is no invalid account.',
             ]);
         }
     }

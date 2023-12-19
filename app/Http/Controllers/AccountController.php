@@ -69,7 +69,7 @@ class AccountController extends Controller
                 'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-
+            // dd($data->json());
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
 
             $price = $adData['price']['amount']['value'];
@@ -164,7 +164,7 @@ class AccountController extends Controller
                 'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-
+// dd($data->json());
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
 
             $price = $adData['price']['amount']['value'];
@@ -208,6 +208,18 @@ class AccountController extends Controller
     {
         Account::find($id)->delete();
         return back()->with('success', 'Account Deleted Successfully.');
+    }
+    public function DeleteSingleAccount(Request $request){
+        Account::find($request->id)->delete();
+        if (Auth::user()->role == 'admin') {
+            $accounts = Account::all();
+        } else {
+            $accounts = Account::where('buy_id', Auth::user()->id)->get();
+        }
+        return response()->json([
+            'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+            'success' => 'Delete account successfully.',
+        ]);
     }
     public function Import(Request $request)
     {
