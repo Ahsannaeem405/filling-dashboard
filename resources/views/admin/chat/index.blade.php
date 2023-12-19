@@ -475,8 +475,30 @@
         .emojionearea-editor {
             color: white !important;
         }
+        .emojionearea::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Color for the scrollbar track */
+        }
 
+        /* Scrollbar Handle */
+        .emojionearea::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color for the scrollbar handle */
+        border-radius: 5px; /* Round corners for the scrollbar handle */
+        }
+
+        /* Optional: Increase width/thickness of scrollbar */
+        .emojionearea::-webkit-scrollbar {
+        width: 5px; /* Set scrollbar width */
+        }
+        .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+            max-width: 160px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
         @media screen and (min-width: 1143px) {
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 100px;
+            }
             .ellipsis {
                 width: 100px;
                 /* Change this width value to whatever is appropriate for your design */
@@ -492,13 +514,18 @@
                 width: 240px;
                 /* Change this width value to whatever is appropriate for your design */
             }
-
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 160px;
+            }
             .buyerName {
                 width: 160px;
             }
         }
 
         @media screen and (min-width: 1635px) {
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 230px;
+            }
             .ellipsis {
                 width: 160px;
                 /* Change this width value to whatever is appropriate for your design */
@@ -519,8 +546,13 @@
                 width: 600px;
             }
         }
-
-        .unread-chat {
+        body{
+            overflow: hidden;
+        }
+        footer{
+            display: none;
+        }
+        .unread-chat{
             border-radius: 50%;
             background-color: rgb(218, 32, 32);
             color: black;
