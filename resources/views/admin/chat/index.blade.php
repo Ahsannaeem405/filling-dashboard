@@ -489,7 +489,16 @@
         .emojionearea::-webkit-scrollbar {
         width: 5px; /* Set scrollbar width */
         }
+        .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+            max-width: 160px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
         @media screen and (min-width: 1143px) {
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 100px;
+            }
             .ellipsis {
                 width: 100px;
                 /* Change this width value to whatever is appropriate for your design */
@@ -505,13 +514,18 @@
                 width: 240px;
                 /* Change this width value to whatever is appropriate for your design */
             }
-
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 160px;
+            }
             .buyerName {
                 width: 160px;
             }
         }
 
         @media screen and (min-width: 1635px) {
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+                width: 230px;
+            }
             .ellipsis {
                 width: 160px;
                 /* Change this width value to whatever is appropriate for your design */
