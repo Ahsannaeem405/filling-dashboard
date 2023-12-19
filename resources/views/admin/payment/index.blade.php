@@ -405,6 +405,7 @@
                         <th>TOTAL</th>
                         <th>ISSUED DATE</th>
                         <th>Payment Type</th>
+                        <th>BTC Wallet</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -435,6 +436,7 @@
                             <td>{{ $payment->price }}€</td>
                             <td>{{ $payment->created_at->format('d M Y H:s') }}</td>
                             <td>{{ ucfirst($payment->payment_method) }}</td>
+                            <td>{{ isset(Auth::user()->wallet) ? Auth::user()->wallet : '-' }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"

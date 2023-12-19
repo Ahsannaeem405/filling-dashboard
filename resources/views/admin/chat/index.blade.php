@@ -519,8 +519,8 @@
                 width: 600px;
             }
         }
-        
-        .unread-chat{
+
+        .unread-chat {
             border-radius: 50%;
             background-color: rgb(218, 32, 32);
             color: black;
@@ -971,11 +971,11 @@
                     type: 'get',
                     url: '{{ route('delete.inactive') }}',
                     success: function(response) {
-                        $('.media-list').empty();
-                        $('.start-chat-area').removeClass('d-none');
-                        $('.custom-img').removeClass('d-none');
-                        $('.scrol-custom').empty().append(response.component);
                         if (response.success) {
+                            $('.media-list').empty();
+                            $('.start-chat-area').removeClass('d-none');
+                            $('.custom-img').removeClass('d-none');
+                            $('.scrol-custom').empty().append(response.component);
                             toastr.success(response.success, '', {
                                 onShown: function() {
                                     $('.toast-success').css({
@@ -1034,7 +1034,7 @@
                     var id = $(this).attr('data-id');
                     handleXMarkClick(id);
 
-                } else if($(event.target).hasClass('fa-rotate-right')){
+                } else if ($(event.target).hasClass('fa-rotate-right')) {
                     var id = $(this).attr('data-id');
                     handleRotate(id);
 
@@ -1124,7 +1124,8 @@
                     }
                 });
             }
-            function handleRotate(id){
+
+            function handleRotate(id) {
                 $.ajax({
                     type: 'get',
                     url: '{{ route('re.assign') }}',
