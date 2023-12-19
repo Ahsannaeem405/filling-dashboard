@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+// use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,12 @@ use Illuminate\Support\Facades\Route;
  */
 
 Auth::routes();
-Route::get('/custom', function () {
-    return view('custom');
-});
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate:rollback', ['--step' => 2]);
+//     Artisan::call('db:seed', ['--class' => 'ApiSeeder']);
+//     return 'ok';
+// });
+
 
 Route::middleware(['auth'])->group(function () {
 
@@ -59,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('accounts/edit/{id}', [AccountController::class, 'EditAccount'])->name('edit.accounts');
         Route::post('accounts/update/{id}', [AccountController::class, 'UpdateAccount'])->name('update.accounts');
         Route::delete('accounts/delete/{id}', [AccountController::class, 'DeleteAccount'])->name('delete.accounts');
-        Route::delete('accounts/delete/xmark', [AccountController::class, 'DeleteSingleAccount'])->name('user.delete.accounts');
+        Route::get('accounts/delete/xmark', [AccountController::class, 'DeleteSingleAccount'])->name('user.delete.accounts');
         Route::post('accounts/import', [AccountController::class, 'Import'])->name('import.accounts');
 
         // Settings
@@ -83,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Assign Accounts
         Route::get('assign-account', [ChatsController::class, 'AssignAccount'])->name('assign');
+        Route::get('re-assign-account', [ChatsController::class, 'ReAssignAccount'])->name('re.assign');
         Route::get('reload-account', [ChatsController::class, 'ReloadAccount'])->name('reload');
         Route::get('delete-inactive-accounts', [ChatsController::class, 'DeleteInactive'])->name('delete.inactive');
     });

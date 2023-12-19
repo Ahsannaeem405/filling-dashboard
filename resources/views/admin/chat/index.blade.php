@@ -465,45 +465,68 @@
             color: #C2C6DC;
         }
 
-        .emojionearea, .emojionearea.form-control{
+        .emojionearea,
+        .emojionearea.form-control {
             height: 60px !important;
             overflow-x: hidden;
             overflow-y: auto;
         }
+
         .emojionearea-editor {
             color: white !important;
         }
+
         @media screen and (min-width: 1143px) {
             .ellipsis {
-                width: 100px; /* Change this width value to whatever is appropriate for your design */
+                width: 100px;
+                /* Change this width value to whatever is appropriate for your design */
             }
-            .buyerName{
+
+            .buyerName {
                 width: 100px;
             }
         }
-         @media screen and (min-width: 1319px) {
+
+        @media screen and (min-width: 1319px) {
             .ellipsis {
-                width: 240px; /* Change this width value to whatever is appropriate for your design */
+                width: 240px;
+                /* Change this width value to whatever is appropriate for your design */
             }
-            .buyerName{
+
+            .buyerName {
                 width: 160px;
             }
         }
-         @media screen and (min-width: 1635px) {
+
+        @media screen and (min-width: 1635px) {
             .ellipsis {
-                width: 160px; /* Change this width value to whatever is appropriate for your design */
+                width: 160px;
+                /* Change this width value to whatever is appropriate for your design */
             }
-            .buyerName{
+
+            .buyerName {
                 width: 350px;
             }
         }
-         @media screen and (min-width: 2266px) {
+
+        @media screen and (min-width: 2266px) {
             .ellipsis {
-                width: 600px; /* Change this width value to whatever is appropriate for your design */
+                width: 600px;
+                /* Change this width value to whatever is appropriate for your design */
             }
-            .buyerName{
+
+            .buyerName {
                 width: 600px;
             }
+        }
+        
+        .unread-chat{
+            border-radius: 50%;
+            background-color: rgb(218, 32, 32);
+            color: black;
+            height: 20px;
+            width: 20px;
+            text-align: center;
         }
     </style>
     @if (Auth::user()->status == 'in-active')
@@ -554,7 +577,10 @@
                                                     {{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y') }}
                                                 </p>
                                             </div>
-                                            <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
+                                            <div style="display: flex; justify-content:space-between">
+                                                <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
+                                                <p class="unread-chat d-none"></p>
+                                            </div>
                                         </div>
                                         @if (Auth::user()->role == 'user')
                                             @if ($account->adStatus == 'ACTIVE')
@@ -593,9 +619,10 @@
                                 <div style="display: flex; justify-content: center; align-items: center;">
                                     <img src="{{ asset('app-assets/images/logo/Logo-main.png') }}" width="100px">
                                 </div>
-                                <span style="display: flex; justify-content: center; align-items: center;">keine nachrichten wiederfinden</span>
+                                <span style="display: flex; justify-content: center; align-items: center;">keine nachrichten
+                                    wiederfinden</span>
                             </div>
-                            
+
                         </div>
                     </div>
                     <!--/ Chat Sidebar area -->
@@ -625,7 +652,7 @@
                                                 </div>
                                                 <span class='account-prof'>
                                                     <h6 class="mb-0 buyerName"
-                                                        style="max-width:200px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     </h6>
                                                     <p><span class="price"></span> € VB</p>
                                                 </span>
@@ -1003,34 +1030,85 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '.list-style', function() {
+                if ($(event.target).hasClass('fa-xmark')) {
+                    var id = $(this).attr('data-id');
+                    handleXMarkClick(id);
 
-                $(".list-style").removeClass("active");
-                $(".list-style .initials").css('background-color', '');
+                } else if($(event.target).hasClass('fa-rotate-right')){
+                    var id = $(this).attr('data-id');
+                    handleRotate(id);
 
-                $(this).addClass("active");
-                $(this).children('.initials').css('background-color', '#10163A');
+                } else {
 
-                
+                    $(".list-style").removeClass("active");
+                    $(".list-style .initials").css('background-color', '');
 
-                var spanValue = $(this).find('span').text();
-                var id = $(this).attr('data-id');
+                    $(this).addClass("active");
+                    $(this).children('.initials').css('background-color', '#10163A');
 
+                    var spanValue = $(this).find('span').text();
+                    var id = $(this).attr('data-id');
+
+                    $.ajax({
+                        type: 'get',
+                        url: '{{ route('conversation') }}',
+                        data: {
+                            id: id,
+                        },
+                        success: function(response) {
+
+                            if (response.hasOwnProperty('error')) {
+
+                                $('.start-chat-area').removeClass('d-none');
+                                $('.active-chat').addClass('d-none');
+                                $('.media-list').empty();
+                                $('.custom-img').removeClass('d-none');
+                                // $('.chat-btn').addClass('d-none');
+
+                                toastr.error(response.error, '', {
+                                    onShown: function() {
+                                        $('.toast-error').css({
+                                            'background-color': 'rgb(163, 23, 23)',
+                                            'color': '#ffffff'
+                                        });
+                                    }
+                                });
+                            } else {
+                                $('.start-chat-area').removeClass('d-none');
+                                $('.active-chat').addClass('d-none');
+                                $('.custom-img').addClass('d-none');
+                                $('.media-list').empty().append(response.component);
+                            }
+
+                        },
+                        error: function(error) {
+
+                            toastr.error('An error occurred. Please try again.');
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+
+            function handleXMarkClick(id) {
                 $.ajax({
                     type: 'get',
-                    url: '{{ route('conversation') }}',
+                    url: '{{ route('user.delete.accounts') }}',
                     data: {
                         id: id,
                     },
                     success: function(response) {
-
-                        if (response.hasOwnProperty('error')) {
-
-                            $('.start-chat-area').removeClass('d-none');
-                            $('.active-chat').addClass('d-none');
-                            $('.media-list').empty();
-                            $('.custom-img').removeClass('d-none');
-                            // $('.chat-btn').addClass('d-none');
-
+                        $('.scrol-custom').empty().append(response.component);
+                        if (response.success) {
+                            toastr.success(response.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else if (response.error) {
                             toastr.error(response.error, '', {
                                 onShown: function() {
                                     $('.toast-error').css({
@@ -1039,22 +1117,47 @@
                                     });
                                 }
                             });
-                        } else {
-                            $('.start-chat-area').removeClass('d-none');
-                            $('.active-chat').addClass('d-none');
-                            $('.custom-img').addClass('d-none');
-                            $('.media-list').empty().append(response.component);
                         }
-
                     },
                     error: function(error) {
-
-                        toastr.error('An error occurred. Please try again.');
                         console.error(error);
                     }
                 });
-            });
-
+            }
+            function handleRotate(id){
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('re.assign') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function(response) {
+                        $('.scrol-custom').empty().append(response.component);
+                        if (response.success) {
+                            toastr.success(response.success, '', {
+                                onShown: function() {
+                                    $('.toast-success').css({
+                                        'background-color': '#4CAF50',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        } else if (response.error) {
+                            toastr.error(response.error, '', {
+                                onShown: function() {
+                                    $('.toast-error').css({
+                                        'background-color': 'rgb(163, 23, 23)',
+                                        'color': '#ffffff'
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            }
             $(document).on('click', '.messages', function() {
                 $(".messages").removeClass("active");
                 $(".messages .initials").css('background-color', '');
@@ -1422,42 +1525,5 @@
             }
             // setInterval(refresh, 20000);
         })
-    </script>
-    <script>
-        $(document).on('click', '.fa-xmark', function() {
-            var id = $(this).attr('id');
-            $.ajax({
-                type: 'get',
-                url: '{{ route('user.delete.accounts') }}',
-                data: {
-                    id: id,
-                },
-                success: function(response) {
-                    $('.scroll-custom').empty().append(response.component);
-                    if (response.success) {
-                        toastr.success(response.success, '', {
-                            onShown: function() {
-                                $('.toast-success').css({
-                                    'background-color': '#4CAF50',
-                                    'color': '#ffffff'
-                                });
-                            }
-                        });
-                    } else if (response.error) {
-                        toastr.error(response.error, '', {
-                            onShown: function() {
-                                $('.toast-error').css({
-                                    'background-color': 'rgb(163, 23, 23)',
-                                    'color': '#ffffff'
-                                });
-                            }
-                        });
-                    }
-                }
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        });
     </script>
 @endsection

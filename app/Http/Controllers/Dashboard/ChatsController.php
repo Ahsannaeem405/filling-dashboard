@@ -224,6 +224,42 @@ class ChatsController extends Controller
             }
         }
     }
+    public function ReAssignAccount(Request $request)
+    {
+        Account::where('id',$request->id)->update([
+            'buy_id' => null,
+            'buy_date' => null,
+        ]);
+        $limit = Auth::user()->limit;
+
+        $count = Account::where('buy_id', Auth::user()->id)->where('buy_date', today())->count();
+        $accounts = Account::whereNot('id',$request->id)->where('buy_id', Auth::user()->id)->get();
+
+        if ($count >= $limit) {
+            return response()->json([
+                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'error' => 'Accounts limit are reached!',
+            ]);
+        } else {
+            $account = Account::whereNot('id',$request->id)->whereNull('buy_id')->first();
+
+            if ($account) {
+                $account->buy_id = Auth::user()->id;
+                $account->buy_date = now()->toDateString();;
+                $account->save();
+                $accounts = Account::where('buy_id', Auth::user()->id)->get();
+                return response()->json([
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'success' => 'Account assign Successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                    'error' => 'Account not found!',
+                ]);
+            }
+        }
+    }
     public function ReloadAccount()
     {
         if (Auth::user()->role == 'admin') {
@@ -234,7 +270,9 @@ class ChatsController extends Controller
         if ($accounts_reload) {
             $setting = Setting::first();
             $authorization = $setting->getUser_header_api;
+            $getUserConvAPi = $setting->getUserConv_api;
             $getUserApi = $setting->getUser_api;
+            $unreadCounts = [];
 
             foreach ($accounts_reload as $account) {
 
@@ -243,10 +281,17 @@ class ChatsController extends Controller
                 $email = $parts[0];
 
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
+                $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
                 $accessToken = refreshAccessToken($account->refreshToken);
                 
                 if($accessToken['accessToken'] != null){
+
+                    $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                        ->get("{$conversation_api}");
+
+                    $unreadCounts[$account->id] = $data['numUnread'] ?? 0;
+                    
                     $data = Http::withHeaders([
                         'User-Agent' => '',
                         'Authorization' => $authorization,
@@ -284,7 +329,7 @@ class ChatsController extends Controller
                 $accounts = Account::where('buy_id', Auth::user()->id)->get();
             }
             return response()->json([
-                'component' => view('admin.chat.accounts', compact('accounts'))->render(),
+                'component' => view('admin.chat.accounts', compact('accounts','unreadCounts'))->render(),
             ]);
         } else {
             return response()->json([

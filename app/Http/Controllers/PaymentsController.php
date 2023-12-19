@@ -109,7 +109,6 @@ class PaymentsController extends Controller
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
 
-
             $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
 
             $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
