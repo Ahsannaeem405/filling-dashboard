@@ -23,6 +23,14 @@
         <td class="custom-td">{{ $payment->client_name }}</td>
     </tr>
     <tr>
+        <th class="custom-th">User Name:</th>
+        <td class="custom-td">{{ $payment->user->name }}</td>
+    </tr>
+    <tr>
+        <th class="custom-th">BTC Wallet:</th>
+        <td class="custom-td">{{ isset($payment->user->wallet) ? $payment->user->wallet : '-' }}</td>
+    </tr>
+    <tr>
         <th class="custom-th">Price</th>
         <td class="custom-td">{{ $payment->price }}</td>
     </tr>

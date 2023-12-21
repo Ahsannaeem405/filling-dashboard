@@ -430,7 +430,7 @@
                         console.error(error);
                     }
                 });
-            } else {
+            } else if(image) {
                 var now = new Date();
                 var timestamp =
                     ('0' + now.getDate()).slice(-2) + '.' +

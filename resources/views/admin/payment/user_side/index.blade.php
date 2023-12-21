@@ -414,6 +414,8 @@
                         <th>CLIENT</th>
                         <th>TOTAL</th>
                         <th>ISSUED DATE</th>
+                        <th>Payment Type</th>
+                        <th>BTC Wallet</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -436,7 +438,7 @@
                                         <div class="avatar avatar-blue mr-3">{{ substr($payment->client_name, 0, 1) }}</div>
 
                                         <div class="">
-                                            <p class="font-weight-bold mb-0">{{ substr($payment->account->adTitle, 0,60)  }}</p>
+                                            <p class="font-weight-bold mb-0">{{ isset($payment->account->adTitle) ? substr($payment->account->adTitle, 0,60) : '' }}</p>
                                             <p class="font-weight-bold mb-0">{{ $payment->client_name }}</p>
                                         </div>
                                     </div>
@@ -444,6 +446,8 @@
                             </td>
                             <td>{{ $payment->price }}€</td>
                             <td>{{ $payment->created_at->format('d M Y H:s') }}</td>
+                            <td>{{ ucfirst($payment->payment_method) }}</td>
+                            <td>{{ isset($payment->user->wallet) ? $payment->user->wallet : '-' }}</td>
                             <td>
                                 @if ($payment->status)
                                     <div class="badge badge-success badge-success-alt"

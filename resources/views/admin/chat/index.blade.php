@@ -453,7 +453,7 @@
 
         .emojionearea .emojionearea-editor {
             min-height: 2em;
-            max-height: 5em;
+            max-height: 4em;
             width: 19em;
         }
 
@@ -468,37 +468,43 @@
         .emojionearea,
         .emojionearea.form-control {
             height: 60px !important;
-            overflow-x: hidden;
-            overflow-y: auto;
         }
 
         .emojionearea-editor {
             color: white !important;
         }
+
         .emojionearea::-webkit-scrollbar-track {
-        background-color: #f1f1f1; /* Color for the scrollbar track */
+            background-color: #f1f1f1;
+            /* Color for the scrollbar track */
         }
 
         /* Scrollbar Handle */
         .emojionearea::-webkit-scrollbar-thumb {
-        background-color: #888; /* Color for the scrollbar handle */
-        border-radius: 5px; /* Round corners for the scrollbar handle */
+            background-color: #888;
+            /* Color for the scrollbar handle */
+            border-radius: 5px;
+            /* Round corners for the scrollbar handle */
         }
 
         /* Optional: Increase width/thickness of scrollbar */
         .emojionearea::-webkit-scrollbar {
-        width: 5px; /* Set scrollbar width */
+            width: 5px;
+            /* Set scrollbar width */
         }
-        .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+
+        .user-chat-info .contact-info h5.font-weight-bold.mb-0 {
             max-width: 160px;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
         }
+
         @media screen and (min-width: 1143px) {
-            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0 {
                 width: 100px;
             }
+
             .ellipsis {
                 width: 100px;
                 /* Change this width value to whatever is appropriate for your design */
@@ -514,18 +520,21 @@
                 width: 240px;
                 /* Change this width value to whatever is appropriate for your design */
             }
-            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0 {
                 width: 160px;
             }
+
             .buyerName {
                 width: 160px;
             }
         }
 
         @media screen and (min-width: 1635px) {
-            .user-chat-info .contact-info h5.font-weight-bold.mb-0{
+            .user-chat-info .contact-info h5.font-weight-bold.mb-0 {
                 width: 230px;
             }
+
             .ellipsis {
                 width: 160px;
                 /* Change this width value to whatever is appropriate for your design */
@@ -546,13 +555,16 @@
                 width: 600px;
             }
         }
-        body{
+
+        body {
             overflow: hidden;
         }
-        footer{
+
+        footer {
             display: none;
         }
-        .unread-chat{
+
+        .unread-chat {
             border-radius: 50%;
             background-color: rgb(218, 32, 32);
             color: black;
@@ -573,20 +585,23 @@
         <div class="col-md-12">
             <div class="content-area-wrapper mt-0">
                 <div class="AcountsDetail">
-                    @if (Auth::user()->role == 'user')
-                        <h3>Accounts</h3>
-                        <div class="d-flex" style="justify-content: space-between">
+                    
+                        @if (Auth::user()->role == 'user')
+                            <h3>Accounts</h3>
+                            <div class="d-flex" style="justify-content: space-between">
                         @else
                             <div class="d-flex" style="justify-content: space-between">
-                                <h3 class="mr-1">Accounts</h3>
-                    @endif
-                    @if (Auth::user()->role == 'user')
-                        <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
-                    @endif
-                    <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
-                    <button class='account-btn3' id='deleteAccountBtn'>Invalid Accounts löschen</button>
-                </div>
-                <div class="scrol-custom">
+                            <h3 class="mr-1">Accounts</h3>
+                        @endif
+
+                        @if (Auth::user()->role == 'user')
+                            <button class='account-btn1' id='addAccountBtn'>Neuen Account hinzufugen</button>
+                        @endif
+                        
+                        <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
+                        <button class='account-btn3' id='deleteAccountBtn'>Invalid Accounts löschen</button>
+                    </div>
+                    <div class="scrol-custom">
                     <ul style="margin-bottom: 20px">
                         @if (isset($accounts))
                             @foreach ($accounts as $account)
@@ -628,137 +643,130 @@
                             @endforeach
                         @endif
                     </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="sidebar-left">
-                <div class="sidebar">
-                    <!-- Chat Sidebar area -->
-                    <div class="sidebar-content card">
-                        <span class="sidebar-close-icon">
-                            <i class="feather icon-x"></i>
-                        </span>
-                        <div id="users-list" class="chat-user-list list-group position-relative">
-                            <div style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
-                                <i class="feather icon-arrow-left BackArr"
-                                    style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
-                                <h3 class="primary p-1 mb-0">Chats</h3>
-                                {{-- <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button> --}}
-                            </div>
-                            <ul class="chat-users-list-wrapper media-list" style="margin-bottom: 30px">
-
-                            </ul>
-                            <div class="custom-img" style="margin-top:150px">
-                                <div style="display: flex; justify-content: center; align-items: center;">
-                                    <img src="{{ asset('app-assets/images/logo/Logo-main.png') }}" width="100px">
+                <div class="sidebar-left">
+                    <div class="sidebar">
+                        <!-- Chat Sidebar area -->
+                        <div class="sidebar-content card">
+                            <span class="sidebar-close-icon">
+                                <i class="feather icon-x"></i>
+                            </span>
+                            <div id="users-list" class="chat-user-list list-group position-relative">
+                                <div style='display:flex; justify-content:space-between; align-items:center;position:relative;'>
+                                    <i class="feather icon-arrow-left BackArr"
+                                        style="position: absolute;top: 0px;left: 0;background-color: #ddd;border-radius: 3px;padding: 2px; display:none"></i>
+                                    <h3 class="primary p-1 mb-0">Chats</h3>
+                                    {{-- <button class='account-btn2 chat-btn d-none'>Chats aktualisieren</button> --}}
                                 </div>
-                                <span style="display: flex; justify-content: center; align-items: center;">keine nachrichten
-                                    wiederfinden</span>
-                            </div>
+                                <ul class="chat-users-list-wrapper media-list" style="margin-bottom: 30px">
 
+                                </ul>
+                                <div class="custom-img" style="margin-top:150px">
+                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                        <img src="{{ asset('app-assets/images/logo/Logo-main.png') }}" width="100px">
+                                    </div>
+                                    <span style="display: flex; justify-content: center; align-items: center;">keine nachrichten
+                                        wiederfinden</span>
+                                </div>
+                            </div>
                         </div>
+                        <!--/ Chat Sidebar area -->
                     </div>
-                    <!--/ Chat Sidebar area -->
-
                 </div>
-            </div>
-            <div class="content-right">
-                <div class="content-wrapper">
-                    <div class="content-header row">
-                    </div>
-                    <div class="content-body">
-                        <div class="chat-overlay"></div>
-                        <section class="chat-app-window">
-                            <div class="start-chat-area" data-conv-id="" data-id="">
-                                <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
-                                        width="100px"></span>
-                            </div>
-                            <div class="active-chat">
-                                <div class="chat_navbar">
-                                    <header class="chat_header d-grid p-1">
-                                        <div class="vs-con-items d-flex align-items-center justify-content-between">
-                                            <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
-                                                    class="feather icon-menu font-large-1"></i></div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar user-profile-toggle m-0 m-0">
-                                                    <img class="adImage buyerInitials" src="" alt="">
+                <div class="content-right">
+                    <div class="content-wrapper">
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+                            <div class="chat-overlay"></div>
+                            <section class="chat-app-window">
+                                <div class="start-chat-area" data-conv-id="" data-id="">
+                                    <span class="mb-2"><img src="{{ asset('app-assets/images/logo/Logo-main.png') }}"
+                                            width="100px"></span>
+                                </div>
+                                <div class="active-chat">
+                                    <div class="chat_navbar">
+                                        <header class="chat_header d-grid p-1">
+                                            <div class="vs-con-items d-flex align-items-center justify-content-between">
+                                                <div class="sidebar-toggle d-lg-none mr-1 d-none"><i
+                                                        class="feather icon-menu font-large-1"></i></div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar user-profile-toggle m-0 m-0">
+                                                        <img class="adImage buyerInitials" src="" alt="">
+                                                    </div>
+                                                    <span class='account-prof'>
+                                                        <h6 class="mb-0 buyerName"
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        </h6>
+                                                        <p><span class="price"></span> € VB</p>
+                                                    </span>
                                                 </div>
-                                                <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName"
-                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                    </h6>
-                                                    <p><span class="price"></span> € VB</p>
-                                                </span>
+                                                <div class="">
+                                                    <span class="favorite-1 link-id" data-id="">
+                                                        <a href="" target="_blank"
+                                                            class="fa-solid fa-rectangle-ad font-medium-5"></a>
+                                                    </span>
+                                                    <span class="favorite-1 paypal" data-id=""><i
+                                                            class="fa-brands fa-paypal font-medium-5"></i></span>
+                                                    <span class="favorite-1 bank" data-id=""><i
+                                                            class="fa-solid fa-building-columns font-medium-5"></i></span>
+                                                    <span class="favorite-1 delete-chat"><i
+                                                            class="fa-regular fa-trash-can font-medium-5"></i></span>
+                                                </div>
                                             </div>
-                                            <div class="">
-                                                <span class="favorite-1 link-id" data-id="">
-                                                    <a href="" target="_blank"
-                                                        class="fa-solid fa-rectangle-ad font-medium-5"></a>
-                                                </span>
-                                                <span class="favorite-1 paypal" data-id=""><i
-                                                        class="fa-brands fa-paypal font-medium-5"></i></span>
-                                                <span class="favorite-1 bank" data-id=""><i
-                                                        class="fa-solid fa-building-columns font-medium-5"></i></span>
-                                                <span class="favorite-1 delete-chat"><i
-                                                        class="fa-regular fa-trash-can font-medium-5"></i></span>
+                                        </header>
+                                    </div>
+                                    <div class="user-chats">
+                                        <div class="chats append-chat">
+
+                                        </div>
+                                    </div>
+                                    <div class="chat-app-form">
+                                        <form class="chat-app-input d-flex justify-content-between position-relative"
+                                            onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
+                                            <div class='position-relative'style='width: 70%;'>
+                                                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
+                                                                                            id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
+                                                <i class="type-icon fa fa-image" onclick="selectImage()"></i>
+                                                <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
+                                                    alt="user_avatar" for="emojionearea-button">
                                             </div>
-                                        </div>
-                                    </header>
-                                </div>
-                                <div class="user-chats">
-                                    <div class="chats append-chat">
-
+                                            <button type="button" class="btn btn-primary send" onclick="enter_chat();"
+                                                style="height: 33px"><i class="fa fa-paper-plane-o"></i>
+                                                <span class="">Senden</span></button>
+                                        </form>
                                     </div>
+
                                 </div>
-                                <div class="chat-app-form">
-                                    <form class="chat-app-input d-flex justify-content-between position-relative"
-                                        onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
-                                        <div class='position-relative'style='width: 70%;'>
-                                            <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
-                                            {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
-                                                                                        id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
-                                            <i class="type-icon fa fa-image" onclick="selectImage()"></i>
-                                            <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
-                                                alt="user_avatar" for="emojionearea-button">
+                            </section>
+                            <!-- User Chat profile right area -->
+                            <div class="user-profile-sidebar">
+                                <header class="user-profile-header">
+                                    <span class="close-icon">
+                                        <i class="feather icon-x"></i>
+                                    </span>
+                                    <div class="header-profile-sidebar">
+                                        <div class="avatar">
+                                            <img class="adImage pop-up-initials" src="" alt=""
+                                                width="35px">
                                         </div>
-                                        <button type="button" class="btn btn-primary send" onclick="enter_chat();"
-                                            style="height: 33px"><i class="fa fa-paper-plane-o"></i>
-                                            <span class="">Senden</span></button>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </section>
-                        <!-- User Chat profile right area -->
-                        <div class="user-profile-sidebar">
-                            <header class="user-profile-header">
-                                <span class="close-icon">
-                                    <i class="feather icon-x"></i>
-                                </span>
-                                <div class="header-profile-sidebar">
-                                    <div class="avatar">
-                                        <img class="adImage pop-up-initials" src="" alt=""
-                                            width="35px">
+                                        <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
                                     </div>
-                                    <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
-                                </div>
-                            </header>
-                            <div class="user-profile-sidebar-area p-2">
+                                </header>
+                                <div class="user-profile-sidebar-area p-2">
 
+                                </div>
                             </div>
+                            <!--/ User Chat profile right area -->
                         </div>
-                        <!--/ User Chat profile right area -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 
-    </div>
-    </div>
-
-    </div>
-    </section>
     <!-- User Chat profile right area -->
     <div class="user-profile-sidebar">
         <header class="user-profile-header">
@@ -777,12 +785,6 @@
         </div>
     </div>
     <!--/ User Chat profile right area -->
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -935,56 +937,56 @@
                 updateAccountBtn.prop('disabled', true);
             });
 
-            var storedCountdown3 = localStorage.getItem('countdown3');
-            if (storedCountdown3 && new Date(storedCountdown3) > new Date()) {
-                var remainingSeconds = Math.floor((new Date(storedCountdown3) - new Date()) / 1000);
-                startCooldownTimer(remainingSeconds, chatBtn, function() {
-                    chatBtn.text('Chats aktualisieren');
-                    chatBtn.prop('disabled', false);
-                    localStorage.removeItem('countdown3');
-                });
-                chatBtn.prop('disabled', true);
-            }
+            // var storedCountdown3 = localStorage.getItem('countdown3');
+            // if (storedCountdown3 && new Date(storedCountdown3) > new Date()) {
+            //     var remainingSeconds = Math.floor((new Date(storedCountdown3) - new Date()) / 1000);
+            //     startCooldownTimer(remainingSeconds, chatBtn, function() {
+            //         chatBtn.text('Chats aktualisieren');
+            //         chatBtn.prop('disabled', false);
+            //         localStorage.removeItem('countdown3');
+            //     });
+            //     chatBtn.prop('disabled', true);
+            // }
 
-            $(document).on('click', '.chat-btn', function() {
-                var text = $(this).text();
-                var containsNumber = /\d/.test(text);
-                if (containsNumber) {
-                    return;
-                }
-                localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
+            // $(document).on('click', '.chat-btn', function() {
+            //     var text = $(this).text();
+            //     var containsNumber = /\d/.test(text);
+            //     if (containsNumber) {
+            //         return;
+            //     }
+            //     localStorage.setItem('countdown3', new Date(Date.now() + 60000).toISOString());
 
-                var id = $('.list-style.active').attr('data-id');
+            //     var id = $('.list-style.active').attr('data-id');
 
-                $.ajax({
-                    type: 'get',
-                    url: '{{ route('conversation') }}',
-                    data: {
-                        id: id
-                    },
-                    success: function(response) {
-                        $('.media-list').empty().append(response.component);
-                        $('.start-chat-area').removeClass('d-none');
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+            //     $.ajax({
+            //         type: 'get',
+            //         url: '{{ route('conversation') }}',
+            //         data: {
+            //             id: id
+            //         },
+            //         success: function(response) {
+            //             $('.media-list').empty().append(response.component);
+            //             $('.start-chat-area').removeClass('d-none');
+            //         },
+            //         error: function(error) {
+            //             console.error(error);
+            //         }
+            //     });
 
-                startCooldownTimer(60, chatBtn, function() {
-                    chatBtn.text('Chats aktualisieren');
-                    chatBtn.prop('disabled', false);
-                    localStorage.removeItem('countdown3');
-                });
+            //     startCooldownTimer(60, chatBtn, function() {
+            //         chatBtn.text('Chats aktualisieren');
+            //         chatBtn.prop('disabled', false);
+            //         localStorage.removeItem('countdown3');
+            //     });
 
-                chatBtn.prop('disabled', true);
-            });
+            //     chatBtn.prop('disabled', true);
+            // });
 
             var storedCountdown4 = localStorage.getItem('countdown4');
             if (storedCountdown4 && new Date(storedCountdown4) > new Date()) {
                 var remainingSeconds = Math.floor((new Date(storedCountdown4) - new Date()) / 1000);
                 startCooldownTimer(remainingSeconds, dltBtn, function() {
-                    dltBtn.text('Chats aktualisieren');
+                    dltBtn.text('Invalid Accounts löschen');
                     dltBtn.prop('disabled', false);
                     localStorage.removeItem('countdown4');
                 });
@@ -1033,7 +1035,7 @@
                 });
 
                 startCooldownTimer(60, dltBtn, function() {
-                    dltBtn.text('Chats aktualisieren');
+                    dltBtn.text('Invalid Accounts löschen');
                     dltBtn.prop('disabled', false);
                     localStorage.removeItem('countdown4');
                 });
@@ -1063,12 +1065,40 @@
         $(document).ready(function() {
             $(document).on('click', '.list-style', function() {
                 if ($(event.target).hasClass('fa-xmark')) {
-                    var id = $(this).attr('data-id');
-                    handleXMarkClick(id);
+                    Swal.fire({
+                        title: 'Bist du sicher?',
+                        text: 'Sie können dies nicht rückgängig machen!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Stornieren',
+                        confirmButtonText: 'Ja, weiter!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var id = $(this).attr('data-id');
+                            handleXMarkClick(id);
+                        }
+                    });
+
 
                 } else if ($(event.target).hasClass('fa-rotate-right')) {
-                    var id = $(this).attr('data-id');
-                    handleRotate(id);
+                    Swal.fire({
+                        title: 'Bist du sicher?',
+                        text: 'Sie können dies nicht rückgängig machen!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Stornieren',
+                        confirmButtonText: 'Ja, weiter!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var id = $(this).attr('data-id');
+                            handleRotate(id);
+                        }
+                    });
+
 
                 } else {
 
@@ -1130,7 +1160,11 @@
                         id: id,
                     },
                     success: function(response) {
+                        $('.media-list').empty();
+                        $('.start-chat-area').removeClass('d-none');
+                        $('.custom-img').removeClass('d-none');
                         $('.scrol-custom').empty().append(response.component);
+
                         if (response.success) {
                             toastr.success(response.success, '', {
                                 onShown: function() {
@@ -1165,7 +1199,11 @@
                         id: id,
                     },
                     success: function(response) {
+                        $('.media-list').empty();
+                        $('.start-chat-area').removeClass('d-none');
+                        $('.custom-img').removeClass('d-none');
                         $('.scrol-custom').empty().append(response.component);
+
                         if (response.success) {
                             toastr.success(response.success, '', {
                                 onShown: function() {

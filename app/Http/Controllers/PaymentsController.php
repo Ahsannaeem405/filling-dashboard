@@ -88,8 +88,10 @@ class PaymentsController extends Controller
         $payment->status = $request->status;
         if($request->status == 'pending'){
             $payment->reason = $request->pendingReason;
-        }else{
+        }else if($request->status == 'reject'){
             $payment->reason = $request->rejectReason;
+        }else{
+            $payment->reason = $request->transection_id;
         }
         $payment->save();
         return redirect()->route('payment')->with('success', 'Status updated successfully');
@@ -131,7 +133,7 @@ class PaymentsController extends Controller
             
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred. Please try again.']);
+            return back()->with('error','An error occurred. Please try again.');
         }
         
     }

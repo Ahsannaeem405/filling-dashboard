@@ -78,8 +78,8 @@ class ChatsController extends Controller
             $client_id = $data['userIdBuyer'];
             $adLink = $account->adLink;
             
-            $paypal = Payment::where('payment_method','paypal')->pluck('conv_id');
-            $bank = Payment::where('payment_method','bank')->pluck('conv_id');
+            $paypal = Payment::where('user_id',Auth::user()->id)->where('payment_method','paypal')->pluck('conv_id');
+            $bank = Payment::where('user_id',Auth::user()->id)->where('payment_method','bank')->pluck('conv_id');
             if($paypal){
                 $paypal = $paypal->contains($data['id']);
             }
@@ -319,7 +319,7 @@ class ChatsController extends Controller
                     $account->save();
                 }else{
                     $account = Account::find($account->id);
-                    $account->adStatus = '';
+                    $account->adStatus = NULL;
                     $account->save();
                 }                
             }
@@ -340,9 +340,9 @@ class ChatsController extends Controller
     public function DeleteInactive()
     {
         if (Auth::user()->role == 'admin') {
-            $inactive_accounts = Account::where('adStatus','')->get();
+            $inactive_accounts = Account::where('adStatus',NULL)->get();
         } else {
-            $inactive_accounts = Account::where('buy_id', Auth::user()->id)->where('adStatus','')->get();
+            $inactive_accounts = Account::where('buy_id', Auth::user()->id)->where('adStatus',NULL)->get();
         }
         if ($inactive_accounts->count() > 0) {
             

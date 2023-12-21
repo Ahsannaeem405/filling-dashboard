@@ -56,6 +56,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12" id="paidField" style="display: none;">
+                                        <div class="form-group">
+                                            <label>Transection ID</label>
+                                            <input type="text" name="transection_id" class="form-control" value="{{ old('transection_id', ($payment->status === 'paid') ? $payment->reason : '') }}">
+                                        </div>
+                                    </div>
                                     <div class="col-12" id="pendingField" style="display: none;">
                                         <div class="form-group">
                                             <label>Reason for Ausstehend</label>
@@ -84,25 +90,31 @@
         $(document).ready(function () {
                 var val = $('input[name="status"]:checked').val();
                 if (val === 'pending') {
+                    $('#paidField').hide();
                     $('#rejectField').hide();
                     $('#pendingField').show();
                 } else if (val === 'reject') {
+                    $('#paidField').hide();
                     $('#pendingField').hide();
                     $('#rejectField').show();
-                }else{
+                }else if (val === 'paid'){
                     $('#rejectField').hide();
                     $('#pendingField').hide();  
+                    $('#paidField').show();
                 }
             $('input[name="status"]').change(function () {
                 if ($(this).val() === 'pending') {
+                    $('#paidField').hide();
                     $('#rejectField').hide();
                     $('#pendingField').show();
                 } else if ($(this).val() === 'reject') {
+                    $('#paidField').hide();
                     $('#pendingField').hide();
                     $('#rejectField').show();
                 }else{
                     $('#rejectField').hide();
                     $('#pendingField').hide();  
+                    $('#paidField').show();
                 }
             });
         });

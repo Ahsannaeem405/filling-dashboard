@@ -22,6 +22,14 @@
         <td class="custom-td">{{ $payment->client_name }}</td>
     </tr>
     <tr>
+        <th class="custom-th">User Name:</th>
+        <td class="custom-td">{{ $payment->user->name }}</td>
+    </tr>
+    <tr>
+        <th class="custom-th">BTC Wallet:</th>
+        <td class="custom-td">{{ isset($payment->user->wallet) ? $payment->user->wallet : '-' }}</td>
+    </tr>
+    <tr>
         <th class="custom-th">Price</th>
         <td class="custom-td">{{ $payment->price }}</td>
     </tr>
@@ -44,6 +52,11 @@
     @if ($payment->status === 'reject')
         <tr>
             <th class="custom-th">Reason</th>
+            <td class="custom-td">{{ $payment->reason }}</td>
+        </tr>
+    @elseif ($payment->status === 'paid')
+        <tr>
+            <th class="custom-th">Transection Id</th>
             <td class="custom-td">{{ $payment->reason }}</td>
         </tr>
     @endif
