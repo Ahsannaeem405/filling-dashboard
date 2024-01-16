@@ -46,7 +46,6 @@ class AccountController extends Controller
                     }
                 }
             }
-
             $account_id = null;
             $userIdPattern = '/:(\d+):/';
             if (preg_match($userIdPattern, $data, $userIdMatches)) {
@@ -61,7 +60,6 @@ class AccountController extends Controller
 
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
             $response = refreshAccessToken($refreshToken);
-
             $accessToken = $response['accessToken'];
 
             $data = Http::withHeaders([
@@ -69,7 +67,7 @@ class AccountController extends Controller
                 'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-            // dd($data->json());
+
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
 
             $price = $adData['price']['amount']['value'];

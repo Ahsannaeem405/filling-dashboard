@@ -12,7 +12,6 @@ function refreshAccessToken($refreshToken)
 
         $setting = Setting::first();
         $accessTokenApi = $setting->accessToken_api;
-        $authorization = $setting->accessToken_header_api;
 
         if ($account) {
             $currentTime = now();
@@ -24,21 +23,32 @@ function refreshAccessToken($refreshToken)
                 ];
             }
         }
-        $response = Http::withHeaders([
+
+        $response = Http::withCookies(['refresh_token' => $refreshToken], 'www.kleinanzeigen.de')->withHeaders([
             'User-Agent' => '',
-            'Authorization' => $authorization,
-        ])->post($accessTokenApi, [
-            'refreshToken' => $refreshToken,
-        ]);
+        ])->get($accessTokenApi);
+        
+        $cookieJar = $response->cookies();
+        $accessTokenCookie = $cookieJar->getCookieByName('access_token');
+        $refreshTokenCookie = $cookieJar->getCookieByName('refresh_token');
+        // dd($accessTokenCookie->getValue(),$refreshTokenCookie->getValue());
+
+        // $response = Http::withHeaders([
+        //     'User-Agent' => '',
+        //     'Authorization' => $authorization,
+        // ])->post($accessTokenApi, [
+        //     'refreshToken' => $refreshToken,
+        // ]);
 
         if ($account) {
             $account->update([
-                'accessToken' => $response['accessToken'],
+                'accessToken' => $accessTokenCookie,
+                'refreshToken' => $refreshTokenCookie,
                 'created_at' => now(),
             ]);
         }
         return [
-            'accessToken' => $response['accessToken'],
+            'accessToken' => $accessTokenCookie->getValue(),
         ];
     } catch (\Exception $e) {
         return [

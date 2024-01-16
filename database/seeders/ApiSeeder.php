@@ -14,7 +14,7 @@ class ApiSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
-            'accessToken_api' => 'https://gateway.kleinanzeigen.de/auth/refresh',
+            'accessToken_api' => 'https://www.kleinanzeigen.de/m-access-token.json',
             'accessToken_header_api' => 'Basic aXBob25lOmc0Wmk5cTEw',
             'getUser_api' => 'https://api.kleinanzeigen.de/api/users/{USERID}/ads.json?page=0&size=30',
             'getUser_header_api' => 'Basic aXBob25lOmc0Wmk5cTEw',
