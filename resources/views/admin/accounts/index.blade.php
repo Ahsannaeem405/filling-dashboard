@@ -354,7 +354,7 @@
         </table>
         <form id="importForm" method="post" action="{{ route('import.accounts') }}" enctype="multipart/form-data">
             @csrf
-            <input type="file" id="fileInput" name="file" accept=".csv" style="display:none;">
+            <input type="file" id="fileInput" name="file" accept=".txt" style="display:none;">
         </form>
 
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>

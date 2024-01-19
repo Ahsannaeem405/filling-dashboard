@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\AccountImport;
 use App\Models\Account;
 use App\Models\Setting;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -219,12 +220,67 @@ class AccountController extends Controller
             'success' => 'Delete account successfully.',
         ]);
     }
-    public function Import(Request $request)
+    
+    // public function Import(Request $request)
+    // {
+    //     $file = $request->file('file');
+
+    //     Excel::import(new AccountImport, $file);
+
+    //     return redirect()->route('accounts')->with('success', 'Accounts Imported Successfully.');
+    // }
+
+    public function import(Request $request)
     {
         $file = $request->file('file');
+        $contents = file_get_contents($file->getRealPath());
+        $accounts = explode("\n", $contents);
 
-        Excel::import(new AccountImport, $file);
+        foreach ($accounts as $account) {
+            $this->create($account);
+        }
 
         return redirect()->route('accounts')->with('success', 'Accounts Imported Successfully.');
+    }
+    private function create($account)
+    {
+        $description = $account;
+        $refreshToken = $this->extractRefreshToken($description);
+        $account_id = $this->extractAccountId($description);
+        Account::create([
+            'description' => $description,
+            'refreshToken' => $refreshToken,
+            'account_id' => $account_id,
+        ]);
+    }
+
+    private function extractRefreshToken($description)
+    {
+        $refreshToken = null;
+        $jsonString = substr($description, strpos($description, '['));
+        $jsonArray = json_decode($jsonString, true);
+        
+        if ($jsonArray) {
+            foreach ($jsonArray as $item) {
+                if (isset($item['name']) && $item['name'] === 'refresh_token') {
+                    $refreshToken = $item['value'];
+                    break;
+                }
+            }
+        }
+
+        return $refreshToken;
+    }
+
+    private function extractAccountId($description)
+    {
+        $account_id = null;
+        $userIdPattern = '/:(\d+):/';
+
+        if (preg_match($userIdPattern, $description, $userIdMatches)) {
+            $account_id = $userIdMatches[1];
+        }
+
+        return $account_id;
     }
 }
