@@ -626,7 +626,7 @@
                                             </div>
                                             <div style="display: flex; justify-content:space-between">
                                                 <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
-                                                <p class="unread-chat d-none"></p>
+                                                <p class="unread-chat d-none" data-account-id="{{ $account->account_id }}"></p>
                                             </div>
                                         </div>
                                         @if (Auth::user()->role == 'user')
@@ -1236,8 +1236,9 @@
                 $(this).addClass("active");
                 $(this).find('.pr-1 .initials').css('background-color', '#10163A');
                 var msg = $(this).find('.unread-msg');
-
+                
                 var id = $(this).attr('data-id');
+                
                 var conv_id = $(this).attr('data-conv-id');
                 // var chatContainer = $('.append-chat')[0];
                 $('.ps__rail-y').css({

@@ -37,10 +37,10 @@ class ChatsController extends Controller
             $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
 
             $accessToken = refreshAccessToken($refreshToken);
-            
+        
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-            
+
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
@@ -108,21 +108,29 @@ class ChatsController extends Controller
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;
+            $getUserConvAPi = $setting->getUserConv_api;
 
             $account = Account::find($request->id);
+            
+            $unreadCounts = [];
+        
+            
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
+            
             $conv_id = $request->conv_id;
 
             $msg_api = str_replace('{USERID}', $user_id, $sendMsgAPi);
 
             $send_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
+            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
+
             $accessToken = refreshAccessToken($refreshToken);
 
             if ($request->image === 'undefined') {
 
-                Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                     ->post(
                         "{$send_msg_api}",
                         [
@@ -137,7 +145,7 @@ class ChatsController extends Controller
                 $file->move($destinationPath, $fileName);
                 $path = public_path('content_media/' . $fileName);
 
-                Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                     ->attach(
                         'attachment',
                         file_get_contents($path),
@@ -150,9 +158,18 @@ class ChatsController extends Controller
                         ]
                     );
             }
+            if ($response->json() !== null) {
+
+                $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                    ->get("{$conversation_api}");
+                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
+
+            }
 
             return response()->json([
                 'success' => 'Message Send Successfully',
+                'unread' => $unreadCounts,
+                'account_id' => $account->account_id
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
@@ -276,6 +293,7 @@ class ChatsController extends Controller
 
             foreach ($accounts_reload as $account) {
 
+
                 $data = $account->description;
                 $parts = explode(':', $data);
                 $email = $parts[0];
@@ -287,10 +305,10 @@ class ChatsController extends Controller
                 
                 if($accessToken['accessToken'] != null){
 
-                    $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                    $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                         ->get("{$conversation_api}");
 
-                    $unreadCounts[$account->id] = $data['numUnread'] ?? 0;
+                    $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
                     
                     $data = Http::withHeaders([
                         'User-Agent' => '',
@@ -309,7 +327,6 @@ class ChatsController extends Controller
                     if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                         $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
                     }
-    
                     $account = Account::find($account->id);
                     $account->adTitle = $adTitle;
                     $account->adPic = $pictureLink;

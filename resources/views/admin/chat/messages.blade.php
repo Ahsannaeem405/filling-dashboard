@@ -108,6 +108,7 @@
 <input type="file" id="imageInput" style="display:none" accept="image/jpeg">
 
 <script>
+
     function selectImage() {
         $('#imageInput').val('');
         $('#imageInput').click();
@@ -184,7 +185,18 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response);
+                    var id = response.account_id;
+                    var $specificChat = $('.unread-chat[data-account-id="' + id + '"]');
+
+                    if ($specificChat.length) {
+                        if (response.unread && response.unread > 0) {
+                            $specificChat.text(response.unread);
+                        } else {
+                            $specificChat.remove();
+                        }
+                    } else {
+                        console.error('Chat element not found for account ID: ' + id);
+                    }
                 },
                 error: function(error) {
                     console.error(error);
@@ -239,7 +251,18 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response);
+                    var id = response.account_id;
+                    var $specificChat = $('.unread-chat[data-account-id="' + id + '"]');
+
+                    if ($specificChat.length) {
+                        if (response.unread && response.unread > 0) {
+                            $specificChat.text(response.unread);
+                        } else {
+                            $specificChat.remove();
+                        }
+                    } else {
+                        console.error('Chat element not found for account ID: ' + id);
+                    }
                 },
                 error: function(error) {
                     console.error(error);

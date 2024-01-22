@@ -17,7 +17,7 @@ function refreshAccessToken($refreshToken)
             $currentTime = now();
             $tokenCreationTime = $account->created_at;
 
-            if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 30) {
+            if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 1) {
                 return [
                     'accessToken' => $account->accessToken,
                 ];
@@ -42,8 +42,8 @@ function refreshAccessToken($refreshToken)
 
         if ($account) {
             $account->update([
-                'accessToken' => $accessTokenCookie,
-                'refreshToken' => $refreshTokenCookie,
+                'accessToken' => $accessTokenCookie->getValue(),
+                'refreshToken' => $refreshTokenCookie->getValue(),
                 'created_at' => now(),
             ]);
         }

@@ -220,15 +220,6 @@ class AccountController extends Controller
             'success' => 'Delete account successfully.',
         ]);
     }
-    
-    // public function Import(Request $request)
-    // {
-    //     $file = $request->file('file');
-
-    //     Excel::import(new AccountImport, $file);
-
-    //     return redirect()->route('accounts')->with('success', 'Accounts Imported Successfully.');
-    // }
 
     public function import(Request $request)
     {
@@ -247,11 +238,86 @@ class AccountController extends Controller
         $description = $account;
         $refreshToken = $this->extractRefreshToken($description);
         $account_id = $this->extractAccountId($description);
-        Account::create([
-            'description' => $description,
-            'refreshToken' => $refreshToken,
-            'account_id' => $account_id,
-        ]);
+
+        $data = $description;
+
+        $refreshToken = null;
+        $jsonString = substr($data, strpos($data, '['));
+        $jsonArray = json_decode($jsonString, true);
+        if ($jsonArray) {
+            foreach ($jsonArray as $item) {
+                if (isset($item['name']) && $item['name'] === 'refresh_token') {
+                    $refreshToken = $item['value'];
+                    break;
+                }
+            }
+        }
+
+        $account_id = null;
+        $userIdPattern = '/:(\d+):/';
+        if (preg_match($userIdPattern, $data, $userIdMatches)) {
+            $account_id = $userIdMatches[1];
+        }
+        $setting = Setting::first();
+        $getUserApi = $setting->getUser_api;
+        $authorization = $setting->getUser_header_api;
+
+        $parts = explode(':', $data);
+        $email = $parts[0];
+
+        $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
+
+        $response = refreshAccessToken($refreshToken);
+
+        $accessToken = $response['accessToken'];
+
+
+        $data = Http::withHeaders([
+            'User-Agent' => '',
+            'Authorization' => $authorization,
+            'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+        ])->get("{$getUser_api}");
+        if($data->json() !== null){
+            $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+
+            $price = $adData['price']['amount']['value'];
+            $title = $adData['title']['value'];
+            $reloadDate = $adData['last-user-edit-date']['value'];
+            $status = $adData['ad-status']['value'];
+            
+            $linkArray = $adData['link'];
+    
+            $link = null;
+            foreach ($linkArray as $link) {
+                if (isset($link['rel']) && $link['rel'] === 'self-public-website') {
+                    $link = $link['href'];
+                    break;
+                }
+            }
+    
+            $pictureLink = null;
+            if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
+                $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
+            }
+            Account::create([
+                'description' => $description,
+                'refreshToken' => $refreshToken,
+                'account_id' => $account_id,
+                'adPic' => $pictureLink,
+                'adLink' => $link,
+                'adTitle' => $title,
+                'adPrice' => $price,
+                'adStatus' => $status,
+                'reloadDate' => $reloadDate
+            ]);
+        }else{
+            Account::create([
+                'description' => $description,
+                'refreshToken' => $refreshToken,
+                'account_id' => $account_id,
+            ]);
+        }
+        
     }
 
     private function extractRefreshToken($description)
@@ -287,12 +353,8 @@ class AccountController extends Controller
     {
         $currentRegistrationStatus = Setting::first();
     
-        // Toggle the registration status between 0 and 1
         $newRegistrationStatus = $currentRegistrationStatus->registration == 0 ? 1 : 0;
-    
-        // Setting::update([
-        //     'registration' => $newRegistrationStatus,
-        // ]);
+
         $currentRegistrationStatus->registration = $newRegistrationStatus;
         $currentRegistrationStatus->save();
     
