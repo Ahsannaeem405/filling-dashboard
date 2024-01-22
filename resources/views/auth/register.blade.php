@@ -239,6 +239,10 @@
 
 <body>
     <!-- BEGIN: Content-->
+    @php
+        $registration = App\Models\Setting::first();
+    @endphp
+    @if ($registration->registration == 1)
     <div class="">
         <div class="">
 
@@ -367,6 +371,10 @@
             </div>
         </div>
     </div>
+    @else
+        <h2 style="color:white;text-align: center; margin: 25%;">Page under maintenance!</h2>
+    @endif
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('accounts/delete/xmark', [AccountController::class, 'DeleteSingleAccount'])->name('user.delete.accounts');
         Route::post('accounts/import', [AccountController::class, 'Import'])->name('import.accounts');
 
+        Route::get('update-registration', [AccountController::class, 'updateRegistration'])->name('registration_on');
+
         // Settings
         Route::get('settings', [SettingController::class, 'Setting'])->name('setting');
         Route::post('settings/store', [SettingController::class, 'StoreSetting'])->name('store.setting');

@@ -22,6 +22,11 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ route('edit.profile') }}"><i class="feather icon-user"></i> Edit Profile</a>
+                            <div class="dropdown-divider"></div>
+                            @php
+                                $registration = App\Models\Setting::first();
+                            @endphp
+                            <a class="dropdown-item" href="{{ route('registration_on') }}">Registration {{ $registration->registration == 1 ? 'On' : 'OFF' }} </a>
                             
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -283,4 +283,21 @@ class AccountController extends Controller
 
         return $account_id;
     }
+    public function updateRegistration()
+    {
+        $currentRegistrationStatus = Setting::first();
+    
+        // Toggle the registration status between 0 and 1
+        $newRegistrationStatus = $currentRegistrationStatus->registration == 0 ? 1 : 0;
+    
+        // Setting::update([
+        //     'registration' => $newRegistrationStatus,
+        // ]);
+        $currentRegistrationStatus->registration = $newRegistrationStatus;
+        $currentRegistrationStatus->save();
+    
+        $statusMessage = $newRegistrationStatus == 1 ? 'Enabled' : 'Disabled';
+    
+        return back()->with('success', "Registration has been $statusMessage");
+    }
 }

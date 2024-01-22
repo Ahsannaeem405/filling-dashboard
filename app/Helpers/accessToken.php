@@ -50,7 +50,7 @@ function refreshAccessToken($refreshToken)
         return [
             'accessToken' => $accessTokenCookie->getValue(),
         ];
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         return [
             'accessToken' => null,
         ];
