@@ -38,7 +38,7 @@ class HomeController extends Controller
 
                 $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
-                $accessToken = refreshAccessToken($account->refreshToken);
+                $accessToken = refreshAccessToken($account->refreshToken,$account->id);
 
                 $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");

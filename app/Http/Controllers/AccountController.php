@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -26,6 +26,7 @@ class AccountController extends Controller
     }
     public function StoreAccount(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'description' => 'required',
         ]);
@@ -60,8 +61,10 @@ class AccountController extends Controller
             $email = $parts[0];
 
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
-            $response = refreshAccessToken($refreshToken);
+            $response = refreshAccessToken($refreshToken,0);
+
             $accessToken = $response['accessToken'];
+            $proxy = $response['proxy'];
 
             $data = Http::withHeaders([
                 'User-Agent' => '',
@@ -97,6 +100,7 @@ class AccountController extends Controller
             $account->refreshToken = $refreshToken;
             $account->accessToken = $accessToken;
             $account->account_id = $account_id;
+            $account->proxy = $proxy;
             $account->adPic = $pictureLink;
             $account->adLink = $link;
             $account->adTitle = $title;
@@ -153,10 +157,10 @@ class AccountController extends Controller
 
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
 
-            $response = refreshAccessToken($refreshToken);
+            $response = refreshAccessToken($refreshToken,$account->id);
 
             $accessToken = $response['accessToken'];
-
+            $proxy = $response['proxy'];
 
             $data = Http::withHeaders([
                 'User-Agent' => '',
@@ -189,6 +193,7 @@ class AccountController extends Controller
             $account->description = $request->description;
             $account->refreshToken = $refreshToken;
             $account->account_id = $account_id;
+            $account->proxy = $proxy;
             $account->adPic = $pictureLink;
             $account->adLink = $link;
             $account->adTitle = $title;
@@ -267,9 +272,10 @@ class AccountController extends Controller
 
         $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
 
-        $response = refreshAccessToken($refreshToken);
+        $response = refreshAccessToken($refreshToken,0);
 
         $accessToken = $response['accessToken'];
+        $proxy = $response['proxy'];
 
 
         $data = Http::withHeaders([
@@ -303,6 +309,8 @@ class AccountController extends Controller
                 'description' => $description,
                 'refreshToken' => $refreshToken,
                 'account_id' => $account_id,
+                'accessToken' => $accessToken,
+                'proxy' => $proxy,
                 'adPic' => $pictureLink,
                 'adLink' => $link,
                 'adTitle' => $title,

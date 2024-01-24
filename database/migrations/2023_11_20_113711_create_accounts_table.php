@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('buy_id')->nullable();
             $table->date('buy_date')->nullable();
             $table->integer('account_id')->nullable();
+            $table->text('proxy')->nullable();
             $table->text('description')->nullable();
             $table->text('refreshToken')->nullable();
             $table->text('accessToken')->nullable();

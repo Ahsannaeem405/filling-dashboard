@@ -4,30 +4,48 @@ use App\Models\Account;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 
-function refreshAccessToken($refreshToken)
+function refreshAccessToken($refreshToken,$Account_id=0)
 {
     try {
-        $account = Account::where('refreshToken', $refreshToken)->first();
+        if($Account_id != 0){
+            $account = Account::find($Account_id);
+        }
 
         $setting = Setting::first();
         $accessTokenApi = $setting->accessToken_api;
 
-        if ($account) {
+        if (isset($account)) {
             $currentTime = now();
             $tokenCreationTime = $account->created_at;
 
-            if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 1) {
+            if ($tokenCreationTime && $currentTime->diffInMinutes($tokenCreationTime) < 30) {
                 return [
                     'accessToken' => $account->accessToken,
+                    'proxy' => $account->proxy,
                 ];
             }
         }
-
-        $response = Http::withCookies(['refresh_token' => $refreshToken], 'www.kleinanzeigen.de')->withHeaders([
-            'User-Agent' => '',
-        ])->get($accessTokenApi);
+        $randomProxy = Str::random(8);
         
+        $proxyUrlTemplate = 'http://rotating.proxyempire.io:5000:package-10001-country-de-sessionid-[[RANDOM_SESSION]]-sessionlength-3600:aq6VTDNdd4jwrb5n';
+
+        $proxyUrl = str_replace('[[RANDOM_SESSION]]', $randomProxy, $proxyUrlTemplate);
+
+        $proxies = [
+            'http'  => $proxyUrl,
+        ];
+
+        $response = Http::withCookies(['refresh_token' => $refreshToken], 'www.kleinanzeigen.de')
+            ->withHeaders([
+                'User-Agent' => '',
+            ])
+            ->withOptions([
+                'proxy' => $proxies,
+            ])
+            ->get($accessTokenApi);
+
         $cookieJar = $response->cookies();
         $accessTokenCookie = $cookieJar->getCookieByName('access_token');
         $refreshTokenCookie = $cookieJar->getCookieByName('refresh_token');
@@ -40,19 +58,22 @@ function refreshAccessToken($refreshToken)
         //     'refreshToken' => $refreshToken,
         // ]);
 
-        if ($account) {
+        if (isset($account)) {
             $account->update([
                 'accessToken' => $accessTokenCookie->getValue(),
                 'refreshToken' => $refreshTokenCookie->getValue(),
+                'proxy' => $randomProxy,
                 'created_at' => now(),
             ]);
         }
         return [
             'accessToken' => $accessTokenCookie->getValue(),
+            'proxy' => $randomProxy,
         ];
     } catch (\Throwable $e) {
         return [
             'accessToken' => null,
+            'proxy' => null,
         ];
     }
 }
@@ -68,7 +89,7 @@ function showImage($url, $id)
     $parts = explode(':', $data);
     $email = $parts[0];
 
-    $accessToken = refreshAccessToken($refreshToken);
+    $accessToken = refreshAccessToken($refreshToken,$account->id);
 
     $response = Http::withHeaders([
         'User-Agent' => '',

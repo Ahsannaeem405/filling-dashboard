@@ -694,7 +694,7 @@
                                                     <img src="{{ asset('app-assets/images/logo/logo-main.png') }}"
                                                         alt="">
                                                 @endif
-                                                <span class="text-bold-600 mx-50">{{ substr($user->name, 0, 13) }}</span>
+                                                <span class="text-bold-600 mx-50 " style="word-break: break-all">{{ substr($user->name, 0, 13) }}</span>
                                             </div>
                                             <div class="series-result">
                                                 <span>49.487€</span>

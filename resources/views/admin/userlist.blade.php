@@ -226,7 +226,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-      left:unset !important; */
+                  left:unset !important; */
             left: -2px !important;
         }
 
@@ -285,41 +285,50 @@
             background: #7367f0 !important;
             font-weight: 600;
         }
-        .icons{
+
+        .icons {
             color: white;
             font-size: 16px;
             margin: 5px;
             cursor: pointer;
         }
-        .dt-button{
+
+        .dt-button {
             margin-left: 10px !important;
             border-radius: 5px !important;
         }
-        .bottom{
+
+        .bottom {
             margin-top: 10px;
         }
+
         /* .dt-button span{
-            color: white !important;
-        } */
+                        color: white !important;
+                    } */
         /* .dt-button:first-child{
-            margin-left: -170px !important;
-        } */
-        th.sorting:before{
+                        margin-left: -170px !important;
+                    } */
+        th.sorting:before {
             margin-left: -10px !important
         }
-        th.sorting:after{
+
+        th.sorting:after {
             margin-left: -10px !important
         }
-        @media screen and (max-device-width:300px), screen and (max-width:768px){
+
+        @media screen and (max-device-width:300px),
+        screen and (max-width:768px) {
             .top {
                 display: grid;
                 justify-items: start;
                 justify-content: start;
             }
-            .card-main-content{
+
+            .card-main-content {
                 margin-bottom: 12px;
             }
-            .datatable-wraper{
+
+            .datatable-wraper {
                 overflow-x: scroll;
             }
         }
@@ -394,6 +403,7 @@
                         <th>RANG</th>
                         <th>EINKOMMEN</th>
                         <th>ACCOUNT LIMIT</th>
+                        <th>ASSIGNED ACCOUNTS</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -424,6 +434,7 @@
                             </td>
                             <td>0$</td>
                             <td>{{ $user->limit }}</td>
+                            <td class="view_account" id="{{ $user->id }}">View Ads</td>
                             <td>
                                 @if ($user->status == 'active')
                                     <div class="badge badge-success badge-success-alt"
@@ -438,7 +449,7 @@
                                 <a class="icons" style="color: white" href="{{ route('edit', ['id' => $user->id]) }}"><i
                                         class="bx bxs-edit"> </i></a>
                                 <i class="bx bxs-trash icons" onclick="deleteUser({{ $user->id }})"></i>
-                                
+
                                 <form id="delete-form-{{ $user->id }}"
                                     action="{{ route('delete', ['id' => $user->id]) }}" method="POST">
                                     @csrf
@@ -450,12 +461,82 @@
                 </tbody>
             </table>
 
+            <!-- Button trigger modal -->
+            {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    Launch demo modal
+  </button> --}}
 
+            <!-- Modal -->
+            @foreach ($users as $user)
+                <div class="modal fade exampleModalLong" id="exampleModalLong-{{ $user->id }}" tabindex="-1"
+                    role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="p-1 m-0">
+                                    @foreach ($user->AssignAccount as $account)
+                                        <li class="list-style ToggleBtn d-flex" data-id="{{ $account->id }}">
+                                            <div class="avatar  mr-1" style="display: flex; height:70px; width:70px">
+                                                <img class="adPic" src="{{ $account->adPic }}" alt="" width="70px">
+                                                @if ($account->adStatus == 'ACTIVE')
+                                                    <p class="avatar-status-online"></p>
+                                                @else
+                                                    <p class="avatar-status-busy"></p>
+                                                @endif
+                                            </div>
+                                            <div class="user-chat-info new-user d-flex my-1">
+                                                <div class="contact-info">
+                                                    <div style="display: flex; justify-content:space-between">
+                                                        <h5 class="font-weight-bold mb-0 ellipsis">
+                                                            {{ $account->adTitle }}
+                                                            &nbsp;&nbsp;&nbsp;
+                                                        </h5>
+                                                        <p style="margin-bottom: 0px">
+                                                            {{ \Carbon\Carbon::parse($account->reloadDate)->format('d.m.y') }}
+                                                        </p>
+                                                    </div>
+                                                    <div style="display: flex; justify-content:space-between">
+                                                        <p class="truncate" style="max-width:75%">
+                                                            {{ $account->adPrice }} €</p>
+                                                        @if (isset($unreadCounts[$account->id]))
+                                                            <p class="unread-chat {{ $unreadCounts[$account->id] > 0 ? '' : 'd-none' }}"
+                                                                data-account-id="{{ $account->account_id }}">
+                                                                {{ $unreadCounts[$account->id] }}
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                @if (Auth::user()->role == 'user')
+                                                    @if ($account->adStatus == 'ACTIVE')
+                                                        <div class="float-right ml-2"><i class="fa fa-rotate-right"
+                                                                id="{{ $account->id }}"></i></div>
+                                                    @else
+                                                        <div class="float-right ml-2"><i class="fa fa-xmark"
+                                                                id="{{ $account->id }}"></i></div>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
             <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
             <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
             <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
             <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
             <script>
                 new DataTable('#example', {
                     dom: '<"top"lfB>rt<"bottom"ip><"clear">',
@@ -463,46 +544,56 @@
                             extend: 'collection',
                             className: 'table-plus-btn',
                             text: 'Export',
-                            buttons: [
-                                {
+                            buttons: [{
                                     extend: 'copy',
                                     exportOptions: {
-                                        columns: [1,2,3,4,5]
+                                        columns: [1, 2, 3, 4, 5]
                                     }
                                 },
                                 {
                                     extend: 'excel',
                                     exportOptions: {
-                                        columns: [1,2,3,4,5]
+                                        columns: [1, 2, 3, 4, 5]
                                     }
                                 },
                                 {
                                     extend: 'csv',
                                     exportOptions: {
-                                        columns: [1,2,3,4,5] 
+                                        columns: [1, 2, 3, 4, 5]
                                     }
-                                }   
+                                }
                             ]
                         },
-                        
+
 
                     ],
                     language: {
                         searchPlaceholder: 'search...'
                     },
-                    columnDefs: [
-                        { targets: [0], orderable: false }
-                    ],
+                    columnDefs: [{
+                        targets: [0],
+                        orderable: false
+                    }],
                     order: []
                 });
             </script>
             <script>
-                $(document).ready(function () {
-                    $('#statusFilter').change(function () {
+                $('.view_account').on('click', function() {
+                    var id = $(this).attr('id');
+                    $('#exampleModalLong-' + id).modal('show');
+
+                });
+                $('.close').on('click', function() {
+                    $('.exampleModalLong').modal('hide');
+                })
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('#statusFilter').change(function() {
                         var selectedStatus = $(this).val().toLowerCase();
 
                         $('.user-row').hide();
-            
+
                         if (selectedStatus === 'select status') {
                             $('.user-row').show();
                         } else {

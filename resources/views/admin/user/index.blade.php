@@ -237,9 +237,7 @@
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                    <label for="firstName3">
-                                                                                        Ad Title
-                                                                                    </label>
+                                                                                    <label for="firstName3">Ad Title</label>
                                                                                     <input type="text"
                                                                                         class="form-control required"
                                                                                         id="firstName3" name="firstName"
@@ -494,7 +492,8 @@
 
                     if (!isFileSizeValid(file)) {
                         alert(
-                            `File size of ${file.name} exceeds the maximum allowed size of ${maxFileSizeMB} MB.`);
+                            `File size of ${file.name} exceeds the maximum allowed size of ${maxFileSizeMB} MB.`
+                        );
                         return;
                     }
                 }

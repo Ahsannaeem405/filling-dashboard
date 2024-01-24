@@ -36,7 +36,7 @@ class ChatsController extends Controller
 
             $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
 
-            $accessToken = refreshAccessToken($refreshToken);
+            $accessToken = refreshAccessToken($refreshToken,$account->id);
         
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
@@ -66,7 +66,7 @@ class ChatsController extends Controller
 
             $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
-            $accessToken = refreshAccessToken($refreshToken);
+            $accessToken = refreshAccessToken($refreshToken,$account->id);
 
 
             $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
@@ -126,7 +126,7 @@ class ChatsController extends Controller
 
             $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
 
-            $accessToken = refreshAccessToken($refreshToken);
+            $accessToken = refreshAccessToken($refreshToken,$account->id);
 
             if ($request->image === 'undefined') {
 
@@ -191,7 +191,7 @@ class ChatsController extends Controller
             $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
             $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
 
-            $accessToken = refreshAccessToken($refreshToken);
+            $accessToken = refreshAccessToken($refreshToken,$account->id);
 
             Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->delete("{$deleteApi}");
@@ -301,7 +301,7 @@ class ChatsController extends Controller
                 $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
                 $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
-                $accessToken = refreshAccessToken($account->refreshToken);
+                $accessToken = refreshAccessToken($account->refreshToken,$account->id);
                 
                 if($accessToken['accessToken'] != null){
 
