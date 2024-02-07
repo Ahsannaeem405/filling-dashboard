@@ -32,50 +32,41 @@ class PaymentsController extends Controller
         try{
             $setting = Setting::first();
             $getUserConvMsgAPi = $setting->getUserConvMsg_api;
-    
+
             $account = Account::find($request->id);
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
             $conv_id = $request->conv_id;
-    
-            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
-    
-            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
-    
-            $accessToken = refreshAccessToken($refreshToken,$account->id);
-    
-    
-            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->get("{$conv_msg_api}");
-    
-            $payment = Payment::where('user_id',Auth::user()->id)->where('client_id', $data['userIdBuyer'])->first();
-            if ($payment) {
-                $payment->user_id = Auth::user()->id;
-                $payment->account_id = $account->id;
-                $payment->client_id = $data['userIdBuyer'];
-                $payment->conv_id = $conv_id;
-                $payment->client_name = $data['buyerName'];
-                $payment->price = $data['adPriceInEuroCent'] / 100;
-                $payment->payment_method = $request->method;
-                $payment->save();
-            } else {
-                $new = new Payment();
-                $new->user_id = Auth::user()->id;
-                $new->account_id = $account->id;
-                $new->client_id = $data['userIdBuyer'];
-                $new->conv_id = $conv_id;
-                $new->client_name = $data['buyerName'];
-                $new->price = $data['adPriceInEuroCent'] / 100;
-                $new->payment_method = $request->method;
-                $new->save();
-            }
-    
+
+//            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+//
+//            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+//
+//            $accessToken = refreshAccessToken($refreshToken,$account->id);
+//
+//
+//            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+//                ->get("{$conv_msg_api}");
+
+
+                Payment::updateOrCreate(
+                ['conv_id' => $conv_id],
+                [
+                 'user_id'=>Auth::id(),
+                'account_id' => $account->id,
+                'payment_method'=>$request->method,
+                'price' => $account->adPrice,
+                'client_name'=>$account->adTitle,
+                ]
+                );
+
+
             return response()->json(['success' => 'Payment wurde angefordert.']);
         }
         catch(\Exception $e){
             return response()->json(['success' => 'Something went wrong.']);
         }
-        
+
     }
     public function EditPayment($id)
     {
@@ -98,8 +89,8 @@ class PaymentsController extends Controller
     }
     public function Chat($id)
     {
-        
-        
+
+
         try {
             $payment = Payment::find($id);
             $conv_id = $payment->conv_id;
@@ -130,12 +121,12 @@ class PaymentsController extends Controller
             }else{
                 return back()->with('error','An error occurred. Please try again.');
             }
-            
+
 
         } catch (\Exception $e) {
             return back()->with('error','An error occurred. Please try again.');
         }
-        
+
     }
     public function DeletePayment($id)
     {
@@ -144,8 +135,8 @@ class PaymentsController extends Controller
     }
     public function RemovePayment(Request $request)
     {
-        $payment = Payment::where('user_id', Auth::user()->id)->where('client_id', $request->id)->first();
-    
+        $payment = Payment::where('conv_id',$request->conv_id);
+
         if ($payment) {
             $payment->delete();
             return response()->json(['success' => 'Payment wurde entfernt.']);
@@ -153,7 +144,7 @@ class PaymentsController extends Controller
             return response()->json(['error' => 'Payment not found'], 404);
         }
     }
-    
+
     public function PaymentView(Request $request)
     {
         $payment = Payment::find($request->id);

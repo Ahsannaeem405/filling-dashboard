@@ -730,7 +730,7 @@
                                             <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                             {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
                                                                                             id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
-                                            <i class="type-icon fa fa-image" onclick="selectImage()"></i>
+                                            <i class="type-icon fa fa-image d-none" onclick="selectImage()"></i>
                                             <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                 alt="user_avatar" for="emojionearea-button">
                                         </div>
@@ -833,7 +833,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            
+
             var userRole = '{{ Auth::user()->role }}';
 
             var addAccountBtn = $('#addAccountBtn');
@@ -859,7 +859,7 @@
                 }
                 if (userRole !== 'admin') {
                     localStorage.setItem('countdown', new Date(Date.now() + 60000).toISOString());
-                    
+
                     startCooldownTimer(60, addAccountBtn, function() {
                         addAccountBtn.text('Neuen Account hinzufügen');
                         addAccountBtn.prop('disabled', false);
@@ -867,7 +867,7 @@
                     });
 
                     addAccountBtn.prop('disabled', true);
-                }   
+                }
 
                 $.ajax({
                     url: '{{ route('assign') }}',
@@ -928,7 +928,7 @@
                 }
                 if (userRole !== 'admin') {
                     localStorage.setItem('countdown2', new Date(Date.now() + 60000).toISOString());
-                    
+
                     startCooldownTimer(60, updateAccountBtn, function() {
                         updateAccountBtn.text('Accounts aktualisieren');
                         updateAccountBtn.prop('disabled', false);
@@ -1370,7 +1370,7 @@
                 type: 'get',
                 url: '{{ route('remove.payment') }}',
                 data: {
-                    id: id
+                    conv_id: id
                 },
                 success: function(response) {
                     if (response.success) {
@@ -1399,52 +1399,7 @@
             });
         }
     </script>
-    <script>
-        $(document).on('click', '.delete-chat', function() {
-            var id = $('.start-chat-area').attr('data-id');
-            var conv_id = $('.start-chat-area').attr('data-conv-id');
-            $.ajax({
-                type: 'get',
-                url: '{{ route('delete.conversation') }}',
-                data: {
-                    conv_id: conv_id,
-                    id: id,
-                },
-                success: function(response) {
-                    $('.start-chat-area').removeClass('d-none');
-                    $('.active-chat').addClass('d-none');
-                    $('.list-style').removeClass('active');
-                    $('.append-chat').empty();
-                    $('.media-list').empty();
-                    // $('.chat-btn').addClass('d-none');
 
-                    if (response.success) {
-                        toastr.success(response.success, '', {
-                            onShown: function() {
-                                $('.toast-success').css({
-                                    'background-color': '#4CAF50',
-                                    'color': '#ffffff'
-                                });
-                            }
-                        });
-                    } else if (response.error) {
-                        toastr.error(response.error, '', {
-                            onShown: function() {
-                                $('.toast-error').css({
-                                    'background-color': 'rgb(163, 23, 23)',
-                                    'color': '#ffffff'
-                                });
-                            }
-                        });
-                    }
-                },
-                error: function(error) {
-
-                    console.error(error);
-                }
-            });
-        })
-    </script>
     <script>
         $(document).ready(function() {
             function refresh() {

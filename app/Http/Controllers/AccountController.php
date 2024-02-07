@@ -17,7 +17,6 @@ class AccountController extends Controller
     public function Account()
     {
         $accounts = Account::all();
-
         return view('admin.accounts.index', compact('accounts'));
     }
     public function CreateAccount()
@@ -88,7 +87,7 @@ class AccountController extends Controller
                     break;
                 }
             }
-            
+
 
             $pictureLink = null;
             if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
@@ -161,7 +160,7 @@ class AccountController extends Controller
             $getUserApi = $setting->getUser_api;
             $authorization = $setting->getUser_header_api;
 
-            $parts = explode(':', $data);   
+            $parts = explode(':', $data);
             $email = $parts[0];
 
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
@@ -183,7 +182,7 @@ class AccountController extends Controller
             $title = $adData['title']['value'];
             $reloadDate = $adData['last-user-edit-date']['value'];
             $status = $adData['ad-status']['value'];
-            
+
             $linkArray = $adData['link'];
 
             $link = null;
@@ -299,9 +298,9 @@ class AccountController extends Controller
             $title = $adData['title']['value'];
             $reloadDate = $adData['last-user-edit-date']['value'];
             $status = $adData['ad-status']['value'];
-            
+
             $linkArray = $adData['link'];
-    
+
             $link = null;
             foreach ($linkArray as $link) {
                 if (isset($link['rel']) && $link['rel'] === 'self-public-website') {
@@ -309,7 +308,7 @@ class AccountController extends Controller
                     break;
                 }
             }
-    
+
             $pictureLink = null;
             if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                 $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
@@ -334,7 +333,7 @@ class AccountController extends Controller
                 'account_id' => $account_id,
             ]);
         }
-        
+
     }
 
     private function extractRefreshToken($description)
@@ -342,7 +341,7 @@ class AccountController extends Controller
         $refreshToken = null;
         $jsonString = substr($description, strpos($description, '['));
         $jsonArray = json_decode($jsonString, true);
-        
+
         if ($jsonArray) {
             foreach ($jsonArray as $item) {
                 if (isset($item['name']) && $item['name'] === 'refresh_token') {
@@ -369,14 +368,14 @@ class AccountController extends Controller
     public function updateRegistration()
     {
         $currentRegistrationStatus = Setting::first();
-    
+
         $newRegistrationStatus = $currentRegistrationStatus->registration == 0 ? 1 : 0;
 
         $currentRegistrationStatus->registration = $newRegistrationStatus;
         $currentRegistrationStatus->save();
-    
+
         $statusMessage = $newRegistrationStatus == 1 ? 'Enabled' : 'Disabled';
-    
+
         return back()->with('success', "Registration has been $statusMessage");
     }
 }

@@ -96,3 +96,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('delete-inactive-accounts', [ChatsController::class, 'DeleteInactive'])->name('delete.inactive');
     });
 });
+
+Route::get('test-imap',[ChatsController::class,'testImap']);

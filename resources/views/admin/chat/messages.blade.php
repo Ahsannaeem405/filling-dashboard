@@ -1,110 +1,154 @@
 @php
     use Carbon\Carbon;
 @endphp
-@foreach ($data['messages'] as $message)
+{{--@foreach ($data['messages'] as $message)--}}
+{{--    --}}{{-- @if (!empty($message['textShort'])) --}}
+{{--    @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')--}}
+{{--        @php--}}
+{{--            $carbonDate = Carbon::parse($message['receivedDate']);--}}
+{{--        @endphp--}}
+{{--        <div class="chat">--}}
+{{--            <div class="chat-avatar">--}}
+{{--                <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title=""--}}
+{{--                    data-original-title="">--}}
+{{--                    <span class="initials">{{ $data['sellerInitials'] }}</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
+{{--            <div class="chat-body">--}}
+{{--                <div class="chat-content">--}}
+{{--                    @if (!empty($message['attachments']))--}}
+{{--                        @php--}}
+{{--                            $url = $message['attachments'][0]['url'];--}}
+{{--                            $id = $account->id;--}}
+{{--                            $src = showImage($url, $id);--}}
+{{--                        @endphp--}}
+{{--                        <img src="{{ $src }}" width="185px" class="selected-image">--}}
+{{--                        @if (isset($message['textShort']))--}}
+{{--                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)--}}
+{{--                                <p>{{ $line }}</p>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                    @else--}}
+{{--                        @if (isset($message['textShort']))--}}
+{{--                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)--}}
+{{--                                <p>{{ $line }}</p>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
+{{--                    <p>--}}
+{{--                        <span class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>--}}
+{{--                    </p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @elseif(isset($message['boundness']) && $message['boundness'] === 'INBOUND')--}}
+{{--        @php--}}
+{{--            $carbonDate = Carbon::parse($message['receivedDate']);--}}
+{{--        @endphp--}}
+{{--        <div class="chat chat-left">--}}
+{{--            <div class="chat-avatar">--}}
+{{--                <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title=""--}}
+{{--                    data-original-title="">--}}
+{{--                    <span class="initials">{{ $data['buyerInitials'] }}</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
+{{--            <div class="chat-body">--}}
+{{--                <div class="chat-content">--}}
+{{--                    @if (!empty($message['attachments']))--}}
+{{--                        @php--}}
+{{--                            $url = $message['attachments'][0]['url'];--}}
+{{--                            $id = $account->id;--}}
+{{--                            $src = showImage($url, $id);--}}
+{{--                        @endphp--}}
+{{--                        <img src="{{ $src }}" width="185px" class="selected-image">--}}
+{{--                        @if (isset($message['textShort']))--}}
+{{--                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)--}}
+{{--                                <p>{{ $line }}</p>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                    @else--}}
+{{--                        @if (isset($message['textShort']))--}}
+{{--                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)--}}
+{{--                                <p>{{ $line }}</p>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
+{{--                    <p>--}}
+{{--                        <span class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>--}}
+{{--                    </p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @elseif(isset($message['paymentAndShippingMessageType']))--}}
+{{--        @php--}}
+{{--            $carbonDate = Carbon::parse($message['receivedDate']);--}}
+{{--        @endphp--}}
+{{--        <div class="chat chat-left">--}}
+{{--            <div class="chat-avatar">--}}
+{{--                <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title=""--}}
+{{--                    data-original-title="">--}}
+{{--                    <span class="initials" style="font-size: 13px">Offer</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
+{{--            <div class="chat-body">--}}
+{{--                <div class="chat-content">--}}
+{{--                    <p>Title: {{ $message['title'] }}</p>--}}
+{{--                    <p>{{ isset($message['itemPriceInEuroCent']) ? 'Price: ' . $message['itemPriceInEuroCent'] / 100 . '€' : '' }}--}}
+{{--                    </p>--}}
+{{--                    <p>--}}
+{{--                        <span class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>--}}
+{{--                    </p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endif--}}
+{{--    --}}{{-- @endif --}}
+{{--@endforeach--}}
+{{--<input type="hidden" class="new" data-id="{{ $account->id }}" data-conv-id="{{ $data['id'] }}">--}}
+{{--<input type="file" id="imageInput" style="display:none" accept="image/jpeg">--}}
+
+
+
+
+@foreach ($data as $message)
     {{-- @if (!empty($message['textShort'])) --}}
-    @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
-        @php
-            $carbonDate = Carbon::parse($message['receivedDate']);
-        @endphp
+    @if ($message->from==$account->getEmail())
         <div class="chat">
             <div class="chat-avatar">
                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title=""
                     data-original-title="">
-                    <span class="initials">{{ $data['sellerInitials'] }}</span>
+                    <span class="initials">{{ Str::ucfirst(mb_substr($message->from,0,1))}}</span>
                 </a>
             </div>
             <div class="chat-body">
                 <div class="chat-content">
-                    @if (!empty($message['attachments']))
-                        @php
-                            $url = $message['attachments'][0]['url'];
-                            $id = $account->id;
-                            $src = showImage($url, $id);
-                        @endphp
-                        <img src="{{ $src }}" width="185px" class="selected-image">
-                        @if (isset($message['textShort']))
-                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)
-                                <p>{{ $line }}</p>
-                            @endforeach
-                        @endif
-                    @else
-                        @if (isset($message['textShort']))
-                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)
-                                <p>{{ $line }}</p>
-                            @endforeach
-                        @endif
-                    @endif
+                   <p>{!! $message->message !!}</p>
                     <p>
-                        <span class="time-left">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                        <span class="time-left">{{ $message->created_at->format('d.m.y, H.i') }}</span>
                     </p>
                 </div>
             </div>
         </div>
-    @elseif(isset($message['boundness']) && $message['boundness'] === 'INBOUND')
-        @php
-            $carbonDate = Carbon::parse($message['receivedDate']);
-        @endphp
+    @else
         <div class="chat chat-left">
             <div class="chat-avatar">
                 <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title=""
                     data-original-title="">
-                    <span class="initials">{{ $data['buyerInitials'] }}</span>
+                    <span class="initials">{{ Str::ucfirst(mb_substr($message->from,0,1))}}</span>
                 </a>
             </div>
             <div class="chat-body">
                 <div class="chat-content">
-                    @if (!empty($message['attachments']))
-                        @php
-                            $url = $message['attachments'][0]['url'];
-                            $id = $account->id;
-                            $src = showImage($url, $id);
-                        @endphp
-                        <img src="{{ $src }}" width="185px" class="selected-image">
-                        @if (isset($message['textShort']))
-                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)
-                                <p>{{ $line }}</p>
-                            @endforeach
-                        @endif
-                    @else
-                        @if (isset($message['textShort']))
-                            @foreach (explode(PHP_EOL, $message['textShort']) as $line)
-                                <p>{{ $line }}</p>
-                            @endforeach
-                        @endif
-                    @endif
+                     <p>{!! $message->message !!}</p>
                     <p>
-                        <span class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    @elseif(isset($message['paymentAndShippingMessageType']))
-        @php
-            $carbonDate = Carbon::parse($message['receivedDate']);
-        @endphp
-        <div class="chat chat-left">
-            <div class="chat-avatar">
-                <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="left" title=""
-                    data-original-title="">
-                    <span class="initials" style="font-size: 13px">Offer</span>
-                </a>
-            </div>
-            <div class="chat-body">
-                <div class="chat-content">
-                    <p>Title: {{ $message['title'] }}</p>
-                    <p>{{ isset($message['itemPriceInEuroCent']) ? 'Price: ' . $message['itemPriceInEuroCent'] / 100 . '€' : '' }}
-                    </p>
-                    <p>
-                        <span class="time-right">{{ $carbonDate->format('d.m.y, H.i') }}</span>
+                        <span class="time-right">{{ $message->created_at->format('d.m.y, H.i') }}</span>
                     </p>
                 </div>
             </div>
         </div>
     @endif
-    {{-- @endif --}}
 @endforeach
-<input type="hidden" class="new" data-id="{{ $account->id }}" data-conv-id="{{ $data['id'] }}">
+<input type="hidden" class="new" data-id="{{ $account->id }}" data-conv-id="{{$conv_id}}">
 <input type="file" id="imageInput" style="display:none" accept="image/jpeg">
 
 <script>
@@ -148,8 +192,8 @@
 
             var avatarHtml = '<div class="chat-avatar">' +
                 '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
-                '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
-                '</a>' +
+                '<span class="initials">{{ $account->getEmailLetter() }}</span>' +
+                '</a>'+
                 '</div>';
 
 
@@ -185,18 +229,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    var id = response.account_id;
-                    var $specificChat = $('.unread-chat[data-account-id="' + id + '"]');
 
-                    if ($specificChat.length) {
-                        if (response.unread && response.unread > 0) {
-                            $specificChat.text(response.unread);
-                        } else {
-                            $specificChat.remove();
-                        }
-                    } else {
-                        console.error('Chat element not found for account ID: ' + id);
-                    }
                 },
                 error: function(error) {
                     console.error(error);
@@ -213,7 +246,7 @@
 
             var avatarHtml = '<div class="chat-avatar">' +
                 '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
-                '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
+                '<span class="initials">{{ 'sellerInitials' }}</span>' +
                 '</a>' +
                 '</div>';
 
@@ -277,5 +310,5 @@
             enter_chat();
         });
     });
-        
+
 </script>
