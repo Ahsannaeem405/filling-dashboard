@@ -222,7 +222,7 @@ class ChatsController extends Controller
                 'error' => 'Accounts limit are reached!',
             ]);
         } else {
-            $account = Account::whereNull('buy_id')->first();
+            $account = Account::whereNull('buy_id')->where('adStatus','ACTIVE')->first();
 
             if ($account) {
                 $account->buy_id = Auth::user()->id;
@@ -258,7 +258,7 @@ class ChatsController extends Controller
                 'error' => 'Accounts limit are reached!',
             ]);
         } else {
-            $account = Account::whereNot('id',$request->id)->whereNull('buy_id')->first();
+            $account = Account::whereNot('id',$request->id)->whereNull('buy_id')->where('adStatus','ACTIVE')->first();
 
             if ($account) {
                 $account->buy_id = Auth::user()->id;

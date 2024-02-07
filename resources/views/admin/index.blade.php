@@ -283,10 +283,33 @@
                 height: auto !important;
             }
         }
-        .avg-sessions{
+
+        .avg-sessions {
             border: 1px solid #BABFC7;
             border-radius: 5px;
             margin: 0px;
+        }
+
+        /* CSS for the loader */
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+            /* initially hide the loader */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
     <div class="content-header row"></div>
@@ -407,11 +430,13 @@
                                                 class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
                                                 <div class="PriceTotal_Heading">
                                                     <h4 class="text-bold-700 mb-25">Einnahmen</h4>
-                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview</p>
+                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview
+                                                    </p>
                                                 </div>
                                                 <div class="PriceTotal">
                                                     <h3 class="">$0 <span>+0%</span></h3>
-                                                    <p class="highlight-color">You informed of this week compared to last week
+                                                    <p class="highlight-color">You informed of this week compared to last
+                                                        week
                                                     </p>
                                                 </div>
                                             </div>
@@ -479,7 +504,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-lg-3 col-12">
                         <div class="card">
@@ -564,17 +589,22 @@
                             <div class="ChatsCard">
                                 <div class="card-header">
                                     <h5 class="card-title">Chats</h5>
+                                    <div class="float-right ml-2"><i class="fa fa-rotate-right refresh-icon"
+                                            style="cursor: pointer"></i>
+                                        <div class="loader"></div>
+                                    </div>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
                                         <div class="headingMain">
-                                            <h4>{{ $totalChat }}</h4>
+                                            <h4 class="totalChat">{{ $totalChat }}</h4>
                                             <p class="m-0 highlight-color">Chats insgesamt</p>
+
                                         </div>
                                         <ul class="list-unstyled mt-3">
                                             <li class="UncompletedChats">
                                                 <i class="fa fa-ticket"></i>
-                                                <h6>Offene chats <span>{{ $totalUnread }}</span></h6>
+                                                <h6>Offene chats <span class="totalUnread">{{ $totalUnread }}</span></h6>
                                             </li>
                                             <li class="CompletedChats">
                                                 <i class="fa fa-ticke">
@@ -582,7 +612,8 @@
                                                         src="{{ asset('app-assets/images/logo/dash-tick.png') }}"
                                                         alt="">
                                                 </i>
-                                                <h6>Bearbeitete chats <span>{{ $completeChat }}</span></h6>
+                                                <h6>Bearbeitete chats <span class="completeChat">{{ $completeChat }}</span>
+                                                </h6>
                                             </li>
                                         </ul>
                                     </div>
@@ -601,11 +632,13 @@
                                                 class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
                                                 <div class="PriceTotal_Heading">
                                                     <h4 class="text-bold-700 mb-25">Einnahmen</h4>
-                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview</p>
+                                                    <p class="text-bold-500 mb-75 highlight-color">Weekly Earnings Overview
+                                                    </p>
                                                 </div>
                                                 <div class="PriceTotal">
                                                     <h3 class="">$468 <span>+ 4.2%</span></h3>
-                                                    <p class="highlight-color">You informed of this week compared to last week
+                                                    <p class="highlight-color">You informed of this week compared to last
+                                                        week
                                                     </p>
                                                 </div>
                                             </div>
@@ -673,7 +706,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-lg-3 col-12">
                         <div class="card">
@@ -694,7 +727,8 @@
                                                     <img src="{{ asset('app-assets/images/logo/logo-main.png') }}"
                                                         alt="">
                                                 @endif
-                                                <span class="text-bold-600 mx-50 " style="word-break: break-all">{{ substr($user->name, 0, 13) }}</span>
+                                                <span class="text-bold-600 mx-50 "
+                                                    style="word-break: break-all">{{ substr($user->name, 0, 13) }}</span>
                                             </div>
                                             <div class="series-result">
                                                 <span>49.487€</span>
@@ -707,7 +741,36 @@
                     </div>
                 </div>
             @endif
-            
         </section>
     </div>
+    <script>
+        $('.refresh-icon').on('click', function() {
+            $('.loader').show();
+            $(this).addClass('d-none');
+            $.ajax({
+                url: "{{ route('update.user.chat.stats') }}",
+                method: 'get',
+                success: function(response) {
+                    $('.totalChat').text(response.totalChat);
+                    $('.totalUnread').text(response.totalUnread);
+                    $('.completeChat').text(response.completeChat);
+                    toastr.success(response.success, '', {
+                        onShown: function() {
+                            $('.toast-success').css({
+                                'background-color': '#4CAF50',
+                                'color': '#ffffff'
+                            });
+                        }
+                    });
+                    $('.loader').hide();
+                    $('.refresh-icon').removeClass('d-none');
+                },
+                error: function(error) {
+                    $('.loader').hide();
+                    $('.refresh-icon').removeClass('d-none');
+                    console.error(error);
+                }
+            });
+        });
+    </script>
 @endsection

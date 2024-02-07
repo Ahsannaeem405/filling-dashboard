@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->text('wallet')->after('telegram')->nullable();
+            $table->text('counts_chats')->after('telegram')->nullable();
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('wallet');
+            $table->dropColumn(['wallet','counts_chats']);
         });
     }
 };
