@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('image_header_api')->nullable();
             $table->text('postMsg_api')->nullable();
             $table->text('delete_api')->nullable();
-            $table->int('registration')->default(0);
+            $table->integer('registration')->default(0);
             $table->timestamps();
         });
     }
