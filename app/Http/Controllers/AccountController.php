@@ -109,9 +109,18 @@ class AccountController extends Controller
             $account->reloadDate = $reloadDate;
 
             $account->save();
-            return redirect()->route('accounts')->with('success', 'Account Created Successfully');
+
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Account Created Successfully']);
+            } else {
+                return redirect()->route('accounts')->with('success', 'Account Created Successfully');
+            }
         } catch (\exception $e) {
-            return back()->with('error', 'Invalid Account');
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Invalid Account  ']);
+            } else {
+                return back()->with('error', 'Invalid Account');
+            }
         }
     }
     public function EditAccount($id)
@@ -152,7 +161,7 @@ class AccountController extends Controller
             $getUserApi = $setting->getUser_api;
             $authorization = $setting->getUser_header_api;
 
-            $parts = explode(':', $data);
+            $parts = explode(':', $data);   
             $email = $parts[0];
 
             $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);

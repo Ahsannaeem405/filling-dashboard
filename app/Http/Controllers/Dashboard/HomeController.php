@@ -17,44 +17,70 @@ class HomeController extends Controller
     {
         if (Auth::user()->role === 'user') {
             $accounts = Account::where('buy_id', Auth::user()->id)->get();
-            $count = $accounts->count();
         } else {
             $accounts = Account::all();
-            $count = $accounts->count();
         }
-        
-        $users = User:: whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(7)->get();
+
+        $users = User::whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(7)->get();
         $users = $users->sortByDesc('rank');
+        
+        $user = Auth::user();
+        $countsChats = json_decode($user->counts_chats);
+        
+        $totalChat = $countsChats->totalChat ?? 0;
+        $totalUnread = $countsChats->totalUnread ?? 0;
+        $completeChat = $countsChats->completeChat ?? 0;    
+
+        return view('admin.index', compact('totalChat', 'users', 'totalUnread', 'completeChat'));
+    }
+    public function Count()
+    {
+        if (Auth::user()->role === 'user') {
+            $accounts = Account::where('buy_id', Auth::user()->id)->get();
+        } else {
+            $accounts = Account::all();
+        }
 
         $totalChat = 0;
         $totalUnread = 0;
         $completeChat = 0;
 
-        try{    
-            $setting = Setting::first();
-            $getUserConvAPi = $setting->getUserConv_api;
-    
-            foreach ($accounts as $account) {
+        $setting = Setting::first();
+        $getUserConvAPi = $setting->getUserConv_api;
 
-                $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
+        foreach ($accounts as $account) {
 
-                $accessToken = refreshAccessToken($account->refreshToken,$account->id);
+            $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
+            $accessToken = refreshAccessToken($account->refreshToken, $account->id);
+
+            if($accessToken['accessToken'] != null){
                 $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
                 ->get("{$conversation_api}");
-    
-                $totalChat += count($data['conversations']);
-                $totalUnread += $data['_meta']['numUnread'];
+                if ($data !== null) {
+                    $totalChat += count($data['conversations']);
+                    $totalUnread += $data['_meta']['numUnread'];
+                }
             }
             
-            $completeChat = $totalChat - $totalUnread;
-    
-            return view('admin.index', compact('totalChat', 'users','totalUnread','completeChat'));
-        } catch (\Exception $e) {
-            $totalChat = 'Something went wrong!';
-            $totalUnread = 'Something went wrong!';
-            $completeChat = 'Something went wrong!';
-            return view('admin.index', compact('totalChat', 'users','totalUnread','completeChat'));
-        }   
+        }
+
+        $completeChat = $totalChat - $totalUnread;
+        
+        $counts_chats = [
+            'totalChat' => $totalChat,
+            'totalUnread' => $totalUnread,
+            'completeChat' => $completeChat,
+        ];
+
+        $user = User::find(Auth::user()->id);
+        $user->counts_chats = $counts_chats;
+        $user->save();
+        return response()->json([
+            'totalChat' => $totalChat,
+            'totalUnread' => $totalUnread,
+            'completeChat' => $completeChat,
+            'success' => 'Chats stats updated',
+        ]);
     }
 }

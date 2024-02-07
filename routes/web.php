@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('chat', [ChatsController::class, 'index'])->name('chat');
 
+        Route::get('/update-user-chat-stats', [HomeController::class, 'Count'])->name('update.user.chat.stats');
+
         // Edit Profile
         Route::get('profile', [UserController::class, 'EditProfile'])->name('edit.profile');
         Route::post('profile/update', [UserController::class, 'UpdateProfile'])->name('update.profile');

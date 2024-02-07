@@ -602,7 +602,7 @@
                     <button class='account-btn3' id='deleteAccountBtn'>Invalid Accounts löschen</button>
                 </div>
                 <div class="scrol-custom">
-                    <ul style="margin-bottom: 20px">
+                    <ul style="margin-bottom: 80px">
                         @if (isset($accounts))
                             @foreach ($accounts as $account)
                                 <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
