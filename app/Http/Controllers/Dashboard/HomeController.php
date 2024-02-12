@@ -23,13 +23,13 @@ class HomeController extends Controller
 
         $users = User::whereNot('role', 'admin')->orderBy('rank', 'DESC')->take(7)->get();
         $users = $users->sortByDesc('rank');
-        
+
         $user = Auth::user();
         $countsChats = json_decode($user->counts_chats);
-        
+
         $totalChat = $countsChats->totalChat ?? 0;
         $totalUnread = $countsChats->totalUnread ?? 0;
-        $completeChat = $countsChats->completeChat ?? 0;    
+        $completeChat = $countsChats->completeChat ?? 0;
 
         return view('admin.index', compact('totalChat', 'users', 'totalUnread', 'completeChat'));
     }
@@ -50,23 +50,23 @@ class HomeController extends Controller
 
         foreach ($accounts as $account) {
 
-            $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
+//            $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
+//
+//            $accessToken = refreshAccessToken($account->refreshToken, $account->id);
+//
+//            if($accessToken['accessToken'] != null){
+//                $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+//                ->get("{$conversation_api}");
+//                if ($data !== null) {
+                    $totalChat += count($account->conversation);
+                    $totalUnread += $account->unRead();
+//                }
+//            }
 
-            $accessToken = refreshAccessToken($account->refreshToken, $account->id);
-
-            if($accessToken['accessToken'] != null){
-                $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->get("{$conversation_api}");
-                if ($data !== null) {
-                    $totalChat += count($data['conversations']);
-                    $totalUnread += $data['_meta']['numUnread'];
-                }
-            }
-            
         }
 
         $completeChat = $totalChat - $totalUnread;
-        
+
         $counts_chats = [
             'totalChat' => $totalChat,
             'totalUnread' => $totalUnread,

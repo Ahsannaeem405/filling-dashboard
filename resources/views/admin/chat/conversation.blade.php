@@ -53,7 +53,7 @@
         <div class="user-chat-info">
             <div class="contact-info">
                 <div style="display: flex; justify-content:space-between">
-                    <h5 class="font-weight-bold mb-0">{{ $conversation->from}}</h5>
+                    <h5 class="font-weight-bold mb-0">{{ $conversation->name ? $conversation->name : $conversation->from}}</h5>
                     <p style="margin-bottom: 0px">{{ $conversation->created_at->format('d.m.y, H:i') }}</p>
                 </div>
                 <div style="display: flex; justify-content:space-between">
@@ -63,7 +63,6 @@
                     @endif
                 </div>
             </div>
-
         </div>
     </li>
 @endforeach

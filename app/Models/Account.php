@@ -21,6 +21,16 @@ class Account extends Model
     {
         return Str::ucfirst(mb_substr(explode(':', $this->description)[0], 0, 1));
     }
+    public function unRead()
+    {
+     return $unread=$this->conversation()->whereHas('messages',function ($q){
+      $q->where('seen','unseen');
+      })->count();
+    }
+
+    public function conversation(){
+    return $this->hasMany(Conversation::class,'account_id');
+    }
 
 
 }

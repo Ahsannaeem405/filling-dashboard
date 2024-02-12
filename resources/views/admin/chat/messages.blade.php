@@ -122,13 +122,17 @@
             </div>
             <div class="chat-body">
                 <div class="chat-content">
-                   <p>{!! $message->message !!}</p>
+                @if($message->image)
+                    <img src="{{asset($message->image[0])}}" width="185px" class="selected-image">
+                @endif
+                    <p>{!! $message->message !!}</p>
                     <p>
                         <span class="time-left">{{ $message->created_at->format('d.m.y, H.i') }}</span>
                     </p>
                 </div>
             </div>
         </div>
+
     @else
         <div class="chat chat-left">
             <div class="chat-avatar">
@@ -139,6 +143,9 @@
             </div>
             <div class="chat-body">
                 <div class="chat-content">
+                 @if($message->image)
+                    <img src="{{asset($message->image[0])}}" width="185px" class="selected-image">
+                @endif
                      <p>{!! $message->message !!}</p>
                     <p>
                         <span class="time-right">{{ $message->created_at->format('d.m.y, H.i') }}</span>
@@ -246,7 +253,7 @@
 
             var avatarHtml = '<div class="chat-avatar">' +
                 '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
-                '<span class="initials">{{ 'sellerInitials' }}</span>' +
+                '<span class="initials">{{ $account->getEmailLetter() }}</span>' +
                 '</a>' +
                 '</div>';
 

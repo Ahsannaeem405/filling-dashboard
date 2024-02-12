@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('from')->nullable();
             $table->string('to')->nullable();
+            $table->string('name')->nullable();
             $table->integer('account_id')->nullable();
             $table->timestamps();
         });

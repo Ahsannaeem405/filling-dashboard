@@ -23,4 +23,9 @@ class Conversation extends Model
     {
         return $this->hasMany(Messages::class,'conversation_id')->where('seen','unseen');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Messages::class,'conversation_id');
+    }
 }

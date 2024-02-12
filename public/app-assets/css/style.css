@@ -127,3 +127,9 @@ input#fileInput {
     position: absolute !important;
     top: 0;
 }
+.chat-content{
+/*max-width: 70% !important;*/
+}
+.chat-content p{
+word-break: break-word;
+}

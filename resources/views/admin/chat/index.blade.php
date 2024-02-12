@@ -626,8 +626,8 @@
                                             </div>
                                             <div style="display: flex; justify-content:space-between">
                                                 <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
-                                                <p class="unread-chat d-none" data-account-id="{{ $account->account_id }}">
-                                                </p>
+
+                                                <p class="unread-chat {{$account->unRead()==0 ? 'd-none' : ''}}" data-account-id="{{ $account->account_id }}">{{$account->unRead()}} </p>
                                             </div>
                                         </div>
                                         @if (Auth::user()->role == 'user')
@@ -730,7 +730,7 @@
                                             <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                             {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
                                                                                             id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
-                                            <i class="type-icon fa fa-image d-none" onclick="selectImage()"></i>
+                                            <i class="type-icon fa fa-image " onclick="selectImage()"></i>
                                             <img class='type-icon' src="{{ asset('app-assets/images/logo/face.png') }}"
                                                 alt="user_avatar" for="emojionearea-button">
                                         </div>
@@ -1422,7 +1422,6 @@
                             }, 100);
                         },
                         error: function(error) {
-
                             console.error(error);
                         }
                     });
@@ -1532,13 +1531,14 @@
                             }, 100);
                         },
                         error: function(error) {
-
                             console.error(error);
                         }
                     });
                 }
             }
-            // setInterval(refresh, 20000);
+             setInterval(function () {
+                // refresh();
+             },8000);
         })
     </script>
 @endsection

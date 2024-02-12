@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('from')->nullable();
             $table->string('to')->nullable();
             $table->text('message')->nullable();
+            $table->string('image')->nullable();
             $table->string('subject')->nullable();
             $table->string('seen')->default('unseen');
             $table->integer('account_id')->nullable();

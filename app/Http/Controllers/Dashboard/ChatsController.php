@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ReplyMail;
 use App\Models\Account;
 use App\Models\Conversation;
 use App\Models\Messages;
@@ -11,6 +12,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Webklex\IMAP\Facades\Client;
 
 class ChatsController extends Controller
@@ -105,19 +107,20 @@ class ChatsController extends Controller
                 'bank' => $bank,
             ]);
         } catch (\Exception $e) {
-            dd($e);
             return response()->json(['error' => 'An error occurred. Please try again.']);
         }
     }
 
     public function SendMessages(Request $request)
     {
+
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;
             $getUserConvAPi = $setting->getUserConv_api;
 
             $account = Account::find($request->id);
+            $accountData = explode(':', $account->description);
 
             $unreadCounts = [];
 
@@ -173,7 +176,26 @@ class ChatsController extends Controller
 //
 //            }
 
-
+            config([
+                'mail.mailers.smtp.host' => 'smtp.web.de',
+                'mail.mailers.smtp.port' => 465,
+                'mail.mailers.smtp.encryption' => 'ssl',
+                'mail.mailers.smtp.username' => $accountData[0],
+                'mail.mailers.smtp.password' => $accountData[1],
+                'mail.from.address' => $accountData[0],
+            ]);
+            $attributes = ['message' => $request->message];
+            $fileData = array();
+            if ($request->hasFile('image')) {
+                $file = $request->image;
+                $fileName = $file->getClientOriginalName();
+                $destinationPath = public_path('content_media');
+                $file->move($destinationPath, $fileName);
+                $path = public_path('content_media/' . $fileName);
+                $fileData[] = 'content_media/' . $fileName;
+                $attributes['image'] = $path;
+            }
+            Mail::to($conv_id->from)->send(new ReplyMail($attributes));
             Messages::create([
                 'conversation_id' => $conv_id->id,
                 'seen' => 'seen',
@@ -181,8 +203,8 @@ class ChatsController extends Controller
                 'account_id' => $conv_id->account_id,
                 'from' => $conv_id->account->getEmail(),
                 'to' => $conv_id->from,
+                'image' => $fileData,
             ]);
-
 
             return response()->json([
                 'success' => 'Message Send Successfully',
@@ -428,25 +450,50 @@ class ChatsController extends Controller
                     'protocol' => 'imap'
                 ]);
                 $client->connect();
+
                 $inbox = $client->getFolder('INBOX'); //INBOX,Spam
                 $newMessages = $inbox->query()->unseen()->all()->get();
+
+
                 foreach ($newMessages as $message) {
-                    $conversation = Conversation::firstOrCreate(['from' => $message->getFrom()->toArray()[0]->mail, 'to' => $message->getTo()->toArray()[0]->mail, 'account_id' => $account->id]);
-                    Messages::create([
-                        'conversation_id' => $conversation->id,
-                        'from' => $message->getFrom()->toArray()[0]->mail,
-                        'to' => $message->getTo()->toArray()[0]->mail,
-                        'message' => $message->getTextBody(),
-                        'subject' => $message->getSubject()->toString(),
-                        'account_id' => $account->id
-                    ]);
-                    // $message->setFlag('seen');
+                $paths = array();
+                    if (strpos($message->getSubject()->toString(), 'Nutzer-Anfrage') !== false) {
+                        $conversation = Conversation::firstOrCreate([
+                            'from' => $message->getFrom()->toArray()[0]->mail,
+                            'to' => $message->getTo()->toArray()[0]->mail,
+                            'account_id' => $account->id
+                        ]);
+                        $pattern = '/<b>Nachricht von:<\/b>(.*?)\r/';
+                        if (preg_match($pattern, $message->getHTMLBody(), $matches)) {
+                            $extractedText = $matches[1];
+                            $conversation->name = $extractedText;
+                            $conversation->update();
+                        }
+                        if ($message->hasAttachments()) {
+                            foreach ($message->getAttachments() as $attachment) {
+                                $publicPath = public_path('content_media');
+                                $savePath = $publicPath . '/' . $attachment->getName();
+                                file_put_contents($savePath, $attachment->getContent());
+                                $paths[] = 'content_media/'.$attachment->getName();
+                            }
+                        }
+                        Messages::create([
+                            'conversation_id' => $conversation->id,
+                            'from' => $message->getFrom()->toArray()[0]->mail,
+                            'to' => $message->getTo()->toArray()[0]->mail,
+                            'message' => $message->getTextBody(),
+                            'subject' => $message->getSubject()->toString(),
+                            'account_id' => $account->id,
+                            'image' => $paths
+                        ]);
+                        // $message->setFlag('seen');
+                    }
                 }
                 $client->disconnect();
             } catch (\Throwable $exception) {
+                dd($exception);
                 $account->update(['adStatus' => null]);
             }
-
         }
 
 

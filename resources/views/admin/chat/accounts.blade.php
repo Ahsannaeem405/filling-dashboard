@@ -22,11 +22,8 @@
                         </div>
                         <div style="display: flex; justify-content:space-between">
                             <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
-                            @if (isset($unreadCounts[$account->id]))
-                                <p class="unread-chat {{ $unreadCounts[$account->id] > 0 ? '' : 'd-none' }}" data-account-id="{{ $account->account_id }}">
-                                    {{ $unreadCounts[$account->id] }}
-                                </p>
-                            @endif
+                            <p class="unread-chat {{$account->unRead()==0 ? 'd-none' : ''}}" data-account-id="{{ $account->account_id }}">{{$account->unRead()}} </p>
+
                         </div>
                     </div>
                     @if (Auth::user()->role == 'user')
