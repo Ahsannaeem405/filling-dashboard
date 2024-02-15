@@ -106,6 +106,7 @@ class AccountController extends Controller
             $account->adPrice = $price;
             $account->adStatus = $status;
             $account->reloadDate = $reloadDate;
+            $account->adId = $adData['id'];
 
             $account->save();
 
@@ -175,8 +176,10 @@ class AccountController extends Controller
                 'Authorization' => $authorization,
                 'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
             ])->get("{$getUser_api}");
-// dd($data->json());
+
             $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+
+
 
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
@@ -208,6 +211,7 @@ class AccountController extends Controller
             $account->adPrice = $price;
             $account->adStatus = $status;
             $account->reloadDate = $reloadDate;
+            $account->adId = $adData['id'];
 
             $account->save();
 
@@ -324,7 +328,8 @@ class AccountController extends Controller
                 'adTitle' => $title,
                 'adPrice' => $price,
                 'adStatus' => $status,
-                'reloadDate' => $reloadDate
+                'reloadDate' => $reloadDate,
+                'adId' => $adData['id']
             ]);
         }else{
             Account::create([

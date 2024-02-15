@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('refreshToken')->nullable();
             $table->text('accessToken')->nullable();
             $table->text('adPic')->nullable();
+            $table->text('adId')->nullable();
             $table->text('adLink')->nullable();
             $table->text('adTitle')->nullable();
             $table->text('adPrice')->nullable();

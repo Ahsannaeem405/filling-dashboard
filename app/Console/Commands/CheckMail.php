@@ -30,8 +30,8 @@ class CheckMail extends Command
      */
     public function handle()
     {
-   $accounts = Account::where('adStatus', 'ACTIVE')->get();
-   foreach ($accounts as $account) {
+  $accounts = Account::where('adStatus', 'ACTIVE')->get();
+        foreach ($accounts as $account) {
             try {
                 $data = explode(':', $account->description);
                 $client = Client::make([
@@ -50,7 +50,8 @@ class CheckMail extends Command
 
 
                 foreach ($newMessages as $message) {
-                $paths = array();
+
+                    $paths = array();
                     if (strpos($message->getSubject()->toString(), 'Nutzer-Anfrage') !== false) {
                         $conversation = Conversation::firstOrCreate([
                             'from' => $message->getFrom()->toArray()[0]->mail,
@@ -68,19 +69,36 @@ class CheckMail extends Command
                                 $publicPath = public_path('content_media');
                                 $savePath = $publicPath . '/' . $attachment->getName();
                                 file_put_contents($savePath, $attachment->getContent());
-                                $paths[] = 'content_media/'.$attachment->getName();
+                                $paths[] = 'content_media/' . $attachment->getName();
                             }
                         }
+
+                         $messageData=$message->getTextBody();
+                        if (strpos($message->getTextBody(), $account->adId) !== false) {
+                            // Use regular expression to get text after the specific ID
+                            //dd(explode($account->adId.':',$messageData));
+                            $pattern = "/{$account->adId}:\s*(.*)/";
+                            preg_match($pattern, $message->getTextBody(), $matches);
+
+
+                            if (isset($matches[1])) {
+                                $textAfterId = trim($matches[1]);
+                                $messageData=$textAfterId;
+
+                            }
+                        }
+
+
                         Messages::create([
                             'conversation_id' => $conversation->id,
                             'from' => $message->getFrom()->toArray()[0]->mail,
                             'to' => $message->getTo()->toArray()[0]->mail,
-                            'message' => $message->getTextBody(),
+                            'message' => $messageData,
                             'subject' => $message->getSubject()->toString(),
                             'account_id' => $account->id,
                             'image' => $paths
                         ]);
-                        // $message->setFlag('seen');
+                         $message->setFlag('seen');
                     }
                 }
                 $client->disconnect();
