@@ -35,6 +35,8 @@ class ChatsController extends Controller
             $getUserConvAPi = $setting->getUserConv_api;
 
             $account = Account::find($request->id);
+            RefreshAccount($account);
+
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
             $id = $account->id;
@@ -46,6 +48,7 @@ class ChatsController extends Controller
 //            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
 //                ->get("{$conversation_api}");
             $data = Conversation::whereAccountId($account->id)->get();
+
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
             ]);
@@ -440,7 +443,6 @@ class ChatsController extends Controller
         foreach ($accounts as $account) {
           RefreshAccount($account);
         }
-
-
     }
+
 }
