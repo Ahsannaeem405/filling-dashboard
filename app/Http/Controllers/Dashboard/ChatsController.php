@@ -41,12 +41,12 @@ class ChatsController extends Controller
             $refreshToken = $account->refreshToken;
             $id = $account->id;
 
-//            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
-//
-//            $accessToken = refreshAccessToken($refreshToken, $account->id);
-//
-//            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                ->get("{$conversation_api}");
+            //            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
+            //
+            //            $accessToken = refreshAccessToken($refreshToken, $account->id);
+            //
+            //            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                ->get("{$conversation_api}");
             $data = Conversation::whereAccountId($account->id)->get();
 
             return response()->json([
@@ -70,15 +70,15 @@ class ChatsController extends Controller
             $refreshToken = $account->refreshToken;
             $conv_id = $request->conv_id;
 
-//            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
-//
-//            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
-//
-//            $accessToken = refreshAccessToken($refreshToken, $account->id);
-//
-//
-//            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                ->get("{$conv_msg_api}");
+            //            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+            //
+            //            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+            //
+            //            $accessToken = refreshAccessToken($refreshToken, $account->id);
+            //
+            //
+            //            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                ->get("{$conv_msg_api}");
 
             $data = Messages::whereConversationId($conv_id)->get();
             Messages::whereConversationId($conv_id)->where('seen', 'unseen')->update(['seen' => 'seen']);
@@ -133,51 +133,51 @@ class ChatsController extends Controller
 
             $conv_id = Conversation::find($request->conv_id);
 
-//            $msg_api = str_replace('{USERID}', $user_id, $sendMsgAPi);
-//
-//            $send_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
-//
-//            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
-//
-//            $accessToken = refreshAccessToken($refreshToken, $account->id);
-//
-//            if ($request->image === 'undefined') {
-//
-//                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                    ->post(
-//                        "{$send_msg_api}",
-//                        [
-//                            'message' => $request->message,
-//                        ]
-//                    );
-//            } else {
-//
-//                $file = $request->image;
-//                $fileName = $file->getClientOriginalName();
-//                $destinationPath = public_path('content_media');
-//                $file->move($destinationPath, $fileName);
-//                $path = public_path('content_media/' . $fileName);
-//
-//                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                    ->attach(
-//                        'attachment',
-//                        file_get_contents($path),
-//                        'file.jpg'
-//                    )
-//                    ->post(
-//                        "{$send_msg_api}",
-//                        [
-//                            'message' => '{"message":"' . $request->message . '"}',
-//                        ]
-//                    );
-//            }
-//            if ($response->json() !== null) {
-//
-//                $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                    ->get("{$conversation_api}");
-//                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
-//
-//            }
+            //            $msg_api = str_replace('{USERID}', $user_id, $sendMsgAPi);
+            //
+            //            $send_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+            //
+            //            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
+            //
+            //            $accessToken = refreshAccessToken($refreshToken, $account->id);
+            //
+            //            if ($request->image === 'undefined') {
+            //
+            //                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                    ->post(
+            //                        "{$send_msg_api}",
+            //                        [
+            //                            'message' => $request->message,
+            //                        ]
+            //                    );
+            //            } else {
+            //
+            //                $file = $request->image;
+            //                $fileName = $file->getClientOriginalName();
+            //                $destinationPath = public_path('content_media');
+            //                $file->move($destinationPath, $fileName);
+            //                $path = public_path('content_media/' . $fileName);
+            //
+            //                $response = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                    ->attach(
+            //                        'attachment',
+            //                        file_get_contents($path),
+            //                        'file.jpg'
+            //                    )
+            //                    ->post(
+            //                        "{$send_msg_api}",
+            //                        [
+            //                            'message' => '{"message":"' . $request->message . '"}',
+            //                        ]
+            //                    );
+            //            }
+            //            if ($response->json() !== null) {
+            //
+            //                $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                    ->get("{$conversation_api}");
+            //                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
+            //
+            //            }
 
             config([
                 'mail.mailers.smtp.host' => 'smtp.web.de',
@@ -232,18 +232,18 @@ class ChatsController extends Controller
             $refreshToken = $account->refreshToken;
             $id = $account->id;
 
-//            $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
-//            $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
-//
-//            $accessToken = refreshAccessToken($refreshToken, $account->id);
-//
-//            Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                ->delete("{$deleteApi}");
-//
-//            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
-//
-//            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-//                ->get("{$conversation_api}");
+            //            $user_id_replace = str_replace('{USERID}', $user_id, $getDeleteApi);
+            //            $deleteApi = str_replace('{CONVERSATIONID}', $request->conv_id, $user_id_replace);
+            //
+            //            $accessToken = refreshAccessToken($refreshToken, $account->id);
+            //
+            //            Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                ->delete("{$deleteApi}");
+            //
+            //            $conversation_api = str_replace('{USERID}', $user_id, $getUserConvAPi);
+            //
+            //            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //                ->get("{$conversation_api}");
 
             Conversation::find($request->conv_id)->delete();
             Messages::whereConversationId($request->conv_id)->delete();
@@ -342,39 +342,35 @@ class ChatsController extends Controller
             $getUserConvAPi = $setting->getUserConv_api;
             $getUserApi = $setting->getUser_api;
             $unreadCounts = [];
-
             foreach ($accounts_reload as $account) {
 
-
                 $data = $account->description;
-                $parts = explode(':', $data);
-                $email = $parts[0];
 
-                $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
+                $getUser_api = str_replace('{{AD_ID}}', $account->account_id, $getUserApi);
                 $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
 
                 $accessToken = refreshAccessToken($account->refreshToken, $account->id);
 
-                if ($accessToken['accessToken'] != null) {
 
-                    $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                        ->get("{$conversation_api}");
+                $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+                    ->get("{$conversation_api}");
 
-                    $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
+                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
 
-                    $data = Http::withHeaders([
-                        'User-Agent' => '',
-                        'Authorization' => $authorization,
-                        'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
-                    ])->get("{$getUser_api}");
+                $data = Http::withHeaders([
+                    'User-Agent' => '',
+                    'Authorization' => $authorization
+                ])->get("{$getUser_api}");
 
-                    $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+                $response = $data->json();
+                if($response){
+                    $adData = $response['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ad']['value'];
 
                     $adPrice = $adData['price']['amount']['value'];
                     $adTitle = $adData['title']['value'];
                     $reloadDate = $adData['last-user-edit-date']['value'];
                     $status = $adData['ad-status']['value'];
-
+    
                     $pictureLink = null;
                     if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                         $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
@@ -386,12 +382,61 @@ class ChatsController extends Controller
                     $account->adStatus = $status;
                     $account->reloadDate = $reloadDate;
                     $account->save();
-                } else {
+                }else{
                     $account = Account::find($account->id);
                     $account->adStatus = NULL;
                     $account->save();
-                }
+                }   
             }
+            // foreach ($accounts_reload as $account) {
+
+
+            //     $data = $account->description;
+            //     $parts = explode(':', $data);
+            //     $email = $parts[0];
+
+            //     $getUser_api = str_replace('{USERID}', $account->account_id, $getUserApi);
+            //     $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
+
+            //     $accessToken = refreshAccessToken($account->refreshToken, $account->id);
+
+            //     if ($accessToken['accessToken'] != null) {
+
+            //         $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //             ->get("{$conversation_api}");
+
+            //         $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
+
+            //         $data = Http::withHeaders([
+            //             'User-Agent' => '',
+            //             'Authorization' => $authorization,
+            //             'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken['accessToken'] . '"'
+            //         ])->get("{$getUser_api}");
+
+            //         $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+
+            //         $adPrice = $adData['price']['amount']['value'];
+            //         $adTitle = $adData['title']['value'];
+            //         $reloadDate = $adData['last-user-edit-date']['value'];
+            //         $status = $adData['ad-status']['value'];
+
+            //         $pictureLink = null;
+            //         if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
+            //             $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
+            //         }
+            //         $account = Account::find($account->id);
+            //         $account->adTitle = $adTitle;
+            //         $account->adPic = $pictureLink;
+            //         $account->adPrice = $adPrice;
+            //         $account->adStatus = $status;
+            //         $account->reloadDate = $reloadDate;
+            //         $account->save();
+            //     } else {
+            //         $account = Account::find($account->id);
+            //         $account->adStatus = NULL;
+            //         $account->save();
+            //     }
+            // }
             if (Auth::user()->role == 'admin') {
                 $accounts = Account::all();
             } else {
@@ -441,8 +486,7 @@ class ChatsController extends Controller
         //test
         $accounts = Account::where('adStatus', 'ACTIVE')->get();
         foreach ($accounts as $account) {
-          RefreshAccount($account);
+            RefreshAccount($account);
         }
     }
-
 }

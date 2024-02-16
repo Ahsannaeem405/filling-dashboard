@@ -158,7 +158,9 @@ function RefreshAccount($account)
                 if (strpos($message->getTextBody(), $account->adId) !== false) {
                     // Use regular expression to get text after the specific ID
                     //dd(explode($account->adId.':',$messageData));
-                    $pattern = "/{$account->adId}:\s*(.*)/";
+                    // $pattern = "/{$account->adId}:\s*(.*)/";
+                    $pattern = "/{$account->adId}:(.*?)(?:\n\n|\z)/s";
+                    
                     preg_match($pattern, $message->getTextBody(), $matches);
 
 

@@ -25,7 +25,6 @@ class AccountController extends Controller
     }
     public function StoreAccount(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'description' => 'required',
         ]);
@@ -36,42 +35,55 @@ class AccountController extends Controller
         try {
             $data = $request->description;
 
-            $refreshToken = null;
-            $jsonString = substr($data, strpos($data, '['));
-            $jsonArray = json_decode($jsonString, true);
-            if ($jsonArray) {
-                foreach ($jsonArray as $item) {
-                    if (isset($item['name']) && $item['name'] === 'refresh_token') {
-                        $refreshToken = $item['value'];
-                        break;
-                    }
-                }
-            }
-            $account_id = null;
-            $userIdPattern = '/:(\d+):/';
-            if (preg_match($userIdPattern, $data, $userIdMatches)) {
-                $account_id = $userIdMatches[1];
-            }
+            
+            // $refreshToken = null;
+            // $jsonString = substr($data, strpos($data, '['));
+            // $jsonArray = json_decode($jsonString, true);
+            // if ($jsonArray) {
+            //     foreach ($jsonArray as $item) {
+            //         if (isset($item['name']) && $item['name'] === 'refresh_token') {
+            //             $refreshToken = $item['value'];
+            //             break;
+            //         }
+            //     }
+            // }
+            // $account_id = null;
+            // $userIdPattern = '/:(\d+):/';
+            // if (preg_match($userIdPattern, $data, $userIdMatches)) {
+            //     $account_id = $userIdMatches[1];
+            // }
+
             $setting = Setting::first();
             $getUserApi = $setting->getUser_api;
             $authorization = $setting->getUser_header_api;
 
+            // $parts = explode(':', $data);
+            // $email = $parts[0];
+
+            $account_id = null;
             $parts = explode(':', $data);
-            $email = $parts[0];
+            $account_id = $parts[2];
 
-            $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
-            $response = refreshAccessToken($refreshToken,0);
+            $getUser_api = str_replace('{{AD_ID}}', $account_id, $getUserApi);
 
-            $accessToken = $response['accessToken'];
-            $proxy = $response['proxy'];
+            // $response = refreshAccessToken($refreshToken,0);
+
+            // $accessToken = $response['accessToken'];
+            // $proxy = $response['proxy'];
+
+            // $data = Http::withHeaders([
+            //     'User-Agent' => '',
+            //     'Authorization' => $authorization,
+            //     'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+            // ])->get("{$getUser_api}");
 
             $data = Http::withHeaders([
                 'User-Agent' => '',
-                'Authorization' => $authorization,
-                'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+                'Authorization' => $authorization
             ])->get("{$getUser_api}");
-
-            $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+            
+            $response = $data->json();
+            $adData = $response['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ad']['value'];
 
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
@@ -79,7 +91,6 @@ class AccountController extends Controller
             $status = $adData['ad-status']['value'];
 
             $linkArray = $adData['link'];
-
             $link = null;
             foreach ($linkArray as $link) {
                 if (isset($link['rel']) && $link['rel'] === 'self-public-website') {
@@ -96,10 +107,10 @@ class AccountController extends Controller
 
             $account = new Account();
             $account->description = $request->description;
-            $account->refreshToken = $refreshToken;
-            $account->accessToken = $accessToken;
+            // $account->refreshToken = $refreshToken;
+            // $account->accessToken = $accessToken;
             $account->account_id = $account_id;
-            $account->proxy = $proxy;
+            // $account->proxy = $proxy;
             $account->adPic = $pictureLink;
             $account->adLink = $link;
             $account->adTitle = $title;
@@ -140,46 +151,57 @@ class AccountController extends Controller
             $account = Account::find($id);
             $data = $request->description;
 
-            $refreshToken = null;
-            $jsonString = substr($data, strpos($data, '['));
-            $jsonArray = json_decode($jsonString, true);
-            if ($jsonArray) {
-                foreach ($jsonArray as $item) {
-                    if (isset($item['name']) && $item['name'] === 'refresh_token') {
-                        $refreshToken = $item['value'];
-                        break;
-                    }
-                }
-            }
+            // $refreshToken = null;
+            // $jsonString = substr($data, strpos($data, '['));
+            // $jsonArray = json_decode($jsonString, true);
+            // if ($jsonArray) {
+            //     foreach ($jsonArray as $item) {
+            //         if (isset($item['name']) && $item['name'] === 'refresh_token') {
+            //             $refreshToken = $item['value'];
+            //             break;
+            //         }
+            //     }
+            // }
 
-            $account_id = null;
-            $userIdPattern = '/:(\d+):/';
-            if (preg_match($userIdPattern, $data, $userIdMatches)) {
-                $account_id = $userIdMatches[1];
-            }
+            // $account_id = null;
+            // $userIdPattern = '/:(\d+):/';
+            // if (preg_match($userIdPattern, $data, $userIdMatches)) {
+            //     $account_id = $userIdMatches[1];
+            // }
+
             $setting = Setting::first();
             $getUserApi = $setting->getUser_api;
             $authorization = $setting->getUser_header_api;
 
+            // $parts = explode(':', $data);
+            // $email = $parts[0];
+
+            $account_id = null;
             $parts = explode(':', $data);
-            $email = $parts[0];
+            $account_id = $parts[2];
 
-            $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
+            $getUser_api = str_replace('{{AD_ID}}', $account_id, $getUserApi);
 
-            $response = refreshAccessToken($refreshToken,$account->id);
+            // $response = refreshAccessToken($refreshToken,$account->id);
 
-            $accessToken = $response['accessToken'];
-            $proxy = $response['proxy'];
+            // $accessToken = $response['accessToken'];
+            // $proxy = $response['proxy'];
 
+            // $data = Http::withHeaders([
+            //     'User-Agent' => '',
+            //     'Authorization' => $authorization,
+            //     'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+            // ])->get("{$getUser_api}");
+
+            // $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+            
             $data = Http::withHeaders([
                 'User-Agent' => '',
-                'Authorization' => $authorization,
-                'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+                'Authorization' => $authorization
             ])->get("{$getUser_api}");
+            $response = $data->json();
 
-            $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
-
-
+            $adData = $response['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ad']['value'];
 
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
@@ -202,9 +224,9 @@ class AccountController extends Controller
             }
 
             $account->description = $request->description;
-            $account->refreshToken = $refreshToken;
+            // $account->refreshToken = $refreshToken;
             $account->account_id = $account_id;
-            $account->proxy = $proxy;
+            // $account->proxy = $proxy;
             $account->adPic = $pictureLink;
             $account->adLink = $link;
             $account->adTitle = $title;
@@ -253,50 +275,61 @@ class AccountController extends Controller
     private function create($account)
     {
         $description = $account;
-        $refreshToken = $this->extractRefreshToken($description);
-        $account_id = $this->extractAccountId($description);
+        // $refreshToken = $this->extractRefreshToken($description);
+        // $account_id = $this->extractAccountId($description);
 
         $data = $description;
 
-        $refreshToken = null;
-        $jsonString = substr($data, strpos($data, '['));
-        $jsonArray = json_decode($jsonString, true);
-        if ($jsonArray) {
-            foreach ($jsonArray as $item) {
-                if (isset($item['name']) && $item['name'] === 'refresh_token') {
-                    $refreshToken = $item['value'];
-                    break;
-                }
-            }
-        }
+        // $refreshToken = null;
+        // $jsonString = substr($data, strpos($data, '['));
+        // $jsonArray = json_decode($jsonString, true);
+        // if ($jsonArray) {
+        //     foreach ($jsonArray as $item) {
+        //         if (isset($item['name']) && $item['name'] === 'refresh_token') {
+        //             $refreshToken = $item['value'];
+        //             break;
+        //         }
+        //     }
+        // }
 
-        $account_id = null;
-        $userIdPattern = '/:(\d+):/';
-        if (preg_match($userIdPattern, $data, $userIdMatches)) {
-            $account_id = $userIdMatches[1];
-        }
+        // $account_id = null;
+        // $userIdPattern = '/:(\d+):/';
+        // if (preg_match($userIdPattern, $data, $userIdMatches)) {
+        //     $account_id = $userIdMatches[1];
+        // }
         $setting = Setting::first();
         $getUserApi = $setting->getUser_api;
         $authorization = $setting->getUser_header_api;
 
+        // $parts = explode(':', $data);
+        // $email = $parts[0];
+
+        // $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
+
+        // $response = refreshAccessToken($refreshToken,0);
+
+        // $accessToken = $response['accessToken'];
+        // $proxy = $response['proxy'];
+
+        $account_id = null;
         $parts = explode(':', $data);
-        $email = $parts[0];
+        if (isset($parts[2])) {
+            $account_id = substr($parts[2], 0, 10);
+        }
+        
 
-        $getUser_api = str_replace('{USERID}', $account_id, $getUserApi);
-
-        $response = refreshAccessToken($refreshToken,0);
-
-        $accessToken = $response['accessToken'];
-        $proxy = $response['proxy'];
-
+        $getUser_api = str_replace('{{AD_ID}}', $account_id, $getUserApi);
 
         $data = Http::withHeaders([
             'User-Agent' => '',
-            'Authorization' => $authorization,
-            'X-ECG-Authorization-User' => 'email="' . $email . '", access="' . $accessToken . '"'
+            'Authorization' => $authorization
         ])->get("{$getUser_api}");
-        if($data->json() !== null){
-            $adData = $data['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ads']['value']['ad'][0];
+
+        $response = $data->json();
+
+
+        if($response !== null){
+            $adData =$response['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ad']['value'];
 
             $price = $adData['price']['amount']['value'];
             $title = $adData['title']['value'];
@@ -319,10 +352,7 @@ class AccountController extends Controller
             }
             Account::create([
                 'description' => $description,
-                'refreshToken' => $refreshToken,
                 'account_id' => $account_id,
-                'accessToken' => $accessToken,
-                'proxy' => $proxy,
                 'adPic' => $pictureLink,
                 'adLink' => $link,
                 'adTitle' => $title,
@@ -334,7 +364,6 @@ class AccountController extends Controller
         }else{
             Account::create([
                 'description' => $description,
-                'refreshToken' => $refreshToken,
                 'account_id' => $account_id,
             ]);
         }
