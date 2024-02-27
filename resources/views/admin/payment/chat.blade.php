@@ -61,9 +61,11 @@
             position: absolute;
             right: 95px;
         }
+
         .emojionearea-editor::-webkit-scrollbar {
             width: 0px !important;
         }
+
         .chat-application .chat-app-window .user-chats {
             height: calc(var(--vh, 1vh) * 100 - 27rem) !important;
         }
@@ -196,11 +198,15 @@
                                                     <i class="feather icon-menu font-large-1"></i>
                                                 </div>
                                                 <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                                    <span class="initials buyerInitials">{{ $data['buyerInitials'] }}</span>
+                                                    @if ($account->adPic)
+                                                        <img class="adPic" src="{{ $account->adPic }}" width="45px" height="45px">
+                                                    @else
+                                                        <span class="initials buyerInitials">{{ isset($account->name) ? Str::ucfirst(mb_substr($account->name, 0, 1)) : Str::ucfirst(mb_substr($message->from, 0, 1)) }}</span>
+                                                    @endif
                                                 </div>
                                                 <span class='account-prof'>
-                                                    <h6 class="mb-0 buyerName" data-conv-id="{{ $data['id'] }}"
-                                                        data-id="{{ $account->id }}">{{ $data['buyerName'] }}</h6>
+                                                    <h6 class="mb-0 buyerName" data-conv-id=""
+                                                        data-id="{{ $account->id }}">{{ $account->adTitle }}</h6>
                                                     <p><span class="price">{{ $account->adPrice }}</span> € VB</p>
                                                 </span>
                                             </div>
@@ -212,7 +218,7 @@
                                             @php
                                                 use Carbon\Carbon;
                                             @endphp
-                                            @foreach ($data['messages'] as $message)
+                                            {{-- @foreach ($data['messages'] as $message)
                                                 @if (isset($message['boundness']) && $message['boundness'] === 'OUTBOUND')
                                                     @php
                                                         $carbonDate = Carbon::parse($message['receivedDate']);
@@ -318,6 +324,58 @@
                                                         </div>
                                                     </div>
                                                 @endif
+                                            @endforeach --}}
+                                            @foreach ($data as $message)
+                                                {{-- @if (!empty($message['textShort'])) --}}
+                                                @if ($message->from == $account->getEmail())
+                                                    <div class="chat">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                data-placement="right" title=""
+                                                                data-original-title="">
+                                                                <span
+                                                                    class="initials">{{ isset($account->name) ? Str::ucfirst(mb_substr($account->name, 0, 1)) : Str::ucfirst(mb_substr($message->from, 0, 1)) }}</span>
+                                                                {{-- <span class="initials">{{ Str::ucfirst(mb_substr($message->from,0,1))}}</span> --}}
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                @if ($message->image)
+                                                                    <img src="{{ asset($message->image[0]) }}"
+                                                                        width="185px" class="selected-image">
+                                                                @endif
+                                                                <p>{!! $message->message !!}</p>
+                                                                <p>
+                                                                    <span
+                                                                        class="time-left">{{ $message->created_at->format('d.m.y, H.i') }}</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="chat chat-left">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar m-0" data-toggle="tooltip" href="#"
+                                                                data-placement="left" title="" data-original-title="">
+                                                                <span
+                                                                    class="initials">{{ isset($name->name) ? Str::ucfirst(mb_substr($name->name, 0, 2)) : Str::ucfirst(mb_substr($message->from, 0, 1)) }}</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                @if ($message->image)
+                                                                    <img src="{{ asset($message->image[0]) }}"
+                                                                        width="185px" class="selected-image">
+                                                                @endif
+                                                                <p>{!! $message->message !!}</p>
+                                                                <p>
+                                                                    <span
+                                                                        class="time-right">{{ $message->created_at->format('d.m.y, H.i') }}</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -325,7 +383,7 @@
                                         <form class="chat-app-input d-flex justify-content-between position-relative"
                                             onsubmit="enter_chat();" id="myform" action="javascript:void(0);">
                                             <div class='position-relative'style='width: 70%;'>
-                                                <textarea class="form-control message mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
+                                                <textarea class="form-control message_area mr-1 ml-50 msg" id="iconLeft4-1" placeholder="Sende eine Nachricht"></textarea>
                                                 {{-- <input type="text" class="form-control message mr-1 ml-50 msg"
                                                     id="iconLeft4-1" placeholder="Sende eine Nachricht"> --}}
                                                 <i class="type-icon fa fa-image" onclick="selectImage()"></i>
@@ -363,10 +421,9 @@
         });
 
         function enter_chat(image) {
-            var message = $(".message").val();
+            var message = $(".emojionearea-editor").text();
             var id = $('.new').attr('data-id');
             var conv_id = $('.new').attr('data-conv-id');
-
             var formData = new FormData();
 
             formData.append('image', image);
@@ -387,7 +444,7 @@
 
                 var avatarHtml = '<div class="chat-avatar">' +
                     '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
-                    '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
+                    '<span class="initials">{{ isset($account->name) ? Str::ucfirst(mb_substr($account->name,0,1)) : $account->getEmailLetter() }}</span>' +
                     '</a>' +
                     '</div>';
 
@@ -430,7 +487,7 @@
                         console.error(error);
                     }
                 });
-            } else if(image) {
+            } else if (image) {
                 var now = new Date();
                 var timestamp =
                     ('0' + now.getDate()).slice(-2) + '.' +
@@ -441,7 +498,7 @@
 
                 var avatarHtml = '<div class="chat-avatar">' +
                     '<a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="">' +
-                    '<span class="initials">{{ $data['sellerInitials'] }}</span>' +
+                    '<span class="initials">{{ isset($account->name) ? Str::ucfirst(mb_substr($account->name,0,1)) : $account->getEmailLetter() }}</span>' +
                     '</a>' +
                     '</div>';
 
@@ -488,11 +545,18 @@
             }
         }
 
+        $(document).on('keydown', '.msg', function (e) {
+            if (e.ctrlKey && e.keyCode == 13) {
+                enter_chat();
+            }
+        });
+        
         $(document).ready(function() {
             $('#myform').on('submit', function(e) {
                 e.preventDefault();
                 enter_chat();
             });
         });
+
     </script>
 @endsection

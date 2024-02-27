@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Conversation;
+use App\Models\Messages;
 use App\Models\Payment;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -102,21 +104,25 @@ class PaymentsController extends Controller
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
 
-            $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
+            // $msg_api = str_replace('{USERID}', $user_id, $getUserConvMsgAPi);
 
-            $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
+            // $conv_msg_api = str_replace('{CONVERSATIONID}', $conv_id, $msg_api);
 
-            $accessToken = refreshAccessToken($refreshToken,$account->id);
+            // $accessToken = refreshAccessToken($refreshToken,$account->id);
 
-            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                ->get("{$conv_msg_api}");
-            $data = $data->json();
+            // $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
+            //     ->get("{$conv_msg_api}");
+            // $data = $data->json();
+
+            $name = Conversation::find($conv_id);
+ 
+            $data = Messages::whereConversationId($conv_id)->get();
 
             if(!empty($data)){
                 if (Auth::user()->role == 'admin') {
-                    return view('admin.payment.chat', compact('data', 'account'));
+                    return view('admin.payment.chat', compact('data', 'account','name'));
                 } else {
-                    return view('admin.payment.user_side.chat', compact('data', 'account'));
+                    return view('admin.payment.user_side.chat', compact('data', 'account','name'));
                 }
             }else{
                 return back()->with('error','An error occurred. Please try again.');

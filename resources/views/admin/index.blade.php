@@ -299,7 +299,6 @@
             height: 20px;
             animation: spin 1s linear infinite;
             display: none;
-            /* initially hide the loader */
         }
 
         @keyframes spin {

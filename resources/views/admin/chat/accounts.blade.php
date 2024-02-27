@@ -3,11 +3,18 @@
         @foreach ($accounts as $account)
             <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
                 <div class="avatar  mr-1">
-                    <img class="adPic" src="{{ $account->adPic }}" alt="">
-                    @if ($account->adStatus == 'ACTIVE')
-                        <p class="avatar-status-online"></p>
+                    @if ($account->adPic)
+                        <img class="adPic" src="{{ $account->adPic }}" alt="">
                     @else
-                        <p class="avatar-status-busy"></p>
+                        <span class="initials"
+                            style="height: 50px; width:50px; color:white">{{ Str::ucfirst(mb_substr($account->adTitle, 0, 1)) }}</span>
+                    @endif
+                    @if ($account->imap == '1')
+                        <p class="avatar-status-busy intent" style="background: goldenrod"></p>
+                    @elseif($account->adStatus == 'ACTIVE')
+                        <p class="avatar-status-online intent"></p>                                            
+                    @else
+                        <p class="avatar-status-busy intent"></p>
                     @endif
                 </div>
                 <div class="user-chat-info new-user d-flex">
@@ -22,17 +29,17 @@
                         </div>
                         <div style="display: flex; justify-content:space-between">
                             <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
-                            <p class="unread-chat {{$account->unRead()==0 ? 'd-none' : ''}}" data-account-id="{{ $account->account_id }}">{{$account->unRead()}} </p>
+                            <p class="unread-chat {{ $account->unRead() == 0 ? 'd-none' : '' }}"
+                                data-account-id="{{ $account->account_id }}">{{ $account->unRead() }} </p>
 
                         </div>
                     </div>
                     @if (Auth::user()->role == 'user')
                         @if ($account->adStatus == 'ACTIVE')
-                            <div class="float-right ml-2"><i class="fa fa-rotate-right"
-                                    id="{{ $account->id }}"></i></div>
+                            <div class="float-right ml-2"><i class="fa fa-rotate-right" id="{{ $account->id }}"></i>
+                            </div>
                         @else
-                            <div class="float-right ml-2"><i class="fa fa-xmark"
-                                    id="{{ $account->id }}"></i></div>
+                            <div class="float-right ml-2"><i class="fa fa-xmark" id="{{ $account->id }}"></i></div>
                         @endif
                     @endif
                 </div>

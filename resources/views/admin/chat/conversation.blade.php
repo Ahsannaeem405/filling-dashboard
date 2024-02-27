@@ -48,7 +48,7 @@
 @foreach ($data as $conversation)
     <li class="messages" data-id="{{ $conversation->account_id }}" data-conv-id="{{ $conversation->id }}">
         <div class="pr-1">
-            <span class="initials">{{ Str::ucfirst(mb_substr($conversation->from,0,1)) }}</span>
+            <span class="initials">{{ $conversation->name ? Str::ucfirst(mb_substr($conversation->name,0,2)) : Str::ucfirst(mb_substr($conversation->from,0,1)) }}</span>
         </div>
         <div class="user-chat-info">
             <div class="contact-info">

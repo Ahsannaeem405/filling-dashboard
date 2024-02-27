@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('refreshToken')->nullable();
             $table->text('accessToken')->nullable();
+            $table->text('name')->nullable();
+            $table->integer('imap')->default(0);
             $table->text('adPic')->nullable();
             $table->text('adId')->nullable();
             $table->text('adLink')->nullable();

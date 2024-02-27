@@ -16,7 +16,8 @@ class ApiSeeder extends Seeder
         Setting::create([
             'accessToken_api' => 'https://www.kleinanzeigen.de/m-access-token.json',
             'accessToken_header_api' => 'Basic aXBob25lOmc0Wmk5cTEw',
-            'getUser_api' => 'https://api.kleinanzeigen.de/api/users/{USERID}/ads.json?page=0&size=30',
+            // 'getUser_api' => 'https://api.kleinanzeigen.de/api/users/{USERID}/ads.json?page=0&size=30',
+            'getUser_api' => 'https://api.kleinanzeigen.de/api/ads/{{AD_ID}}.json',
             'getUser_header_api' => 'Basic aXBob25lOmc0Wmk5cTEw',
             'getUserConv_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations?size=100000000',
             'getUserConvMsg_api' => 'https://gateway.kleinanzeigen.de/messagebox/api/users/{USERID}/conversations/{CONVERSATIONID}',

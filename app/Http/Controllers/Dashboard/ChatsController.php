@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ReplyMail;
 use App\Models\Account;
 use App\Models\Conversation;
+use App\Models\Mail_Setting;
 use App\Models\Messages;
 use App\Models\Payment;
 use App\Models\Setting;
@@ -36,6 +37,10 @@ class ChatsController extends Controller
 
             $account = Account::find($request->id);
             RefreshAccount($account);
+            $response = UpdateSingleAccount($request->id);
+
+            $status = $response['status'];
+            $imap = $response['imap'];
 
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
@@ -51,6 +56,8 @@ class ChatsController extends Controller
 
             return response()->json([
                 'component' => view('admin.chat.conversation', compact('data', 'id'))->render(),
+                'status' => $status,
+                'imap' => $imap,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred. Please try again.']);
@@ -65,6 +72,7 @@ class ChatsController extends Controller
 
 
             $account = Account::find($request->id);
+
             $id = $account->id;
             $user_id = $account->account_id;
             $refreshToken = $account->refreshToken;
@@ -79,6 +87,8 @@ class ChatsController extends Controller
             //
             //            $data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
             //                ->get("{$conv_msg_api}");
+
+            $name = Conversation::find($conv_id);
 
             $data = Messages::whereConversationId($conv_id)->get();
             Messages::whereConversationId($conv_id)->where('seen', 'unseen')->update(['seen' => 'seen']);
@@ -97,8 +107,9 @@ class ChatsController extends Controller
                 // $bank = $bank->contains($data['id']);
                 $bank = $bank->contains($conv_id);
             }
+
             return response()->json([
-                'component' => view('admin.chat.messages', compact('data', 'account', 'conv_id', 'account'))->render(),
+                'component' => view('admin.chat.messages', compact('data', 'account', 'conv_id', 'name'))->render(),
                 'adTitle' => $adTitle,
                 'adImage' => $adImage,
                 'adPrice' => $adPrice,
@@ -116,7 +127,6 @@ class ChatsController extends Controller
 
     public function SendMessages(Request $request)
     {
-
         try {
             $setting = Setting::first();
             $sendMsgAPi = $setting->postMsg_api;
@@ -178,11 +188,18 @@ class ChatsController extends Controller
             //                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
             //
             //            }
+            $data = explode(':', $account->description);
+            $email = explode('@', $data[0]);
+            $account_host = $email[1];
+            $mail = Mail_Setting::where('host', $account_host)->first();
+            $host = $mail->smtp_host . '.' . $mail->host;
+            $port = $mail->smtp_port;
+            $encryption = $mail->smtp_encryption;
 
             config([
-                'mail.mailers.smtp.host' => 'smtp.web.de',
-                'mail.mailers.smtp.port' => 465,
-                'mail.mailers.smtp.encryption' => 'ssl',
+                'mail.mailers.smtp.host' => $host,
+                'mail.mailers.smtp.port' => $port,
+                'mail.mailers.smtp.encryption' => $encryption,
                 'mail.mailers.smtp.username' => $accountData[0],
                 'mail.mailers.smtp.password' => $accountData[1],
                 'mail.from.address' => $accountData[0],
@@ -215,6 +232,7 @@ class ChatsController extends Controller
                 'account_id' => $account->account_id
             ]);
         } catch (\Exception $e) {
+            dd($e);
             return response()->json(['error' => 'An error occurred. Please try again.']);
         }
     }
@@ -343,19 +361,11 @@ class ChatsController extends Controller
             $getUserApi = $setting->getUser_api;
             $unreadCounts = [];
             foreach ($accounts_reload as $account) {
-
+                RefreshAccount($account);
                 $data = $account->description;
 
                 $getUser_api = str_replace('{{AD_ID}}', $account->account_id, $getUserApi);
-                $conversation_api = str_replace('{USERID}', $account->account_id, $getUserConvAPi);
-
-                $accessToken = refreshAccessToken($account->refreshToken, $account->id);
-
-
-                $conversation_data = Http::withHeaders(['User-Agent' => ''])->withToken($accessToken['accessToken'])
-                    ->get("{$conversation_api}");
-
-                $unreadCounts[$account->id] = $conversation_data['numUnread'] ?? 0;
+              
 
                 $data = Http::withHeaders([
                     'User-Agent' => '',
@@ -363,14 +373,13 @@ class ChatsController extends Controller
                 ])->get("{$getUser_api}");
 
                 $response = $data->json();
-                if($response){
+                if ($data->status()==200) {
                     $adData = $response['{http://www.ebayclassifiedsgroup.com/schema/ad/v1}ad']['value'];
-
-                    $adPrice = $adData['price']['amount']['value'];
+                    $adPrice = $adData['price']['amount']['value'] ?? 0;
                     $adTitle = $adData['title']['value'];
                     $reloadDate = $adData['last-user-edit-date']['value'];
                     $status = $adData['ad-status']['value'];
-    
+
                     $pictureLink = null;
                     if (isset($adData['pictures']['picture'][0]['link'][0]['href'])) {
                         $pictureLink = $adData['pictures']['picture'][0]['link'][0]['href'];
@@ -382,11 +391,11 @@ class ChatsController extends Controller
                     $account->adStatus = $status;
                     $account->reloadDate = $reloadDate;
                     $account->save();
-                }else{
+                } else {
                     $account = Account::find($account->id);
                     $account->adStatus = NULL;
                     $account->save();
-                }   
+                }
             }
             // foreach ($accounts_reload as $account) {
 

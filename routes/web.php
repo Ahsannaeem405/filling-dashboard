@@ -71,8 +71,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('update-registration', [AccountController::class, 'updateRegistration'])->name('registration_on');
 
         // Settings
-        Route::get('settings', [SettingController::class, 'Setting'])->name('setting');
+        Route::get('settings', [SettingController::class, 'index'])->name('setting');
+        Route::get('settings/create-host', [SettingController::class, 'Create'])->name('create.host');
         Route::post('settings/store', [SettingController::class, 'StoreSetting'])->name('store.setting');
+        Route::delete('settings/delete/{id}', [SettingController::class, 'DeleteHost'])->name('delete.host');
+        Route::get('settings/edit/{id}', [SettingController::class, 'EditHost'])->name('edit.host');
+        Route::post('settings/update/{id}', [SettingController::class, 'UpdateHost'])->name('update.host');
 
         // Payment
         Route::get('payment', [PaymentsController::class, 'index'])->name('payment');

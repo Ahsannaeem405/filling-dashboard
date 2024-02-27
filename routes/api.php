@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('accounts/store', [AccountController::class, 'StoreAccount'])->name('store.accounts');
+Route::post('accounts/import', [AccountController::class, 'Import']);
 

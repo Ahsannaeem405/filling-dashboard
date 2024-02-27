@@ -404,7 +404,7 @@
                         <th>CLIENT</th>
                         <th>TOTAL</th>
                         <th>ISSUED DATE</th>
-                        <th>Payment Type</th>
+                        <th>PAYMENT TYPE</th>
                         <th>BTC Wallet</th>
                         <th>STATUS</th>
                         <th>ACTIONS</th>

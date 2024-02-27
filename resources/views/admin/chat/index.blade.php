@@ -572,6 +572,63 @@
             width: 20px;
             text-align: center;
         }
+
+        .chat-application .user-profile-sidebar {
+            border-right: unset !important;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add a class to apply a blur effect */
+        .blur {
+            filter: blur(5px);
+        }
+
+        /* CSS for the loader */
+        .btn-loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            margin-left: 25px;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     @if (Auth::user()->status == 'in-active')
         <div class="overlay">
@@ -581,7 +638,8 @@
             </div>
         </div>
     @endif
-    <div class="row">
+
+    <div class="row load">
         <div class="col-md-12">
             <div class="content-area-wrapper mt-0">
                 <div class="AcountsDetail">
@@ -601,17 +659,25 @@
                     <button class='account-btn2' id='updateAccountBtn'>Accounts aktualisieren</button>
                     <button class='account-btn3' id='deleteAccountBtn'>Invalid Accounts löschen</button>
                 </div>
+                
                 <div class="scrol-custom">
                     <ul style="margin-bottom: 80px">
                         @if (isset($accounts))
                             @foreach ($accounts as $account)
                                 <li class="list-style ToggleBtn" data-id="{{ $account->id }}">
                                     <div class="avatar  mr-1">
-                                        <img class="adPic" src="{{ $account->adPic }}" alt="">
-                                        @if ($account->adStatus == 'ACTIVE')
-                                            <p class="avatar-status-online"></p>
+                                        @if ($account->adPic)
+                                            <img class="adPic" src="{{ $account->adPic }}" alt="">
                                         @else
-                                            <p class="avatar-status-busy"></p>
+                                            <span class="initials"
+                                                style="height: 50px; width:50px; color:white">{{ Str::ucfirst(mb_substr($account->adTitle, 0, 1)) }}</span>
+                                        @endif
+                                        @if ($account->imap == '1')
+                                            <p class="avatar-status-busy intent" style="background: goldenrod"></p>
+                                        @elseif($account->adStatus == 'ACTIVE')
+                                            <p class="avatar-status-online intent"></p>                                            
+                                        @else
+                                            <p class="avatar-status-busy intent"></p>
                                         @endif
                                     </div>
                                     <div class="user-chat-info new-user d-flex">
@@ -627,7 +693,9 @@
                                             <div style="display: flex; justify-content:space-between">
                                                 <p class="truncate" style="max-width:75%">{{ $account->adPrice }} €</p>
 
-                                                <p class="unread-chat {{$account->unRead()==0 ? 'd-none' : ''}}" data-account-id="{{ $account->account_id }}">{{$account->unRead()}} </p>
+                                                <p class="unread-chat {{ $account->unRead() == 0 ? 'd-none' : '' }}"
+                                                    data-account-id="{{ $account->account_id }}">{{ $account->unRead() }}
+                                                </p>
                                             </div>
                                         </div>
                                         @if (Auth::user()->role == 'user')
@@ -694,6 +762,7 @@
                                                     class="feather icon-menu font-large-1"></i></div>
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar user-profile-toggle m-0 m-0">
+                                                    <div class="new"></div>
                                                     <img class="adImage buyerInitials" src="" alt="">
                                                 </div>
                                                 <span class='account-prof'>
@@ -769,13 +838,14 @@
     </div>
 
     <!-- User Chat profile right area -->
-    <div class="user-profile-sidebar">
+    <div class="user-profile-sidebar" style="background-color: #10163A">
         <header class="user-profile-header">
             <span class="close-icon">
                 <i class="feather icon-x"></i>
             </span>
             <div class="header-profile-sidebar">
                 <div class="avatar">
+                    <div class="new"></div>
                     <img class="adImage pop-up-initials" src="" alt="" width="35px">
                 </div>
                 <h4 class="chat-user-name pop-up-name" style="width:300px"></h4>
@@ -923,6 +993,10 @@
             $(document).on('click', '#updateAccountBtn', function() {
                 var text = $(this).text();
                 var containsNumber = /\d/.test(text);
+
+                updateAccountBtn.text(''); // Remove text from the button
+                updateAccountBtn.append('<span class="btn-loader"></span>');
+                
                 if (containsNumber) {
                     return;
                 }
@@ -936,7 +1010,9 @@
                     });
 
                     updateAccountBtn.prop('disabled', true);
+                    
                 }
+
                 $.ajax({
                     url: '{{ route('reload') }}',
                     type: 'GET',
@@ -947,9 +1023,13 @@
                         // $('.list-style').addClass('d-none');
                         $('.media-list').empty();
                         // $('.chat-btn').addClass('d-none');
+                        updateAccountBtn.find('.btn-loader').hide();
+                        updateAccountBtn.text('Accounts aktualisieren');
                     },
                     error: function(error) {
                         console.error(error);
+                        updateAccountBtn.find('.btn-loader').hide();
+                        updateAccountBtn.text('Accounts aktualisieren');
                     },
                 });
                 // startCooldownTimer(60, updateAccountBtn, function() {
@@ -1052,6 +1132,7 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '.list-style', function() {
+
                 if ($(event.target).hasClass('fa-xmark')) {
                     Swal.fire({
                         title: 'Bist du sicher?',
@@ -1090,12 +1171,28 @@
 
                 } else {
 
+                    $('body').append('<span class="loader"></span>');
+                    $('.load').addClass('blur');
+                    
                     $(".list-style").removeClass("active");
                     $(".list-style .initials").css('background-color', '');
 
+                    var intent = $(this).find('.intent');
+                    
                     $(this).addClass("active");
-                    $(this).children('.initials').css('background-color', '#10163A');
+                    $(this).find('.initials').css('background-color', '#10163A');
 
+                    if ($(this).find('.initials').length > 0) {
+
+                        var text = $(this).find('.initials').text();
+                        $('.adImage.buyerInitials').remove();
+                        $('.adImage.pop-up-initials').remove();
+
+                        $('.new').empty().append(
+                            '<span class="initials" style="height: 45px; width: 45px; margin-right:10px; color:white">' +
+                            text +
+                            '</span>');
+                    }
                     var spanValue = $(this).find('span').text();
                     var id = $(this).attr('data-id');
 
@@ -1128,13 +1225,28 @@
                                 $('.active-chat').addClass('d-none');
                                 $('.custom-img').addClass('d-none');
                                 $('.media-list').empty().append(response.component);
+                                if(response.imap == '1'){
+                                    intent.css('background-color','goldenrod');
+                                }else{
+                                    if(response.status == 'ACTIVE'){
+                                        intent.css('background-color','#28c76f');
+                                    }else{
+                                        intent.css('background-color','#ea5455');
+                                    }
+                                }
+
                             }
+                            $('.loader').remove();
+                            $('.load').removeClass('blur');
 
                         },
                         error: function(error) {
 
                             toastr.error('An error occurred. Please try again.');
                             console.error(error);
+                            
+                            $('.loader').remove();
+                            $('.load').removeClass('blur');
                         }
                     });
                 }
@@ -1536,9 +1648,9 @@
                     });
                 }
             }
-             setInterval(function () {
+            setInterval(function() {
                 // refresh();
-             },8000);
+            }, 8000);
         })
     </script>
 @endsection

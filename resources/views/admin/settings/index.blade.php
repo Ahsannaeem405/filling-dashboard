@@ -1,9 +1,15 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Account</title>
+    <title>Setting</title>
 @endsection
 @section('content')
     <style>
+        .icons {
+            color: white;
+            font-size: 16px;
+            margin: 5px;
+        }
+
         .datatable-wraper {
             background: #10163a;
             padding: 20px;
@@ -223,7 +229,7 @@
         table.dataTable thead .sorting:after {
             content: '\e842' !important;
             /* right: 0 !important;
-      left:unset !important; */
+                                  left:unset !important; */
             left: -2px !important;
         }
 
@@ -283,79 +289,83 @@
             background: #7367f0 !important;
             font-weight: 600;
         }
-        .file{
+
+        .file {
             background: green !important;
             font-weight: 600;
         }
-        .dt-button span{
+
+        .dt-button span {
             color: white !important;
         }
-        .icons{
+
+        .icons {
             color: white;
             font-size: 16px;
             margin: 5px;
         }
-        .dt-button{
+
+        .dt-button {
             border-radius: 5px !important;
         }
-        .bottom{
+
+        .bottom {
             margin-top: 10px;
         }
-        th.sorting:before{
+
+        th.sorting:before {
             margin-left: -10px !important
         }
-        th.sorting:after{
+
+        th.sorting:after {
             margin-left: -10px !important
         }
     </style>
     <div class="content-header row"></div>
-    <div class="datatable-wraper">
-        <h1 class="mb-2">Accounts List</h1>
+    <div class="datatable-wraper" id="host-table">
+        <h1 class="mb-2">Host List</h1>
         <table id="example" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
-                    <th>MAIL</th>
-                    <th>AD ID</th>
+                    <th>#ID</th>
+                    <th>Host</th>
+                    <th>Recieve Host</th>
+                    <th>Recieve Port</th>
+                    <th>Recieve Encryption</th>
+                    <th>SMTP Host</th>
+                    <th>SMTP Port</th>
+                    <th>SMTP Encryption</th>
                     <th>ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($accounts as $account)
-                <tr>
-                    <td>
-                        <a href="#">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-blue mr-3">{!! strtoupper(substr($account->description,0,2))  !!}
-                                </div>
-                                <div class="">
-                                    <?php
-                                        $string = $account->description;
-                                        $parts = explode(':', $string);
-                                        $email = $parts[0]; 
-                                    ?>
-                                    <p class="font-weight-bold mb-0">{{ substr($email,0,30) }}</p>
-                                </div>
-                            </div>
-                        </a>
-                    </td>
-                    <td>{{ $account->account_id }}</td>
-                    <td>
-                        <a class="icons" style="color: white" href="{{ route('edit.accounts', ['id' => $account->id]) }}"><i class="bx bxs-edit"> </i></a>
-                        <a class="icons"><i class="bx bxs-trash" onclick="deleteAccount({{ $account->id }})"></i></a> 
-                        <form id="delete-form-{{ $account->id }}"
-                            action="{{ route('delete.accounts', ['id' => $account->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    </td>
-                </tr>
+                @foreach ($settings as $setting)
+                    <tr>
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
+                        <td>{{ $setting->host }}</td>
+                        <td>{{ $setting->get_host }}</td>
+                        <td>{{ $setting->get_port }}</td>
+                        <td>{{ $setting->get_encryption }}</td>
+                        <td>{{ $setting->smtp_host }}</td>
+                        <td>{{ $setting->smtp_port }}</td>
+                        <td>{{ $setting->smtp_encryption }}</td>
+                        <td>
+                            <a class="icons" style="color: white"
+                                href="{{ route('edit.host', ['id' => $setting->id]) }}"><i class="bx bxs-edit"> </i></a>
+                            
+                                <a class="icons text-danger"><i class="bx bxs-trash" onclick="deleteHost({{ $setting->id }})"></i></a>
+                            <form id="delete-form-{{ $setting->id }}"
+                                action="{{ route('delete.host', ['id' => $setting->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
-        <form id="importForm" method="post" action="{{ route('import.accounts') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="file" id="fileInput" name="file" accept=".txt" style="display:none;">
-        </form>
 
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -366,40 +376,21 @@
             new DataTable('#example', {
                 dom: '<"top"lfB>rt<"bottom"ip><"clear">',
                 buttons: [{
-                        text: '+ Create Account',
-                        className: 'table-plus-btn',
-                        action: function(e, dt, button, config) {
-                            window.location.href = '{{ route("create.accounts") }}';
-                        }
-                    },
-                    {
-                        text: '+ Import Account',
-                        className: 'file',
-                        action: function(e, dt, button, config) {
-                            
-                        }
-                    },
-                ],
+                    text: '+ Create Host',
+                    className: 'table-plus-btn',
+                    action: function(e, dt, button, config) {
+                        window.location.href = '{{ route("create.host") }}'; 
+                    }
+                }],
                 language: {
                     searchPlaceholder: 'search...'
                 },
-                columnDefs: [
-                    { targets: [0], orderable: false } 
-                ],
+                columnDefs: [{
+                    targets: [0],
+                    orderable: false
+                }],
                 order: []
             });
         </script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-            $(document).ready(function () {
-              $(".file").on("click", function () {
-                $("#fileInput").click();
-              });
-          
-              $("#fileInput").on("change", function () {
-                $("#importForm").submit();
-              });
-            });
-          </script>
     </div>
 @endsection

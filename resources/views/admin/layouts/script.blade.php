@@ -107,6 +107,22 @@
             }
         });
     }
+    function deleteHost(accountId) {
+        Swal.fire({
+            title: 'Delete Host',
+            text: 'Are you sure you want to delete this host?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user confirms the deletion, submit the form
+                document.getElementById('delete-form-' + accountId).submit();
+            }
+        });
+    }
 </script>
 
 <script>
